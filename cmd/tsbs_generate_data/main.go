@@ -92,6 +92,7 @@ var (
 
 	initialScale uint64
 	scale        uint64
+	startIndex   uint64
 	seed         int64
 	debug        int
 
@@ -196,6 +197,7 @@ func init() {
 
 	flag.Uint64Var(&pfv.initialScale, "initial-scale", 0, "Initial scaling variable specific to the use case (e.g., devices in 'devops'). 0 means to use -scale value")
 	flag.Uint64Var(&scale, "scale", 1, "Scaling value specific to the use case (e.g., devices in 'devops').")
+	flag.Uint64Var(&startIndex, "start-index", 0, "Start index for hosts")
 
 	flag.StringVar(&pfv.timestampStartStr, "timestamp-start", "2016-01-01T00:00:00Z", "Beginning timestamp (RFC3339).")
 	flag.StringVar(&pfv.timestampEndStr, "timestamp-end", "2016-01-02T06:00:00Z", "Ending timestamp (RFC3339).")
@@ -292,9 +294,9 @@ func getConfig(useCase string) common.SimulatorConfig {
 		return &devops.CPUOnlySimulatorConfig{
 			Start: timestampStart,
 			End:   timestampEnd,
-
 			InitHostCount:   initialScale,
 			HostCount:       scale,
+			StartIndex:		 startIndex,
 			HostConstructor: devops.NewHostCPUOnly,
 		}
 	case useCaseCPUSingle:

@@ -14,6 +14,8 @@ type commonDevopsSimulatorConfig struct {
 	End time.Time
 	// InitHostCount is the number of hosts to start with in the first reporting period
 	InitHostCount uint64
+	// TODO
+	StartIndex uint64
 	// HostCount is the total number of hosts to have in the last reporting period
 	HostCount uint64
 	// HostConstructor is the function used to create a new Host given an id number and start time
