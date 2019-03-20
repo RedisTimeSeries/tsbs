@@ -94,5 +94,6 @@ func main() {
 		},
 	}
 
-	loader.RunBenchmark(&benchmark{}, load.SingleQueue)
+	log.Printf("updated")
+	loader.RunBenchmark(&benchmark{}, load.WorkerPerQueue)
 }

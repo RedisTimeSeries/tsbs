@@ -2,13 +2,12 @@ package main
 
 import (
 	"bufio"
-	"encoding/binary"
-	"flag"
-	"github.com/timescale/tsbs/load"
-	"io"
-	"log"
-	"strings"
 	"crypto/md5"
+	"flag"
+	"github.com/pkg/profile"
+	"github.com/timescale/tsbs/load"
+	"log"
+	"math/rand"
 )
 
 // Program option vars:
@@ -41,12 +40,13 @@ type RedisIndexer struct{
 }
 
 func (i *RedisIndexer) GetIndex(p *load.Point) int {
-	row := p.Data.(string)
-	key := strings.Split(row, " ")[0]
-	_, _ = io.WriteString(md5h, key)
-	hash := binary.LittleEndian.Uint32(md5h.Sum(nil))
-	md5h.Reset()
-	return int(uint(hash) % i.partitions)
+	//row := p.Data.(string)
+	//key := strings.Split(row, " ")[0]
+	//_, _ = io.WriteString(md5h, key)
+	//hash := binary.LittleEndian.Uint32(md5h.Sum(nil))
+	//md5h.Reset()
+	//return int(uint(hash) % i.partitions)
+	return rand.Int() % int(i.partitions)
 }
 
 func (b *benchmark) GetPointDecoder(br *bufio.Reader) load.PointDecoder {
@@ -81,7 +81,7 @@ func (p *processor) ProcessBatch(b load.Batch, doLoad bool) (uint64, uint64) {
 	if doLoad {
 		conn := p.dbc.client.Pool.Get()
 		for _, row := range events.rows {
-			sendRedisCommand(row, conn)
+			sendRedisCommand(string(row), conn)
 			cmdLen++
 		}
 
@@ -97,14 +97,14 @@ func (p *processor) ProcessBatch(b load.Batch, doLoad bool) (uint64, uint64) {
 			}
 		}
 	}
-	rowCnt := uint64(len(events.rows))
-	metricCnt := rowCnt
-	events.rows = events.rows[:0]
-	ePool.Put(events)
-	return metricCnt, rowCnt
+	rowCnt := uint64(events.len)
+	//ePool.Put(events)
+	return rowCnt, rowCnt
 }
 
+func (p *processor) Close(_ bool) {}
 
 func main() {
+	defer profile.Start().Stop()
 	loader.RunBenchmark(&benchmark{dbc: &dbCreator{}}, load.WorkerPerQueue)
 }

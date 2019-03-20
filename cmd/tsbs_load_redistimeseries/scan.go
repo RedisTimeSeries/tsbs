@@ -2,12 +2,10 @@ package main
 
 import (
 	"bufio"
-	"log"
-	"strings"
-	"sync"
-
 	"github.com/gomodule/redigo/redis"
 	"github.com/timescale/tsbs/load"
+	"log"
+	"strings"
 )
 
 type decoder struct {
@@ -24,7 +22,7 @@ func (d *decoder) Decode(_ *bufio.Reader) *load.Point {
 	} else if !ok {
 		log.Fatalf("scan error: %v", d.scanner.Err())
 	}
-	return load.NewPoint(d.scanner.Text())
+	return load.NewPoint(d.scanner.Bytes())
 }
 
 func sendRedisCommand(line string, conn redis.Conn) {
@@ -34,27 +32,31 @@ func sendRedisCommand(line string, conn redis.Conn) {
 		s[i] = v
 	}
 	err := conn.Send("TS.ADD", s...)
+	//log.Fatalf("cmd: %s", s)
 	if err != nil {
-		log.Fatalf("TS.ADD failed: %s\n", err)
+		log.Fatalf("TS.ADD failed: %s", err)
 	}
 }
 type eventsBatch struct {
-	rows []string
+	rows [][]byte
+	len int
 }
 
 func (eb *eventsBatch) Len() int {
-	return len(eb.rows)
+	return eb.len
 }
 
 func (eb *eventsBatch) Append(item *load.Point) {
-	that := item.Data.(string)
-	eb.rows = append(eb.rows, that)
+	//that := item.Data.([]byte)
+	//eb.rows = append(eb.rows, []byte{})
+	eb.len++
 }
 
-var ePool = &sync.Pool{New: func() interface{} { return &eventsBatch{rows: []string{}} }}
+//var ePool = &sync.Pool{New: func() interface{} { return &eventsBatch{rows: [][]byte{}} }}
 
 type factory struct{}
 
 func (f *factory) New() load.Batch {
-	return ePool.Get().(*eventsBatch)
+	//eb := ePool.Get().(*eventsBatch)
+	return &eventsBatch{}
 }
