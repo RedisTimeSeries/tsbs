@@ -86,7 +86,6 @@ for QUERY_TYPE in ${QUERY_TYPES}; do
                 --query-type ${QUERY_TYPE} \
                 --scale ${SCALE} \
                 --seed ${SEED} \
-                --debug ${DEBUG} \
                 --timestamp-start ${TS_START} \
                 --timestamp-end ${TS_END} \
                 --use-case ${USE_CASE} \

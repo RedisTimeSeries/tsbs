@@ -5,3 +5,6 @@
 .vscode
 .project
 bin/
+
+# High Dynamic Range (HDR) Histogram files
+*.hdr

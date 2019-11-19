@@ -10,14 +10,14 @@ import (
 
 // Formats supported for generation
 const (
-	FormatCassandra   = "cassandra"
-	FormatClickhouse  = "clickhouse"
-	FormatInflux      = "influx"
-	FormatMongo       = "mongo"
-	FormatSiriDB      = "siridb"
-	FormatTimescaleDB = "timescaledb"
-	FormatCrateDB 	  = "cratedb"
-	FormatRedisTimeseries      = "redistimeseries"
+	FormatCassandra       = "cassandra"
+	FormatClickhouse      = "clickhouse"
+	FormatInflux          = "influx"
+	FormatMongo           = "mongo"
+	FormatSiriDB          = "siridb"
+	FormatTimescaleDB     = "timescaledb"
+	FormatCrateDB         = "cratedb"
+	FormatRedisTimeseries = "redistimeseries"
 )
 
 const (
