@@ -32,6 +32,9 @@ LOG_INTERVAL=${LOG_INTERVAL:-"10s"}
 # Max number of points to generate data. 0 means "use TS_START TS_END with LOG_INTERVAL"
 MAX_DATA_POINTS=${MAX_DATA_POINTS:-"0"}
 
+# Whether to skip data generation if it already exists
+SKIP_IF_EXISTS=${SKIP_IF_EXISTS:-"TRUE"}
+
 # Ensure DATA DIR available
 mkdir -p ${BULK_DATA_DIR}
 chmod a+rwx ${BULK_DATA_DIR}
@@ -42,7 +45,7 @@ set -eo pipefail
 # Loop over all requested target formats and generate data
 for FORMAT in ${FORMATS}; do
     DATA_FILE_NAME="data_${FORMAT}_${USE_CASE}_${SCALE}_${TS_START}_${TS_END}_${LOG_INTERVAL}_${SEED}.dat.gz"
-    if [ -f "${DATA_FILE_NAME}" ]; then
+    if [ -f "${DATA_FILE_NAME}" ] && [ "${SKIP_IF_EXISTS}" == "TRUE" ]; then
         echo "WARNING: file ${DATA_FILE_NAME} already exists, skip generating new data"
     else
         cleanup() {

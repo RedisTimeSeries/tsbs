@@ -13,6 +13,7 @@ Current databases supported:
 + ClickHouse [(supplemental docs)](docs/clickhouse.md)
 + CrateDB [(supplemental docs)](docs/cratedb.md)
 + SiriDB [(supplemental docs)](docs/siridb.md)
++ RedisTimeSeries [(supplemental docs)](docs/redistimeseries.md)
 
 ## Overview
 

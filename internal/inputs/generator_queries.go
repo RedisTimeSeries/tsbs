@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"encoding/gob"
 	"fmt"
+	redistimeseries2 "github.com/timescale/tsbs/cmd/tsbs_generate_queries/databases/redistimeseries"
 	"io"
 	"math/rand"
 	"os"
@@ -222,6 +223,11 @@ func (g *QueryGenerator) initFactories() error {
 
 	influx := &influx.BaseGenerator{}
 	if err := g.addFactory(FormatInflux, influx); err != nil {
+		return err
+	}
+
+	redistimeseries := &redistimeseries2.BaseGenerator{}
+	if err := g.addFactory(FormatRedisTimeseries, redistimeseries); err != nil {
 		return err
 	}
 

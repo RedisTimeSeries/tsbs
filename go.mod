@@ -3,12 +3,14 @@ module github.com/timescale/tsbs
 go 1.12
 
 require (
+	github.com/RedisTimeSeries/redistimeseries-go v0.3.0
 	github.com/SiriDB/go-siridb-connector v0.0.0-20190110105621-86b34c44c921
 	github.com/StackExchange/wmi v0.0.0-20190523213315-cbe66965904d // indirect
 	github.com/andreyvit/diff v0.0.0-20170406064948-c7f18ee00883
 	github.com/globalsign/mgo v0.0.0-20181015135952-eeefdecb41b8
 	github.com/go-ole/go-ole v1.2.4 // indirect
 	github.com/gocql/gocql v0.0.0-20190810123941-df4b9cc33030
+	github.com/gomodule/redigo v2.0.0+incompatible
 	github.com/google/flatbuffers v1.11.0
 	github.com/google/go-cmp v0.3.1
 	github.com/jackc/fake v0.0.0-20150926172116-812a484cc733 // indirect

@@ -10,13 +10,14 @@ import (
 
 // Formats supported for generation
 const (
-	FormatCassandra   = "cassandra"
-	FormatClickhouse  = "clickhouse"
-	FormatInflux      = "influx"
-	FormatMongo       = "mongo"
-	FormatSiriDB      = "siridb"
-	FormatTimescaleDB = "timescaledb"
-	FormatCrateDB     = "cratedb"
+	FormatCassandra       = "cassandra"
+	FormatClickhouse      = "clickhouse"
+	FormatInflux          = "influx"
+	FormatMongo           = "mongo"
+	FormatSiriDB          = "siridb"
+	FormatTimescaleDB     = "timescaledb"
+	FormatCrateDB         = "cratedb"
+	FormatRedisTimeseries = "redistimeseries"
 )
 
 const (
@@ -34,6 +35,7 @@ var formats = []string{
 	FormatSiriDB,
 	FormatTimescaleDB,
 	FormatCrateDB,
+	FormatRedisTimeseries,
 }
 
 func isIn(s string, arr []string) bool {

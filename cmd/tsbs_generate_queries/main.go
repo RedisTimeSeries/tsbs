@@ -5,7 +5,6 @@ package main
 import (
 	"fmt"
 	"os"
-
 	"github.com/spf13/pflag"
 	"github.com/spf13/viper"
 	"github.com/timescale/tsbs/cmd/tsbs_generate_queries/uses/devops"
