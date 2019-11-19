@@ -235,8 +235,11 @@ func (g *DataGenerator) getSerializer(sim common.Simulator, format string) (seri
 		ret = &serialize.MongoSerializer{}
 	case FormatSiriDB:
 		ret = &serialize.SiriDBSerializer{}
+<<<<<<< HEAD
 	case FormatRedisTimeseries:
 		ret = &serialize.RedisTimeSeriesSerializer{}
+=======
+>>>>>>> redistimeseries/master
 	case FormatCrateDB:
 		g.writeHeader(sim)
 		ret = &serialize.CrateDBSerializer{}

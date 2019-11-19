@@ -226,11 +226,14 @@ func (g *QueryGenerator) initFactories() error {
 		return err
 	}
 
+<<<<<<< HEAD
 	redistimeseries := &redistimeseries2.BaseGenerator{}
 	if err := g.addFactory(FormatRedisTimeseries, redistimeseries); err != nil {
 		return err
 	}
 
+=======
+>>>>>>> redistimeseries/master
 	timescale := &timescaledb.BaseGenerator{
 		UseJSON:       g.config.TimescaleUseJSON,
 		UseTags:       g.config.TimescaleUseTags,
