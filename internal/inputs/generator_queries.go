@@ -4,12 +4,13 @@ import (
 	"bufio"
 	"encoding/gob"
 	"fmt"
-	redistimeseries2 "github.com/timescale/tsbs/cmd/tsbs_generate_queries/databases/redistimeseries"
 	"io"
 	"math/rand"
 	"os"
 	"sort"
 	"time"
+
+	redistimeseries2 "github.com/timescale/tsbs/cmd/tsbs_generate_queries/databases/redistimeseries"
 
 	"github.com/spf13/pflag"
 	"github.com/timescale/tsbs/cmd/tsbs_generate_queries/databases/cassandra"
@@ -226,14 +227,11 @@ func (g *QueryGenerator) initFactories() error {
 		return err
 	}
 
-<<<<<<< HEAD
 	redistimeseries := &redistimeseries2.BaseGenerator{}
 	if err := g.addFactory(FormatRedisTimeseries, redistimeseries); err != nil {
 		return err
 	}
 
-=======
->>>>>>> redistimeseries/master
 	timescale := &timescaledb.BaseGenerator{
 		UseJSON:       g.config.TimescaleUseJSON,
 		UseTags:       g.config.TimescaleUseTags,
