@@ -101,7 +101,7 @@ func (p *processor) ProcessQuery(q query.Query, isWarm bool) ([]*query.Stat, err
 	start := time.Now()
 	res, err := conn.Do(t[0], commandArgs...)
 	if err != nil {
-		log.Fatalf("Command failed:%v %v\n", res, err)
+		log.Fatalf("Command (%s) failed with error: %v\n", qry, err)
 	}
 
 	if p.opts.debug {

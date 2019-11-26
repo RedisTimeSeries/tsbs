@@ -37,7 +37,7 @@ func (d *Devops) GenerateEmptyQuery() query.Query {
 func (d *Devops) GroupByTime(qi query.Query, nHosts, numMetrics int, timeRange time.Duration) {
 	interval := d.Interval.MustRandWindow(timeRange)
 
-	redisQuery := fmt.Sprintf(`TS.MRANGE %d %d AGGREGATION max %d FILTER`,
+	redisQuery := fmt.Sprintf(`TS.MRANGE %d %d AGGREGATION max %d FILTER measurement=cpu`,
 		interval.StartUnixMillis(),
 		interval.EndUnixMillis(),
 		fiveMinuteMillis)

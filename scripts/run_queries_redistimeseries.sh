@@ -21,6 +21,10 @@ QUERIES_PRINT_INTERVAL=${QUERIES_PRINT_INTERVAL:-"0"}
 # How many queries would be run
 MAX_QUERIES=${MAX_QUERIES:-"0"}
 
+# Ensure DATA DIR available
+mkdir -p ${RESULTS_DIR}
+chmod a+rwx ${RESULTS_DIR}
+
 for FULL_DATA_FILE_NAME in ${BULK_DATA_DIR}/queries_redistimeseries*; do
   # $FULL_DATA_FILE_NAME:  /full/path/to/file_with.ext
   # $DATA_FILE_NAME:       file_with.ext
@@ -33,7 +37,8 @@ for FULL_DATA_FILE_NAME in ${BULK_DATA_DIR}/queries_redistimeseries*; do
   EXTENSION="${DATA_FILE_NAME##*.}"
   NO_EXT_DATA_FILE_NAME="${DATA_FILE_NAME%.*}"
 
-  OUT_FULL_FILE_NAME="${DIR}/result_${NO_EXT_DATA_FILE_NAME}.out"
+  OUT_FULL_FILE_NAME="${RESULTS_DIR}/result_${NO_EXT_DATA_FILE_NAME}.out"
+  HDR_FULL_FILE_NAME="${RESULTS_DIR}/HDR_TXT_result_${NO_EXT_DATA_FILE_NAME}.out"
 
   if [ "${EXTENSION}" == "gz" ]; then
     GUNZIP="gunzip"
@@ -41,7 +46,13 @@ for FULL_DATA_FILE_NAME in ${BULK_DATA_DIR}/queries_redistimeseries*; do
     GUNZIP="cat"
   fi
 
+  echo "Reseting Redis command stats"
+  redis-cli -h ${DATABASE_HOST} -p ${DATABASE_PORT} config resetstat
+
   echo "Running ${DATA_FILE_NAME}"
+  echo "Saving output to ${OUT_FULL_FILE_NAME}"
+  echo "Saving HDR Latencies to ${HDR_FULL_FILE_NAME}"
+
   cat $FULL_DATA_FILE_NAME |
     $GUNZIP |
     $EXE_FILE_NAME \
@@ -49,6 +60,11 @@ for FULL_DATA_FILE_NAME in ${BULK_DATA_DIR}/queries_redistimeseries*; do
       --workers=${NUM_WORKERS} \
       --print-interval=${QUERIES_PRINT_INTERVAL} \
       --debug=${DEBUG} \
+      --hdr-latencies=${HDR_FULL_FILE_NAME} \
       --host=${DATABASE_HOST}:${DATABASE_PORT} |
     tee $OUT_FULL_FILE_NAME
+
+    # Retrieve command stats output
+    redis-cli -h ${DATABASE_HOST} -p ${DATABASE_PORT} info commandstats >> $OUT_FULL_FILE_NAME
+    redis-cli -h ${DATABASE_HOST} -p ${DATABASE_PORT} info commandstats
 done
