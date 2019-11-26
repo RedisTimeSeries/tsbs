@@ -10,3 +10,4 @@ runners: tsbs_run_queries_cassandra tsbs_run_queries_clickhouse tsbs_run_queries
 
 %: $(wildcard ./cmd/$@/*.go)
 	go build -o bin/$@ ./cmd/$@
+	go install ./cmd/$@

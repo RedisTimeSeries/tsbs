@@ -10,19 +10,16 @@ if [[ -z "$EXE_FILE_NAME" ]]; then
   exit 1
 fi
 
-DATABASE_PORT=${DATABASE_PORT:-6379}
+EXE_DIR=${EXE_DIR:-$(dirname $0)}
+source ${EXE_DIR}/query_common.sh
 
-# Queries folder
-BULK_DATA_DIR=${BULK_DATA_DIR:-"/tmp/bulk_queries"}
+DATABASE_PORT=${DATABASE_PORT:-6379}
 
 # Print timing stats to stderr after this many queries (0 to disable)
 QUERIES_PRINT_INTERVAL=${QUERIES_PRINT_INTERVAL:-"0"}
 
 # How many queries would be run
 MAX_QUERIES=${MAX_QUERIES:-"0"}
-
-# How many concurrent worker would run queries - match num of cores, or default to 4
-NUM_WORKERS=${NUM_WORKERS:-$(grep -c ^processor /proc/cpuinfo 2>/dev/null || echo 4)}
 
 for FULL_DATA_FILE_NAME in ${BULK_DATA_DIR}/queries_redistimeseries*; do
   # $FULL_DATA_FILE_NAME:  /full/path/to/file_with.ext
@@ -48,9 +45,10 @@ for FULL_DATA_FILE_NAME in ${BULK_DATA_DIR}/queries_redistimeseries*; do
   cat $FULL_DATA_FILE_NAME |
     $GUNZIP |
     $EXE_FILE_NAME \
-      --max-queries $MAX_QUERIES \
-      --workers $NUM_WORKERS \
-      --print-interval ${QUERIES_PRINT_INTERVAL} \
+      --max-queries=${MAX_QUERIES} \
+      --workers=${NUM_WORKERS} \
+      --print-interval=${QUERIES_PRINT_INTERVAL} \
+      --debug=${DEBUG} \
       --host=${DATABASE_HOST}:${DATABASE_PORT} |
     tee $OUT_FULL_FILE_NAME
 done

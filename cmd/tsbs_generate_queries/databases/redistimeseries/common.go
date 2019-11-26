@@ -36,7 +36,7 @@ func (g *BaseGenerator) NewDevops(start, end time.Time, scale int) (utils.QueryG
 		return nil, err
 	}
 
-	devops := &Devops{
+	var devops utils.QueryGenerator = &Devops{
 		BaseGenerator: g,
 		Core:          core,
 	}

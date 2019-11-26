@@ -19,6 +19,11 @@ SCALE=${SCALE:-"4000"}
 # Rand seed
 SEED=${SEED:-"123"}
 
+# Control level of debug output
+DEBUG=${DEBUG:-"0"}
+
+INTERLEAVED_GENERATION_GROUPS=${INTERLEAVED_GENERATION_GROUPS:-"1"}
+
 # Start and stop time for generated timeseries
 TS_START=${TS_START:-"2016-01-01T00:00:00Z"}
 TS_END=${TS_END:-"2016-01-04T00:00:00Z"}
@@ -61,8 +66,10 @@ for FORMAT in ${FORMATS}; do
             --scale ${SCALE} \
             --timestamp-start ${TS_START} \
             --timestamp-end ${TS_END} \
+            --debug ${DEBUG} \
             --seed ${SEED} \
             --log-interval ${LOG_INTERVAL} \
+            --interleaved-generation-groups ${INTERLEAVED_GENERATION_GROUPS} \
             --max-data-points ${MAX_DATA_POINTS} \
         | gzip > ${DATA_FILE_NAME}
 

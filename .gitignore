@@ -6,3 +6,5 @@
 
 # High Dynamic Range (HDR) Histogram files
 *.hdr
+
+bin/
