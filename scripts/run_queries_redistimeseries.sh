@@ -21,6 +21,9 @@ QUERIES_PRINT_INTERVAL=${QUERIES_PRINT_INTERVAL:-"0"}
 # How many queries would be run
 MAX_QUERIES=${MAX_QUERIES:-"0"}
 
+# How many queries would be run
+SLEEP_BETWEEN_RUNS=${SLEEP_BETWEEN_RUNS:-"60"}
+
 # Ensure DATA DIR available
 mkdir -p ${RESULTS_DIR}
 chmod a+rwx ${RESULTS_DIR}
@@ -67,4 +70,7 @@ for FULL_DATA_FILE_NAME in ${BULK_DATA_DIR}/queries_redistimeseries*; do
     # Retrieve command stats output
     redis-cli -h ${DATABASE_HOST} -p ${DATABASE_PORT} info commandstats >> $OUT_FULL_FILE_NAME
     redis-cli -h ${DATABASE_HOST} -p ${DATABASE_PORT} info commandstats
+
+    echo "Sleeping for ${SLEEP_BETWEEN_RUNS} seconds"
+    sleep ${SLEEP_BETWEEN_RUNS}
 done
