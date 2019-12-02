@@ -26,10 +26,10 @@ cpu-max-all-8 \
 double-groupby-1 \
 double-groupby-5 \
 double-groupby-all \
-lastpoint \
+groupby-orderby-limit \
 high-cpu-1 \
 high-cpu-all \
-groupby-orderby-limit \
+lastpoint \
 single-groupby-1-1-1 \
 single-groupby-1-1-12 \
 single-groupby-1-8-1 \

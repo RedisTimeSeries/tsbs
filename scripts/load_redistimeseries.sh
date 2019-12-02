@@ -27,8 +27,6 @@ redis-cli -h ${DATABASE_HOST} -p ${DATABASE_PORT} flushall
 # Retrieve command stats output
 redis-cli -h ${DATABASE_HOST} -p ${DATABASE_PORT} config resetstat
 
-
-
 # Load new data
 cat ${DATA_FILE} | gunzip | $EXE_FILE_NAME \
   --workers=${NUM_WORKERS} \

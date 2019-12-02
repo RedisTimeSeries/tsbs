@@ -16,7 +16,6 @@ func (d *dbCreator) DBExists(dbName string) bool {
 	return true
 }
 
-// Isn't supported with interleaved groups?
 func (d *dbCreator) RemoveOldDB(dbName string) error {
 	return nil
 }

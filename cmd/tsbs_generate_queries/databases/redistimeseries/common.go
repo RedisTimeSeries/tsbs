@@ -1,15 +1,14 @@
 package redistimeseries
 
 import (
-	"time"
-
 	"github.com/timescale/tsbs/cmd/tsbs_generate_queries/uses/devops"
 	"github.com/timescale/tsbs/cmd/tsbs_generate_queries/utils"
 	"github.com/timescale/tsbs/query"
+	"time"
 )
 
 
-// BaseGenerator contains settings specific for Cassandra database.
+// BaseGenerator contains settings specific for RedisTimeSeries database.
 type BaseGenerator struct {
 }
 

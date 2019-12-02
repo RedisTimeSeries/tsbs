@@ -1,4 +1,4 @@
-// tsbs_run_queries_siridb speed tests SiriDB using requests from stdin or file
+// tsbs_run_queries_redistimeseries speed tests RedisTimeSeries using requests from stdin or file
 //
 
 // This program has no knowledge of the internals of the endpoint.
@@ -39,7 +39,6 @@ func init() {
 	config.AddToFlagSet(pflag.CommandLine)
 
 	pflag.StringVar(&host, "host", "localhost:6379", "Redis host address and port")
-	//flag.Uint64Var(&scale, "scale", 8, "Scaling variable (Must be the equal to the scalevar used for data generation).")
 
 	pflag.Parse()
 
