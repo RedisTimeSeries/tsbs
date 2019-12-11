@@ -3,7 +3,7 @@ module github.com/timescale/tsbs
 go 1.12
 
 require (
-	github.com/RedisTimeSeries/redistimeseries-go v0.3.0
+	github.com/RedisTimeSeries/redistimeseries-go v0.3.1-0.20191211172356-add367a3fed3
 	github.com/SiriDB/go-siridb-connector v0.0.0-20190110105621-86b34c44c921
 	github.com/StackExchange/wmi v0.0.0-20190523213315-cbe66965904d // indirect
 	github.com/andreyvit/diff v0.0.0-20170406064948-c7f18ee00883
