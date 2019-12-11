@@ -4,6 +4,8 @@ github.com/BurntSushi/toml v0.3.1/go.mod h1:xHWCNGjB5oqiDr8zfno3MHue2Ht5sIBksp03
 github.com/OneOfOne/xxhash v1.2.2/go.mod h1:HSdplMjZKSmBqAxg5vPj2TmRDmfkzw+cTzAElWljhcU=
 github.com/RedisTimeSeries/redistimeseries-go v0.3.0 h1:QaPmKcQaf2jVOIbbQaXKiLQ+K1SCziR2kZz/QQB4QQk=
 github.com/RedisTimeSeries/redistimeseries-go v0.3.0/go.mod h1:mkrqzk8fT/m6GtZvyyK5+rSxvXP59/M+p2CPtr+Fl6g=
+github.com/RedisTimeSeries/redistimeseries-go v0.3.1-0.20191211172356-add367a3fed3 h1:jP6nxChl290N7amKzCx15fJhzcs7jMayt33oNggjH/Q=
+github.com/RedisTimeSeries/redistimeseries-go v0.3.1-0.20191211172356-add367a3fed3/go.mod h1:mkrqzk8fT/m6GtZvyyK5+rSxvXP59/M+p2CPtr+Fl6g=
 github.com/SiriDB/go-siridb-connector v0.0.0-20190110105621-86b34c44c921 h1:GIWNb0z3t/YKr7xcGNhFgxasaTpnsX91Z0Zt4CeLk+c=
 github.com/SiriDB/go-siridb-connector v0.0.0-20190110105621-86b34c44c921/go.mod h1:s0x47OhsrJKfg9Iq5orGCVJQjwKklC3jZMFlgLe6Zew=
 github.com/StackExchange/wmi v0.0.0-20190523213315-cbe66965904d h1:G0m3OIz70MZUWq3EgK3CesDbo8upS2Vm9/P3FtgI+Jk=

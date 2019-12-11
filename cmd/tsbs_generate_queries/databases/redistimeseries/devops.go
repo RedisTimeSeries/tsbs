@@ -180,7 +180,7 @@ func (d *Devops) LastPointPerHost(qi query.Query) {
 	}
 	//redisQuery := fmt.Sprintf(`TS.QUERYINDEX measurement=cpu hostname!=`)
 	humanLabel := "RedisTimeSeries last row per host"
-	humanDesc := fmt.Sprintf("%s: %s", humanLabel)
+	humanDesc := fmt.Sprintf("%s", humanLabel)
 	d.fillInQueryStrings(qi, humanLabel, humanDesc)
 	d.AddQuery(qi, redisQuery, []byte("TS.QUERYINDEX"))
 }
