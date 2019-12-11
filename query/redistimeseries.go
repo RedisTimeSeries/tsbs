@@ -11,17 +11,21 @@ type RedisTimeSeries struct {
 	HumanLabel       []byte
 	HumanDescription []byte
 
-	RedisQuery []byte
-	id         uint64
+	RedisQueries [][][]byte
+	CommandNames [][]byte
+	id           uint64
 }
 
 // RedisTimeSeriesPool is a sync.Pool of RedisTimeSeries Query types
 var RedisTimeSeriesPool = sync.Pool{
 	New: func() interface{} {
+		queries := make([][][]byte, 0, 0)
+		commands := make([][]byte, 0, 0)
 		return &RedisTimeSeries{
 			HumanLabel:       make([]byte, 0, 1024),
 			HumanDescription: make([]byte, 0, 1024),
-			RedisQuery:       make([]byte, 0, 1024),
+			RedisQueries:     queries,
+			CommandNames:     commands,
 		}
 	},
 }
@@ -41,9 +45,20 @@ func (q *RedisTimeSeries) SetID(n uint64) {
 	q.id = n
 }
 
+// GetCommandName returns the command used for this Query
+func (q *RedisTimeSeries) AddQuery(query [][]byte, commandname []byte) {
+	q.RedisQueries = append(q.RedisQueries, query)
+	q.CommandNames = append(q.CommandNames, commandname)
+}
+
+// GetCommandName returns the command used for this Query
+func (q *RedisTimeSeries) GetCommandName(pos int) []byte {
+	return q.CommandNames[pos]
+}
+
 // String produces a debug-ready description of a Query.
 func (q *RedisTimeSeries) String() string {
-	return fmt.Sprintf("HumanLabel: %s, HumanDescription: %s, Query: %s", q.HumanLabel, q.HumanDescription, q.RedisQuery)
+	return fmt.Sprintf("HumanLabel: %s, HumanDescription: %s, Query: %s", q.HumanLabel, q.HumanDescription, q.RedisQueries)
 }
 
 // HumanLabelName returns the human readable name of this Query
@@ -62,7 +77,8 @@ func (q *RedisTimeSeries) Release() {
 	q.HumanDescription = q.HumanDescription[:0]
 	q.id = 0
 
-	q.RedisQuery = q.RedisQuery[:0]
+	q.RedisQueries = q.RedisQueries[:0]
+	q.CommandNames = q.CommandNames[:0]
 
 	RedisTimeSeriesPool.Put(q)
 }

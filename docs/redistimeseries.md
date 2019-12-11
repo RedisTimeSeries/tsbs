@@ -77,7 +77,7 @@ TS.MADD cpu_usage_user{3297394792} 1451606420000 58 cpu_usage_system{3297394792}
 
 #### Simple Rollups 
 ##### q1) single-groupby-1-1-1
-Simple aggregrate (MAX) on one metric for 1 host, every 5 mins for 1 hour
+Simple aggregrate (MAX) on one metric for 1 host, every 1 minute for 1 hour
 
 Query language
 ```
@@ -89,7 +89,7 @@ Query language
 
 ##### q2) single-groupby-1-1-12
 
-Simple aggregrate (MAX) on one metric for 1 host, every 5 mins for 12 hours
+Simple aggregrate (MAX) on one metric for 1 host, every 1 minute for 12 hours
 
 Query language
 ```
@@ -99,15 +99,12 @@ Query language
                      "hostname=host_1"
 ```
 
-##### q3) single-groupby-1-8-1
-Simple aggregrate (MAX) on one metric for 8 hosts, every 5 mins for 1 hour
+##### q3) single-groupby-1-8-1 ( NOT SUPPORTED )
+Simple aggregrate (MAX) on one metric for 8 hosts, every 1 minute for 1 hour
 
 Query language
 ```
-"TS.MRANGE" "1451824006646" "1451827606646" \
-             "AGGREGATION" "max" "300000" \
-             "FILTER" "fieldname=usage_user" \
-                      "hostname=(host_1,host_3,host_7,host_6,host_0,host_5,host_4,host_2)"
+TBD
 ```
 
 
@@ -134,16 +131,13 @@ Query language
                      "hostname=host_1"
 ```
 
-##### q6) single-groupby-5-8-1
+##### q6) single-groupby-5-8-1 ( NOT SUPPORTED )
 Simple aggregrate (MAX) on 5 metrics for 8 hosts, every 5 mins for 1 hour
 
 
 Query language
 ```
-"TS.MRANGE" "1451824006646" "1451827606646" \
-            "AGGREGATION" "max" "300000" \
-            "FILTER" "fieldname=(usage_user,usage_system,usage_idle,usage_nice,usage_iowait)" \
-                     "hostname=(host_1,host_3,host_7,host_6,host_0,host_5,host_4,host_2)"
+TBD
 ```
 
 #### Simple Aggregations 
@@ -159,16 +153,14 @@ Query language
                      "hostname=host_1"
 ```
 
-##### q8) cpu-max-all-8
+##### q8) cpu-max-all-8 ( NOT SUPPORTED )
 Aggregate across all CPU metrics per hour over 1 hour for eight hosts
 
 Query language
 ```
-"TS.MRANGE" "1451648911646" "1451677711646" \
-            "AGGREGATION" "max" "3600000" \
-            "FILTER" "measurement=cpu" \
-                     "hostname=(host_1,host_3,host_7,host_6,host_0,host_5,host_4,host_2)"
+TBD
 ```
+
 #### Double Rollups 
 ##### q9) double-groupby-1
 Aggregate on across both time and host, giving the average of 1 CPU metric per host per hour for 24 hours

@@ -61,16 +61,16 @@ for FORMAT in ${FORMATS}; do
 
         echo "Generating ${DATA_FILE_NAME}:"
         ${EXE_FILE_NAME} \
-            --format ${FORMAT} \
-            --use-case ${USE_CASE} \
-            --scale ${SCALE} \
-            --timestamp-start ${TS_START} \
-            --timestamp-end ${TS_END} \
-            --debug ${DEBUG} \
-            --seed ${SEED} \
-            --log-interval ${LOG_INTERVAL} \
-            --interleaved-generation-groups ${INTERLEAVED_GENERATION_GROUPS} \
-            --max-data-points ${MAX_DATA_POINTS} \
+            --format=${FORMAT} \
+            --use-case=${USE_CASE} \
+            --scale=${SCALE} \
+            --timestamp-start=${TS_START} \
+            --timestamp-end=${TS_END} \
+            --debug=${DEBUG} \
+            --seed=${SEED} \
+            --log-interval=${LOG_INTERVAL} \
+            --interleaved-generation-groups=${INTERLEAVED_GENERATION_GROUPS} \
+            --max-data-points=${MAX_DATA_POINTS} \
         | gzip > ${DATA_FILE_NAME}
 
         trap - EXIT

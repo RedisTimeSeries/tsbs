@@ -143,6 +143,11 @@ func GetMaxAllLabel(dbName string, nHosts int) string {
 	return fmt.Sprintf("%s max of all CPU metrics, random %4d hosts, random %s by 1h", dbName, nHosts, MaxAllDuration)
 }
 
+// GetMaxAllLabel returns the Query human-readable label for MaxAllCPU queries
+func GetGroupByOrderByLimitLabel(dbName string) string {
+	return fmt.Sprintf("%s max cpu over last 5 min-intervals (random end)", dbName)
+}
+
 // getRandomHosts returns a subset of numHosts hostnames of a permutation of hostnames,
 // numbered from 0 to totalHosts.
 // Ex.: host_12, host_7, host_25 for numHosts=3 and totalHosts=30 (3 out of 30)

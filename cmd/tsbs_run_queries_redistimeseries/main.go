@@ -5,9 +5,13 @@
 package main
 
 import (
+	"bytes"
+	"database/sql"
+	"encoding/json"
 	"fmt"
 	redistimeseries "github.com/RedisTimeSeries/redistimeseries-go"
 	_ "github.com/lib/pq"
+	"github.com/pkg/errors"
 	"github.com/spf13/pflag"
 	"github.com/spf13/viper"
 	"github.com/timescale/tsbs/internal/utils"
@@ -26,7 +30,9 @@ var (
 
 // Global vars:
 var (
-	runner *query.BenchmarkRunner
+	runner        *query.BenchmarkRunner
+	cmdMrange     = []byte("TS.MRANGE")
+	cmdQueryIndex = []byte("TS.QUERYINDEX")
 )
 
 var (
@@ -81,39 +87,122 @@ func (p *processor) Init(numWorker int) {
 	}
 }
 
-func (p *processor) ProcessQuery(q query.Query, isWarm bool) ([]*query.Stat, error) {
+func mapRows(r *sql.Rows) []map[string]interface{} {
+	rows := []map[string]interface{}{}
+	cols, _ := r.Columns()
+	for r.Next() {
+		row := make(map[string]interface{})
+		values := make([]interface{}, len(cols))
+		for i := range values {
+			values[i] = new(interface{})
+		}
+
+		err := r.Scan(values...)
+		if err != nil {
+			panic(errors.Wrap(err, "error while reading values"))
+		}
+
+		for i, column := range cols {
+			row[column] = *values[i].(*interface{})
+		}
+		rows = append(rows, row)
+	}
+	return rows
+}
+
+// prettyPrintResponse prints a Query and its response in JSON format with two
+// keys: 'query' which has a value of the RedisTimeseries query used to generate the second key
+// 'results' which is an array of each element in the return set.
+func prettyPrintResponse(responses [][]redistimeseries.Range, q *query.RedisTimeSeries) {
+	full := make(map[string]interface{})
+	for idx, qry := range q.RedisQueries {
+		resp := make(map[string]interface{})
+		fullcmd := append([][]byte{q.CommandNames[idx]}, qry...)
+		resp["query"] = strings.Join(ByteArrayToStringArray(fullcmd), " ")
+		rows := []map[string]interface{}{}
+		res := responses[idx]
+		for _, r := range res {
+			row := make(map[string]interface{})
+			values := make(map[string]interface{})
+			values["datapoints"] = r.DataPoints
+			values["labels"] = r.Labels
+			row[r.Name] = values
+			rows = append(rows, row)
+		}
+		resp["results"] = rows
+		full[fmt.Sprintf("query %d", idx+1)] = resp
+	}
+
+	line, err := json.MarshalIndent(full, "", "  ")
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Println(string(line) + "\n")
+}
+
+func (p *processor) ProcessQuery(q query.Query, isWarm bool) (queryStats []*query.Stat, err error) {
 
 	// No need to run again for EXPLAIN
 	if isWarm && p.opts.showExplain {
 		return nil, nil
 	}
 	tq := q.(*query.RedisTimeSeries)
+	var parsedResponses = make([][]redistimeseries.Range, 0, 0)
 
-	qry := string(tq.RedisQuery)
+	var cmds = make([][]interface{}, 0, 0)
+	for _, qry := range tq.RedisQueries {
+		cmds = append(cmds, ByteArrayToInterfaceArray(qry))
+	}
 
 	conn := redisConnector.Pool.Get()
-	t := strings.Split(qry, " ")
-	commandArgs := make([]interface{}, len(t)-1)
-	for i := 1; i < len(t); i++ {
-		commandArgs[i-1] = t[i]
-	}
+
 	start := time.Now()
-	res, err := conn.Do(t[0], commandArgs...)
-	if err != nil {
-		log.Fatalf("Command (%s) failed with error: %v\n", qry, err)
+	for idx, commandArgs := range cmds {
+		if p.opts.debug {
+			fmt.Println(fmt.Sprintf("Issuing command (%s %s)", string(tq.CommandNames[idx]), strings.Join(ByteArrayToStringArray(tq.RedisQueries[idx]), " ")))
+		}
+		res, err := conn.Do(string(tq.CommandNames[idx]), commandArgs...)
+		if err != nil {
+			log.Fatalf("Command (%s %s) failed with error: %v\n", string(tq.CommandNames[idx]), strings.Join(ByteArrayToStringArray(tq.RedisQueries[idx]), " "), err)
+		}
+		if err != nil {
+			return nil, err
+		}
+		if bytes.Compare(tq.CommandNames[idx], cmdMrange) == 0 {
+			parsedRes, err := redistimeseries.ParseRanges(res)
+			if err != nil {
+				return nil, err
+			}
+			parsedResponses = append(parsedResponses, parsedRes)
+		} else if bytes.Compare(tq.CommandNames[idx], cmdQueryIndex) == 0 {
+			var parsedRes = make([]redistimeseries.Range, 0, 0)
+			parsedResponses = append(parsedResponses, parsedRes)
+		}
 	}
-
-	if p.opts.debug {
-		fmt.Println(qry)
-	}
-
-	if p.opts.printResponse {
-		fmt.Println("\n", res)
-	}
-
 	took := float64(time.Since(start).Nanoseconds()) / 1e6
+	if p.opts.printResponse {
+		prettyPrintResponse(parsedResponses, tq)
+	}
 	stat := query.GetStat()
 	stat.Init(q.HumanLabelName(), took)
+	queryStats = []*query.Stat{stat}
 
-	return []*query.Stat{stat}, err
+	return queryStats, err
+}
+
+func ByteArrayToInterfaceArray(qry [][]byte) []interface{} {
+	commandArgs := make([]interface{}, len(qry))
+	for i := 0; i < len(qry); i++ {
+		commandArgs[i] = qry[i]
+	}
+	return commandArgs
+}
+
+func ByteArrayToStringArray(qry [][]byte) []string {
+	commandArgs := make([]string, len(qry))
+	for i := 0; i < len(qry); i++ {
+		commandArgs[i] = string(qry[i])
+	}
+	return commandArgs
 }

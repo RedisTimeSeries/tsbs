@@ -7,7 +7,6 @@ import (
 	"time"
 )
 
-
 // BaseGenerator contains settings specific for RedisTimeSeries database.
 type BaseGenerator struct {
 }
@@ -17,15 +16,18 @@ func (g *BaseGenerator) GenerateEmptyQuery() query.Query {
 	return query.NewRedisTimeSeries()
 }
 
-
 // fill Query fills the query struct with data
-func (d *BaseGenerator) fillInQuery(qi query.Query, humanLabel, humanDesc, redisQuery string) {
+func (d *BaseGenerator) fillInQueryStrings(qi query.Query, humanLabel, humanDesc string) {
 	q := qi.(*query.RedisTimeSeries)
 	q.HumanLabel = []byte(humanLabel)
 	q.HumanDescription = []byte(humanDesc)
-	q.RedisQuery = []byte(redisQuery)
 }
 
+// GetCommandName returns the command used for this Query
+func (d *BaseGenerator) AddQuery(qi query.Query, tq [][]byte, commandname []byte) {
+	q := qi.(*query.RedisTimeSeries)
+	q.AddQuery(tq, commandname)
+}
 
 // NewDevops creates a new devops use case query generator.
 func (g *BaseGenerator) NewDevops(start, end time.Time, scale int) (utils.QueryGenerator, error) {
