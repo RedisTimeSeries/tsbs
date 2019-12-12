@@ -51,7 +51,7 @@ func (d *Devops) GroupByTime(qi query.Query, nHosts, numMetrics int, timeRange t
 	panicIfErr(err)
 	// we only need to filter if we we dont want all of them
 	if numMetrics != devops.GetCPUMetricsLen() {
-		redisArg := " fieldname="
+		redisArg := "fieldname="
 		if numMetrics > 1 {
 			redisArg += "("
 		}
