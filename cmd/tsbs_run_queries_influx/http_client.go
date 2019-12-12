@@ -105,13 +105,13 @@ func (w *HTTPClient) Do(q *query.HTTP, opts *HTTPClientDoOptions) (lag float64, 
 			// and Elastic.
 
 			var pretty bytes.Buffer
-			prefix := fmt.Sprintf("ID %d: ", q.GetID())
+			prefix := "" //fmt.Sprintf("ID %d: ", q.GetID())
 			err = json.Indent(&pretty, body, prefix, "  ")
 			if err != nil {
 				return
 			}
 
-			_, err = fmt.Fprintf(os.Stderr, "%s%s\n", prefix, pretty.Bytes())
+			_, err = fmt.Fprintf(os.Stdout, "%s%s\n", prefix, pretty.Bytes())
 			if err != nil {
 				return
 			}
