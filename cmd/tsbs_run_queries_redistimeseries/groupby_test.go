@@ -74,3 +74,58 @@ func TestMergeSeriesOnTimestamp(t *testing.T) {
 		})
 	}
 }
+
+func TestReduceSeriesOnTimestampBy(t *testing.T) {
+	type args struct {
+		series  []redistimeseries.Range
+		reducer func(series [] redistimeseries.Range) (redistimeseries.Range, error)
+	}
+	ts := []int64{1, 2, 3, 4, 5}
+	vals := []float64{1.0, 2.0, 3.0, 4.0, 5.0}
+	tests := []struct {
+		name         string
+		args         args
+		wantOutserie redistimeseries.Range
+		wantErr      bool
+	}{
+		{"test 1 series with labels and datapoints",
+			args{
+				[]redistimeseries.Range{
+					{"serie1", map[string]string{"host": "1"}, []redistimeseries.DataPoint{{ts[0], vals[0]}, {ts[1], vals[0]}},},
+				},
+				maxReducerSeriesDatapoints,
+			},
+			redistimeseries.Range{"serie1", map[string]string{"host": "1"}, []redistimeseries.DataPoint{{ts[0], vals[0]}, {ts[1], vals[0]}},},
+			false,
+		},
+		{"test 2 series with labels and datapoints",
+			args{
+				[]redistimeseries.Range{
+					{"serie1", map[string]string{"host": "1"}, []redistimeseries.DataPoint{{ts[0], vals[0]}, {ts[1], vals[0]}},},
+					{"serie2", map[string]string{"host": "2"}, []redistimeseries.DataPoint{{ts[0], vals[0]}},},
+				},
+				maxReducerSeriesDatapoints,
+			},
+			redistimeseries.Range{"max reduction over serie1 serie2", nil, []redistimeseries.DataPoint{{ts[0], vals[0]}, {ts[1], vals[0]}},},
+			false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			gotOutserie, err := ReduceSeriesOnTimestampBy(tt.args.series, tt.args.reducer)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("ReduceSeriesOnTimestampBy() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if !reflect.DeepEqual(gotOutserie.Name, tt.wantOutserie.Name) {
+				t.Errorf("MergeSeriesOnTimestamp() Error on Names got %v, want %v", gotOutserie.Name, tt.wantOutserie.Name)
+			}
+			if !reflect.DeepEqual(gotOutserie.Labels, tt.wantOutserie.Labels) {
+				t.Errorf("MergeSeriesOnTimestamp() Error on Labels got %v, want %v", gotOutserie.Labels, tt.wantOutserie.Labels)
+			}
+			if !reflect.DeepEqual(gotOutserie.DataPoints, tt.wantOutserie.DataPoints) {
+				t.Errorf("MergeSeriesOnTimestamp() Error on DataPoints got %v, want %v", gotOutserie.DataPoints, tt.wantOutserie.DataPoints)
+			}
+		})
+	}
+}
