@@ -49,6 +49,7 @@ func (d *Devops) GroupByTime(qi query.Query, nHosts, numMetrics int, timeRange t
 
 	metrics, err := devops.GetCPUMetricsSlice(numMetrics)
 	panicIfErr(err)
+
 	// we only need to filter if we we dont want all of them
 	if numMetrics != devops.GetCPUMetricsLen() {
 		redisArg := "fieldname="
@@ -90,6 +91,9 @@ func (d *Devops) GroupByTime(qi query.Query, nHosts, numMetrics int, timeRange t
 	humanDesc := fmt.Sprintf("%s: %s", humanLabel, interval.StartString())
 	d.fillInQueryStrings(qi, humanLabel, humanDesc)
 	d.AddQuery(qi, redisQuery, []byte("TS.MRANGE"))
+	if numMetrics > 1 {
+		d.SetSingleGroupByTime(qi, true)
+	}
 }
 
 // GroupByTimeAndPrimaryTag selects the AVG of numMetrics metrics under 'cpu' per device per hour for a day
@@ -169,6 +173,9 @@ func (d *Devops) MaxAllCPU(qi query.Query, nHosts int) {
 	humanDesc := fmt.Sprintf("%s: %s", humanLabel, interval.StartString())
 	d.fillInQueryStrings(qi, humanLabel, humanDesc)
 	d.AddQuery(qi, redisQuery, []byte("TS.MRANGE"))
+	if nHosts == 1 {
+		d.SetSingleGroupByTime(qi, true)
+	}
 }
 
 // LastPointPerHost finds the last row for every host in the dataset

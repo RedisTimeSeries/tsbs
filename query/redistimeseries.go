@@ -14,6 +14,7 @@ type RedisTimeSeries struct {
 	RedisQueries [][][]byte
 	CommandNames [][]byte
 	id           uint64
+	SingleGroupByTimestamp bool
 }
 
 // RedisTimeSeriesPool is a sync.Pool of RedisTimeSeries Query types
@@ -26,6 +27,7 @@ var RedisTimeSeriesPool = sync.Pool{
 			HumanDescription: make([]byte, 0, 1024),
 			RedisQueries:     queries,
 			CommandNames:     commands,
+			SingleGroupByTimestamp: false,
 		}
 	},
 }
@@ -44,6 +46,13 @@ func (q *RedisTimeSeries) GetID() uint64 {
 func (q *RedisTimeSeries) SetID(n uint64) {
 	q.id = n
 }
+
+// SetID sets the ID for this Query
+func (q *RedisTimeSeries) SetSingleGroupByTimestamp(value bool) {
+	q.SingleGroupByTimestamp = value
+}
+
+
 
 // GetCommandName returns the command used for this Query
 func (q *RedisTimeSeries) AddQuery(query [][]byte, commandname []byte) {

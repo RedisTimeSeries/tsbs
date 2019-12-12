@@ -17,6 +17,7 @@ import (
 	"github.com/timescale/tsbs/internal/utils"
 	"github.com/timescale/tsbs/query"
 	"log"
+	"sort"
 	"strings"
 	"time"
 )
@@ -110,26 +111,54 @@ func mapRows(r *sql.Rows) []map[string]interface{} {
 	return rows
 }
 
-// prettyPrintResponse prints a Query and its response in JSON format with two
+// prettyPrintResponseRange prints a Query and its response in JSON format with two
 // keys: 'query' which has a value of the RedisTimeseries query used to generate the second key
 // 'results' which is an array of each element in the return set.
-func prettyPrintResponse(responses [][]redistimeseries.Range, q *query.RedisTimeSeries) {
+func prettyPrintResponseRange(responses []interface{}, q *query.RedisTimeSeries) {
 	full := make(map[string]interface{})
 	for idx, qry := range q.RedisQueries {
 		resp := make(map[string]interface{})
 		fullcmd := append([][]byte{q.CommandNames[idx]}, qry...)
 		resp["query"] = strings.Join(ByteArrayToStringArray(fullcmd), " ")
-		rows := []map[string]interface{}{}
+
 		res := responses[idx]
-		for _, r := range res {
-			row := make(map[string]interface{})
-			values := make(map[string]interface{})
-			values["datapoints"] = r.DataPoints
-			values["labels"] = r.Labels
-			row[r.Name] = values
-			rows = append(rows, row)
+		switch v := res.(type) {
+		case []redistimeseries.Range:
+			resp["client_side_work"] = false
+			rows := []map[string]interface{}{}
+			for _, r := range res.([]redistimeseries.Range) {
+				row := make(map[string]interface{})
+				values := make(map[string]interface{})
+				values["datapoints"] = r.DataPoints
+				values["labels"] = r.Labels
+				row[r.Name] = values
+				rows = append(rows, row)
+			}
+			resp["results"] = rows
+		case MultiRange:
+			resp["client_side_work"] = true
+			query_result := map[string]interface{}{}
+			converted := res.(MultiRange)
+			query_result["names"] = converted.Names
+			query_result["labels"] = converted.Labels
+			datapoints := make([]MultiDataPoint, 0, len(converted.DataPoints))
+			var keys []int
+			for k := range converted.DataPoints {
+				keys = append(keys, int(k))
+			}
+			sort.Ints(keys)
+			for _, k := range keys {
+				dp := converted.DataPoints[int64(k)]
+				time_str := time.Unix(dp.Timestamp/1000, 0).Format(time.RFC3339)
+				dp.HumanReadbleTime = &time_str
+				datapoints = append(datapoints, dp)
+			}
+			query_result["datapoints"] = datapoints
+			resp["results"] = query_result
+		default:
+			fmt.Printf("I don't know about type %T!\n", v)
 		}
-		resp["results"] = rows
+
 		full[fmt.Sprintf("query %d", idx+1)] = resp
 	}
 
@@ -148,17 +177,17 @@ func (p *processor) ProcessQuery(q query.Query, isWarm bool) (queryStats []*quer
 		return nil, nil
 	}
 	tq := q.(*query.RedisTimeSeries)
-	var parsedResponses = make([][]redistimeseries.Range, 0, 0)
+	var parsedResponses = make([]interface{}, 0, 0)
 
 	var cmds = make([][]interface{}, 0, 0)
 	for _, qry := range tq.RedisQueries {
 		cmds = append(cmds, ByteArrayToInterfaceArray(qry))
 	}
-
 	conn := redisConnector.Pool.Get()
 
 	start := time.Now()
 	for idx, commandArgs := range cmds {
+		var result interface{}
 		if p.opts.debug {
 			fmt.Println(fmt.Sprintf("Issuing command (%s %s)", string(tq.CommandNames[idx]), strings.Join(ByteArrayToStringArray(tq.RedisQueries[idx]), " ")))
 		}
@@ -171,18 +200,24 @@ func (p *processor) ProcessQuery(q query.Query, isWarm bool) (queryStats []*quer
 		}
 		if bytes.Compare(tq.CommandNames[idx], cmdMrange) == 0 {
 			parsedRes, err := redistimeseries.ParseRanges(res)
+
 			if err != nil {
 				return nil, err
 			}
-			parsedResponses = append(parsedResponses, parsedRes)
+			if tq.SingleGroupByTimestamp {
+				result = MergeSeriesOnTimestamp(parsedRes)
+			} else {
+				result = parsedRes
+			}
 		} else if bytes.Compare(tq.CommandNames[idx], cmdQueryIndex) == 0 {
 			var parsedRes = make([]redistimeseries.Range, 0, 0)
 			parsedResponses = append(parsedResponses, parsedRes)
 		}
+		parsedResponses = append(parsedResponses, result)
 	}
 	took := float64(time.Since(start).Nanoseconds()) / 1e6
 	if p.opts.printResponse {
-		prettyPrintResponse(parsedResponses, tq)
+		prettyPrintResponseRange(parsedResponses, tq)
 	}
 	stat := query.GetStat()
 	stat.Init(q.HumanLabelName(), took)

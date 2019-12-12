@@ -29,6 +29,13 @@ func (d *BaseGenerator) AddQuery(qi query.Query, tq [][]byte, commandname []byte
 	q.AddQuery(tq, commandname)
 }
 
+// GetCommandName returns the command used for this Query
+func (d *BaseGenerator) SetSingleGroupByTime(qi query.Query, value bool ) {
+	q := qi.(*query.RedisTimeSeries)
+	q.SetSingleGroupByTimestamp(value)
+}
+
+
 // NewDevops creates a new devops use case query generator.
 func (g *BaseGenerator) NewDevops(start, end time.Time, scale int) (utils.QueryGenerator, error) {
 	core, err := devops.NewCore(start, end, scale)
