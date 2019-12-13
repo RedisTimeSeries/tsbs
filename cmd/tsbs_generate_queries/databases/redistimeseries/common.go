@@ -1,6 +1,7 @@
 package redistimeseries
 
 import (
+	redistimeseries "github.com/RedisTimeSeries/redistimeseries-go"
 	"github.com/timescale/tsbs/cmd/tsbs_generate_queries/uses/devops"
 	"github.com/timescale/tsbs/cmd/tsbs_generate_queries/utils"
 	"github.com/timescale/tsbs/query"
@@ -23,18 +24,24 @@ func (d *BaseGenerator) fillInQueryStrings(qi query.Query, humanLabel, humanDesc
 	q.HumanDescription = []byte(humanDesc)
 }
 
-// GetCommandName returns the command used for this Query
+// AddQuery adds a command to be executed in the full flow of this Query
 func (d *BaseGenerator) AddQuery(qi query.Query, tq [][]byte, commandname []byte) {
 	q := qi.(*query.RedisTimeSeries)
 	q.AddQuery(tq, commandname)
 }
 
-// GetCommandName returns the command used for this Query
+// SetSingleGroupByTime sets SetSingleGroupByTimestamp used for this Query
 func (d *BaseGenerator) SetSingleGroupByTime(qi query.Query, value bool ) {
 	q := qi.(*query.RedisTimeSeries)
 	q.SetSingleGroupByTimestamp(value)
 }
 
+// SetReduceSeries sets SetReduceSeries used for this Query
+func (d *BaseGenerator) SetReduceSeries(qi query.Query, value bool, reducer func(series [] redistimeseries.Range) (redistimeseries.Range, error) ) {
+	q := qi.(*query.RedisTimeSeries)
+	q.SetReduceSeries(value)
+	q.SetReducer(reducer)
+}
 
 // NewDevops creates a new devops use case query generator.
 func (g *BaseGenerator) NewDevops(start, end time.Time, scale int) (utils.QueryGenerator, error) {

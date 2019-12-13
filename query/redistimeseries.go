@@ -2,6 +2,7 @@ package query
 
 import (
 	"fmt"
+	redistimeseries "github.com/RedisTimeSeries/redistimeseries-go"
 	"sync"
 )
 
@@ -11,10 +12,12 @@ type RedisTimeSeries struct {
 	HumanLabel       []byte
 	HumanDescription []byte
 
-	RedisQueries [][][]byte
-	CommandNames [][]byte
-	id           uint64
+	RedisQueries           [][][]byte
+	CommandNames           [][]byte
+	id                     uint64
 	SingleGroupByTimestamp bool
+	ReduceSeries           bool
+	Reducer                func(series [] redistimeseries.Range) (redistimeseries.Range, error)
 }
 
 // RedisTimeSeriesPool is a sync.Pool of RedisTimeSeries Query types
@@ -23,11 +26,13 @@ var RedisTimeSeriesPool = sync.Pool{
 		queries := make([][][]byte, 0, 0)
 		commands := make([][]byte, 0, 0)
 		return &RedisTimeSeries{
-			HumanLabel:       make([]byte, 0, 1024),
-			HumanDescription: make([]byte, 0, 1024),
-			RedisQueries:     queries,
-			CommandNames:     commands,
+			HumanLabel:             make([]byte, 0, 1024),
+			HumanDescription:       make([]byte, 0, 1024),
+			RedisQueries:           queries,
+			CommandNames:           commands,
 			SingleGroupByTimestamp: false,
+			ReduceSeries:           false,
+			Reducer:                nil,
 		}
 	},
 }
@@ -47,12 +52,20 @@ func (q *RedisTimeSeries) SetID(n uint64) {
 	q.id = n
 }
 
-// SetID sets the ID for this Query
+// SetSingleGroupByTimestamp sets the flag for group by timestamp on a MultiRange Serie
 func (q *RedisTimeSeries) SetSingleGroupByTimestamp(value bool) {
 	q.SingleGroupByTimestamp = value
 }
 
+// SetReduceSeries sets the flag for group by reducing a slice of Ranges into one
+func (q *RedisTimeSeries) SetReduceSeries(value bool) {
+	q.ReduceSeries = value
+}
 
+// SetReducer sets the flag for group by reducing a slice of Ranges into one
+func (q *RedisTimeSeries) SetReducer(reducer func(series [] redistimeseries.Range) (redistimeseries.Range, error)) {
+	q.Reducer = reducer
+}
 
 // GetCommandName returns the command used for this Query
 func (q *RedisTimeSeries) AddQuery(query [][]byte, commandname []byte) {

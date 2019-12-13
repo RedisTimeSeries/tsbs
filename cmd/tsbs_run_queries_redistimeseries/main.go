@@ -124,7 +124,7 @@ func prettyPrintResponseRange(responses []interface{}, q *query.RedisTimeSeries)
 		res := responses[idx]
 		switch v := res.(type) {
 		case []redistimeseries.Range:
-			resp["client_side_work"] = false
+			resp["client_side_work"] = q.ReduceSeries || q.SingleGroupByTimestamp
 			rows := []map[string]interface{}{}
 			for _, r := range res.([]redistimeseries.Range) {
 				row := make(map[string]interface{})
@@ -135,13 +135,16 @@ func prettyPrintResponseRange(responses []interface{}, q *query.RedisTimeSeries)
 				rows = append(rows, row)
 			}
 			resp["results"] = rows
-		case MultiRange:
-			resp["client_side_work"] = true
+		case redistimeseries.Range:
+			resp["client_side_work"] = q.ReduceSeries || q.SingleGroupByTimestamp
+			resp["results"] = res.(redistimeseries.Range)
+		case query.MultiRange:
+			resp["client_side_work"] = q.ReduceSeries || q.SingleGroupByTimestamp
 			query_result := map[string]interface{}{}
-			converted := res.(MultiRange)
+			converted := res.(query.MultiRange)
 			query_result["names"] = converted.Names
 			query_result["labels"] = converted.Labels
-			datapoints := make([]MultiDataPoint, 0, len(converted.DataPoints))
+			datapoints := make([]query.MultiDataPoint, 0, len(converted.DataPoints))
 			var keys []int
 			for k := range converted.DataPoints {
 				keys = append(keys, int(k))
@@ -200,15 +203,21 @@ func (p *processor) ProcessQuery(q query.Query, isWarm bool) (queryStats []*quer
 		}
 		if bytes.Compare(tq.CommandNames[idx], cmdMrange) == 0 {
 			parsedRes, err := redistimeseries.ParseRanges(res)
+			result = parsedRes
 
 			if err != nil {
 				return nil, err
 			}
 			if tq.SingleGroupByTimestamp {
-				result = MergeSeriesOnTimestamp(parsedRes)
-			} else {
-				result = parsedRes
+				result = query.MergeSeriesOnTimestamp(parsedRes)
 			}
+			if tq.ReduceSeries {
+				result, err = query.ReduceSeriesOnTimestampBy(parsedRes, query.MaxReducerSeriesDatapoints )
+				if err != nil {
+					return nil, err
+				}
+			}
+
 		} else if bytes.Compare(tq.CommandNames[idx], cmdQueryIndex) == 0 {
 			var parsedRes = make([]redistimeseries.Range, 0, 0)
 			parsedResponses = append(parsedResponses, parsedRes)

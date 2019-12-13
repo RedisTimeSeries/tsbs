@@ -94,6 +94,9 @@ func (d *Devops) GroupByTime(qi query.Query, nHosts, numMetrics int, timeRange t
 	if numMetrics > 1 {
 		d.SetSingleGroupByTime(qi, true)
 	}
+	if nHosts > 1 {
+		d.SetReduceSeries(qi, true, query.MaxReducerSeriesDatapoints )
+	}
 }
 
 // GroupByTimeAndPrimaryTag selects the AVG of numMetrics metrics under 'cpu' per device per hour for a day

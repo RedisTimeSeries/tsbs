@@ -1,4 +1,4 @@
-package main
+package query
 
 import (
 	redistimeseries "github.com/RedisTimeSeries/redistimeseries-go"
@@ -93,7 +93,7 @@ func TestReduceSeriesOnTimestampBy(t *testing.T) {
 				[]redistimeseries.Range{
 					{"serie1", map[string]string{"host": "1"}, []redistimeseries.DataPoint{{ts[0], vals[0]}, {ts[1], vals[0]}},},
 				},
-				maxReducerSeriesDatapoints,
+				MaxReducerSeriesDatapoints,
 			},
 			redistimeseries.Range{"serie1", map[string]string{"host": "1"}, []redistimeseries.DataPoint{{ts[0], vals[0]}, {ts[1], vals[0]}},},
 			false,
@@ -101,12 +101,25 @@ func TestReduceSeriesOnTimestampBy(t *testing.T) {
 		{"test 2 series with labels and datapoints",
 			args{
 				[]redistimeseries.Range{
-					{"serie1", map[string]string{"host": "1"}, []redistimeseries.DataPoint{{ts[0], vals[0]}, {ts[1], vals[0]}},},
+					{"serie1", map[string]string{"host": "1"}, []redistimeseries.DataPoint{{ts[0], vals[1]}, {ts[1], vals[0]}},},
 					{"serie2", map[string]string{"host": "2"}, []redistimeseries.DataPoint{{ts[0], vals[0]}},},
 				},
-				maxReducerSeriesDatapoints,
+				MaxReducerSeriesDatapoints,
 			},
-			redistimeseries.Range{"max reduction over serie1 serie2", nil, []redistimeseries.DataPoint{{ts[0], vals[0]}, {ts[1], vals[0]}},},
+			redistimeseries.Range{"max reduction over serie1 serie2", nil, []redistimeseries.DataPoint{{ts[0], vals[1]}, {ts[1], vals[0]}},},
+			false,
+		},
+		{"test 3 series with labels and datapoints",
+			args{
+				[]redistimeseries.Range{
+					{"serie1", map[string]string{"host": "1"}, []redistimeseries.DataPoint{{ts[0], vals[1]}, {ts[1], vals[0]}},},
+					{"serie2", map[string]string{"host": "2"}, []redistimeseries.DataPoint{{ts[0], vals[0]}},},
+					{"serie3", map[string]string{"host": "3"}, []redistimeseries.DataPoint{{ts[0], vals[2]}},},
+
+				},
+				MaxReducerSeriesDatapoints,
+			},
+			redistimeseries.Range{"max reduction over serie1 serie2 serie3", nil, []redistimeseries.DataPoint{{ts[0], vals[2]}, {ts[1], vals[0]}},},
 			false,
 		},
 	}

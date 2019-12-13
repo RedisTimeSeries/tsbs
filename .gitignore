@@ -7,4 +7,7 @@
 # High Dynamic Range (HDR) Histogram files
 *.hdr
 
+*.json
+coverage.txt
+
 bin/

@@ -1,4 +1,4 @@
-package main
+package query
 
 import (
 	"fmt"
@@ -45,33 +45,14 @@ func MergeSeriesOnTimestamp(series []redistimeseries.Range) MultiRange {
 	return MultiRange{names, labels, datapoints}
 }
 
-func maxReducerOnTimestamp(points []redistimeseries.DataPoint) (outpoint redistimeseries.DataPoint, err error) {
-	if len(points) == 0 {
-		return
-	}
-	ts := points[0].Timestamp
-	value := points[0].Value
-	for idx, v := range points {
-		if ts != v.Timestamp {
-			err = fmt.Errorf("there are at least two distinct timestamps on the datapoints slice. Error on slice pos %d", idx)
-			return
-		}
-		if v.Value > value {
-			value = v.Value
-		}
-	}
-	outpoint = redistimeseries.DataPoint{ts, value}
-	return
-}
-
-func maxReducerSeriesDatapoints(series [] redistimeseries.Range) (c redistimeseries.Range, err error) {
+func MaxReducerSeriesDatapoints(series [] redistimeseries.Range) (c redistimeseries.Range, err error) {
 	allNames := make([]string, 0, len(series))
 	for _, serie := range series {
 		allNames = append(allNames, serie.Name)
 	}
 	var cPoints = make(map[int64]float64)
 	pos := 0
-	for ok := true; ok; ok = !(pos < len(series)) {
+	for pos < len(series) {
 		serie := series[pos]
 		for _, v := range serie.DataPoints {
 			_, found := cPoints[v.Timestamp]
@@ -112,6 +93,5 @@ func ReduceSeriesOnTimestampBy(series []redistimeseries.Range, reducer func(seri
 		outserie = series[0]
 		return
 	}
-	outserie = series[0]
 	return reducer(series)
 }
