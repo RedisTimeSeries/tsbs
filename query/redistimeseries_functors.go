@@ -7,6 +7,10 @@ import (
 	"strings"
 )
 
+type ResponseFunctor func(interface{}) (interface{}, error)
+type ResponseReducer func(series [] redistimeseries.Range) (redistimeseries.Range, error)
+
+
 type MultiDataPoint struct {
 	Timestamp        int64
 	HumanReadbleTime *string
@@ -17,6 +21,20 @@ type MultiRange struct {
 	Names      []string
 	Labels     []map[string]string
 	DataPoints map[int64]MultiDataPoint
+}
+
+
+func SingleGroupByTime(res interface{}) (result interface{}, err error) {
+	parsedRes, err := redistimeseries.ParseRanges(res)
+	result = MergeSeriesOnTimestamp(parsedRes)
+	return
+}
+
+func GroupByTimeAndMax(res interface{}) (result interface{}, err error) {
+	parsedRes, err := redistimeseries.ParseRanges(res)
+	result = parsedRes
+	result, err = ReduceSeriesOnTimestampBy(parsedRes, MaxReducerSeriesDatapoints)
+	return
 }
 
 func MergeSeriesOnTimestamp(series []redistimeseries.Range) MultiRange {

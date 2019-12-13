@@ -17,6 +17,7 @@ import (
 	"github.com/timescale/tsbs/internal/utils"
 	"github.com/timescale/tsbs/query"
 	"log"
+	"reflect"
 	"sort"
 	"strings"
 	"time"
@@ -31,9 +32,11 @@ var (
 
 // Global vars:
 var (
-	runner        *query.BenchmarkRunner
-	cmdMrange     = []byte("TS.MRANGE")
-	cmdQueryIndex = []byte("TS.QUERYINDEX")
+	runner                    *query.BenchmarkRunner
+	cmdMrange                 = []byte("TS.MRANGE")
+	cmdQueryIndex             = []byte("TS.QUERYINDEX")
+	Functor_SingleGroupByTime = query.SingleGroupByTime
+	Functor_GroupByTimeAndMax = query.GroupByTimeAndMax
 )
 
 var (
@@ -124,7 +127,7 @@ func prettyPrintResponseRange(responses []interface{}, q *query.RedisTimeSeries)
 		res := responses[idx]
 		switch v := res.(type) {
 		case []redistimeseries.Range:
-			resp["client_side_work"] = q.ReduceSeries || q.SingleGroupByTimestamp
+			resp["client_side_work"] = q.ReduceSeries || q.ApplyFunctor
 			rows := []map[string]interface{}{}
 			for _, r := range res.([]redistimeseries.Range) {
 				row := make(map[string]interface{})
@@ -136,10 +139,10 @@ func prettyPrintResponseRange(responses []interface{}, q *query.RedisTimeSeries)
 			}
 			resp["results"] = rows
 		case redistimeseries.Range:
-			resp["client_side_work"] = q.ReduceSeries || q.SingleGroupByTimestamp
+			resp["client_side_work"] = q.ReduceSeries || q.ApplyFunctor
 			resp["results"] = res.(redistimeseries.Range)
 		case query.MultiRange:
-			resp["client_side_work"] = q.ReduceSeries || q.SingleGroupByTimestamp
+			resp["client_side_work"] = q.ReduceSeries || q.ApplyFunctor
 			query_result := map[string]interface{}{}
 			converted := res.(query.MultiRange)
 			query_result["names"] = converted.Names
@@ -202,19 +205,22 @@ func (p *processor) ProcessQuery(q query.Query, isWarm bool) (queryStats []*quer
 			return nil, err
 		}
 		if bytes.Compare(tq.CommandNames[idx], cmdMrange) == 0 {
-			parsedRes, err := redistimeseries.ParseRanges(res)
-			result = parsedRes
 
 			if err != nil {
 				return nil, err
 			}
-			if tq.SingleGroupByTimestamp {
-				result = query.MergeSeriesOnTimestamp(parsedRes)
-			}
-			if tq.ReduceSeries {
-				result, err = query.ReduceSeriesOnTimestampBy(parsedRes, query.MaxReducerSeriesDatapoints )
-				if err != nil {
-					return nil, err
+			if tq.ApplyFunctor {
+				switch tq.Functor {
+				case reflect.ValueOf(Functor_SingleGroupByTime).String():
+					result, err = Functor_SingleGroupByTime(res)
+					if err != nil {
+						return nil, err
+					}
+				case  reflect.ValueOf(Functor_GroupByTimeAndMax).String():
+					result, err = Functor_GroupByTimeAndMax(res)
+					if err != nil {
+						return nil, err
+					}
 				}
 			}
 

@@ -2,9 +2,10 @@ package query
 
 import (
 	"fmt"
-	redistimeseries "github.com/RedisTimeSeries/redistimeseries-go"
 	"sync"
 )
+
+
 
 // RedisTimeSeries encodes a RedisTimeSeries request. This will be serialized for use
 // by the tsbs_run_queries_redistimeseries program.
@@ -12,12 +13,11 @@ type RedisTimeSeries struct {
 	HumanLabel       []byte
 	HumanDescription []byte
 
-	RedisQueries           [][][]byte
-	CommandNames           [][]byte
-	id                     uint64
-	SingleGroupByTimestamp bool
-	ReduceSeries           bool
-	Reducer                func(series [] redistimeseries.Range) (redistimeseries.Range, error)
+	RedisQueries [][][]byte
+	CommandNames [][]byte
+	id           uint64
+	ApplyFunctor bool
+	Functor      string
 }
 
 // RedisTimeSeriesPool is a sync.Pool of RedisTimeSeries Query types
@@ -26,13 +26,11 @@ var RedisTimeSeriesPool = sync.Pool{
 		queries := make([][][]byte, 0, 0)
 		commands := make([][]byte, 0, 0)
 		return &RedisTimeSeries{
-			HumanLabel:             make([]byte, 0, 1024),
-			HumanDescription:       make([]byte, 0, 1024),
-			RedisQueries:           queries,
-			CommandNames:           commands,
-			SingleGroupByTimestamp: false,
-			ReduceSeries:           false,
-			Reducer:                nil,
+			HumanLabel:       make([]byte, 0, 1024),
+			HumanDescription: make([]byte, 0, 1024),
+			RedisQueries:     queries,
+			CommandNames:     commands,
+			ApplyFunctor:     false,
 		}
 	},
 }
@@ -52,19 +50,13 @@ func (q *RedisTimeSeries) SetID(n uint64) {
 	q.id = n
 }
 
-// SetSingleGroupByTimestamp sets the flag for group by timestamp on a MultiRange Serie
-func (q *RedisTimeSeries) SetSingleGroupByTimestamp(value bool) {
-	q.SingleGroupByTimestamp = value
+// SetApplyFunctor sets the flag for group by timestamp on a MultiRange Serie
+func (q *RedisTimeSeries) SetApplyFunctor(value bool) {
+	q.ApplyFunctor = value
 }
 
-// SetReduceSeries sets the flag for group by reducing a slice of Ranges into one
-func (q *RedisTimeSeries) SetReduceSeries(value bool) {
-	q.ReduceSeries = value
-}
-
-// SetReducer sets the flag for group by reducing a slice of Ranges into one
-func (q *RedisTimeSeries) SetReducer(reducer func(series [] redistimeseries.Range) (redistimeseries.Range, error)) {
-	q.Reducer = reducer
+func  (q *RedisTimeSeries) SetFunctor(f string) {
+	q.Functor = f
 }
 
 // GetCommandName returns the command used for this Query

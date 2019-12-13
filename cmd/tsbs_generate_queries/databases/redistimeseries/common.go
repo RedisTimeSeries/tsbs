@@ -1,7 +1,6 @@
 package redistimeseries
 
 import (
-	redistimeseries "github.com/RedisTimeSeries/redistimeseries-go"
 	"github.com/timescale/tsbs/cmd/tsbs_generate_queries/uses/devops"
 	"github.com/timescale/tsbs/cmd/tsbs_generate_queries/utils"
 	"github.com/timescale/tsbs/query"
@@ -30,17 +29,11 @@ func (d *BaseGenerator) AddQuery(qi query.Query, tq [][]byte, commandname []byte
 	q.AddQuery(tq, commandname)
 }
 
-// SetSingleGroupByTime sets SetSingleGroupByTimestamp used for this Query
-func (d *BaseGenerator) SetSingleGroupByTime(qi query.Query, value bool ) {
+// SetApplyFunctor sets SetApplyFunctor used for this Query
+func (d *BaseGenerator) SetApplyFunctor(qi query.Query, value bool, functor string) {
 	q := qi.(*query.RedisTimeSeries)
-	q.SetSingleGroupByTimestamp(value)
-}
-
-// SetReduceSeries sets SetReduceSeries used for this Query
-func (d *BaseGenerator) SetReduceSeries(qi query.Query, value bool, reducer func(series [] redistimeseries.Range) (redistimeseries.Range, error) ) {
-	q := qi.(*query.RedisTimeSeries)
-	q.SetReduceSeries(value)
-	q.SetReducer(reducer)
+	q.SetApplyFunctor(value)
+	q.SetFunctor(functor)
 }
 
 // NewDevops creates a new devops use case query generator.
