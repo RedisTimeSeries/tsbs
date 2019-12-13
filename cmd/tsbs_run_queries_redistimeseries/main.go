@@ -127,7 +127,7 @@ func prettyPrintResponseRange(responses []interface{}, q *query.RedisTimeSeries)
 		res := responses[idx]
 		switch v := res.(type) {
 		case []redistimeseries.Range:
-			resp["client_side_work"] = q.ReduceSeries || q.ApplyFunctor
+			resp["client_side_work"] =  q.ApplyFunctor
 			rows := []map[string]interface{}{}
 			for _, r := range res.([]redistimeseries.Range) {
 				row := make(map[string]interface{})
@@ -139,10 +139,10 @@ func prettyPrintResponseRange(responses []interface{}, q *query.RedisTimeSeries)
 			}
 			resp["results"] = rows
 		case redistimeseries.Range:
-			resp["client_side_work"] = q.ReduceSeries || q.ApplyFunctor
+			resp["client_side_work"] = q.ApplyFunctor
 			resp["results"] = res.(redistimeseries.Range)
 		case query.MultiRange:
-			resp["client_side_work"] = q.ReduceSeries || q.ApplyFunctor
+			resp["client_side_work"] = q.ApplyFunctor
 			query_result := map[string]interface{}{}
 			converted := res.(query.MultiRange)
 			query_result["names"] = converted.Names
