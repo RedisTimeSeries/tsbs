@@ -31,12 +31,13 @@ var (
 
 // Global vars:
 var (
-	runner                    *query.BenchmarkRunner
-	cmdMrange                 = []byte("TS.MRANGE")
-	cmdQueryIndex             = []byte("TS.QUERYINDEX")
-	reflect_SingleGroupByTime = query.GetFunctionName(query.SingleGroupByTime)
-	reflect_GroupByTimeAndMax = query.GetFunctionName(query.GroupByTimeAndMax)
-	reflect_GroupByTimeAndTag = query.GetFunctionName(query.GroupByTimeAndTag)
+	runner                       *query.BenchmarkRunner
+	cmdMrange                    = []byte("TS.MRANGE")
+	cmdQueryIndex                = []byte("TS.QUERYINDEX")
+	reflect_SingleGroupByTime    = query.GetFunctionName(query.SingleGroupByTime)
+	reflect_GroupByTimeAndMax    = query.GetFunctionName(query.GroupByTimeAndMax)
+	reflect_GroupByTimeAndTagMax = query.GetFunctionName(query.GroupByTimeAndTagMax)
+	reflect_GroupByTimeAndTagAvg = query.GetFunctionName(query.GroupByTimeAndTagAvg)
 )
 
 var (
@@ -230,11 +231,19 @@ func (p *processor) ProcessQuery(q query.Query, isWarm bool) (queryStats []*quer
 					if err != nil {
 						return nil, err
 					}
-				case reflect_GroupByTimeAndTag:
+				case reflect_GroupByTimeAndTagMax:
 					if p.opts.debug {
-						fmt.Println(fmt.Sprintf("Applying functor reflect_GroupByTimeAndTag %s", reflect_GroupByTimeAndTag ))
+						fmt.Println(fmt.Sprintf("Applying functor reflect_GroupByTimeAndTagMax %s", reflect_GroupByTimeAndTagMax))
 					}
-					result, err = query.GroupByTimeAndTag(res)
+					result, err = query.GroupByTimeAndTagMax(res)
+					if err != nil {
+						return nil, err
+					}
+				case reflect_GroupByTimeAndTagAvg:
+					if p.opts.debug {
+						fmt.Println(fmt.Sprintf("Applying functor reflect_GroupByTimeAndTagAvg %s", reflect_GroupByTimeAndTagAvg ))
+					}
+					result, err = query.GroupByTimeAndTagAvg(res)
 					if err != nil {
 						return nil, err
 					}

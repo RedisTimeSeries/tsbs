@@ -2,7 +2,6 @@ package redistimeseries
 
 import (
 	"fmt"
-	"reflect"
 	"time"
 
 	"github.com/timescale/tsbs/cmd/tsbs_generate_queries/uses/devops"
@@ -101,7 +100,7 @@ func (d *Devops) GroupByTime(qi query.Query, nHosts, numMetrics int, timeRange t
 		d.SetApplyFunctor(qi, true, functorName )
 	}
 	if nHosts > 1 && numMetrics > 1 {
-		functorName := query.GetFunctionName(query.GroupByTimeAndTag)
+		functorName := query.GetFunctionName(query.GroupByTimeAndTagMax)
 		d.SetApplyFunctor(qi, true, functorName )
 	}
 }
@@ -145,6 +144,10 @@ func (d *Devops) GroupByTimeAndPrimaryTag(qi query.Query, numMetrics int) {
 	humanDesc := fmt.Sprintf("%s: %s", humanLabel, interval.StartString())
 	d.fillInQueryStrings(qi, humanLabel, humanDesc)
 	d.AddQuery(qi, redisQuery, []byte("TS.MRANGE"))
+	if numMetrics > 1 {
+		functorName := query.GetFunctionName(query.GroupByTimeAndTagAvg)
+		d.SetApplyFunctor(qi, true, functorName )
+	}
 }
 
 // MaxAllCPU fetches the aggregate across all CPU metrics per hour over 1 hour for a single host.
@@ -184,9 +187,12 @@ func (d *Devops) MaxAllCPU(qi query.Query, nHosts int) {
 	d.fillInQueryStrings(qi, humanLabel, humanDesc)
 	d.AddQuery(qi, redisQuery, []byte("TS.MRANGE"))
 	if nHosts == 1 {
-		functorName := reflect.ValueOf(query.SingleGroupByTime).String()
+		functorName := query.GetFunctionName(query.SingleGroupByTime)
 		d.SetApplyFunctor(qi, true, functorName )
-		}
+	} else {
+		functorName := query.GetFunctionName(query.GroupByTimeAndTagMax)
+		d.SetApplyFunctor(qi, true, functorName )
+	}
 }
 
 // LastPointPerHost finds the last row for every host in the dataset

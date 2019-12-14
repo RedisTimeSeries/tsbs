@@ -48,7 +48,7 @@ func GroupByTimeAndMax(res interface{}) (result interface{}, err error) {
 	return
 }
 
-func GroupByTimeAndTag(res interface{}) (result interface{}, err error) {
+func GroupByTimeAndTagMax(res interface{}) (result interface{}, err error) {
 	parsedRes, err := redistimeseries.ParseRanges(res)
 	if err != nil {
 		return
@@ -64,6 +64,31 @@ func GroupByTimeAndTag(res interface{}) (result interface{}, err error) {
 			return result, err
 		}
 		reducedSerie, err := ReduceSeriesOnTimestampBy(filteredSeries, MaxReducerSeriesDatapoints)
+		if err != nil {
+			return result, err
+		}
+		outseries = append(outseries, reducedSerie)
+	}
+	result = MergeSeriesOnTimestamp(outseries)
+	return
+}
+
+func GroupByTimeAndTagAvg(res interface{}) (result interface{}, err error) {
+	parsedRes, err := redistimeseries.ParseRanges(res)
+	if err != nil {
+		return
+	}
+	labels, err := GetUniqueLabelValue(parsedRes, "hostname")
+	if err != nil {
+		return
+	}
+	var outseries = make([]redistimeseries.Range, 0, 0)
+	for _, label := range labels {
+		filteredSeries, err := FilterRangesByLabelValue(parsedRes, "hostname", label, true)
+		if err != nil {
+			return result, err
+		}
+		reducedSerie, err := ReduceSeriesOnTimestampBy(filteredSeries, AvgReducerSeriesDatapoints)
 		if err != nil {
 			return result, err
 		}
@@ -131,6 +156,46 @@ func MergeSeriesOnTimestamp(series []redistimeseries.Range) MultiRange {
 		}
 	}
 	return MultiRange{names, labels, datapoints}
+}
+
+func AvgReducerSeriesDatapoints(series [] redistimeseries.Range) (c redistimeseries.Range, err error) {
+	allNames := make([]string, 0, len(series))
+	for _, serie := range series {
+		allNames = append(allNames, serie.Name)
+	}
+	var vPoints = make(map[int64]float64)
+	var fPoints = make(map[int64]float64)
+	var cPoints = make(map[int64]int64)
+	pos := 0
+	for pos < len(series) {
+		serie := series[pos]
+		for _, v := range serie.DataPoints {
+			_, found := cPoints[v.Timestamp]
+			if found == true {
+				cPoints[v.Timestamp] = cPoints[v.Timestamp] + 1
+				vPoints[v.Timestamp] = vPoints[v.Timestamp] + v.Value
+				fPoints[v.Timestamp] = vPoints[v.Timestamp] / float64 ( cPoints[v.Timestamp] )
+			} else {
+				cPoints[v.Timestamp] = 1
+				vPoints[v.Timestamp] = v.Value
+				fPoints[v.Timestamp] = v.Value
+			}
+		}
+		pos = pos + 1
+	}
+	var keys []int
+	for k := range cPoints {
+		keys = append(keys, int(k))
+	}
+	sort.Ints(keys)
+	datapoints := make([]redistimeseries.DataPoint, 0, len(keys))
+	for _, k := range keys {
+		dp := fPoints[int64(k)]
+		datapoints = append(datapoints, redistimeseries.DataPoint{int64(k), dp})
+	}
+	name := fmt.Sprintf("avg reduction over %s", strings.Join(allNames, " "))
+	c = redistimeseries.Range{name, nil, datapoints}
+	return
 }
 
 func MaxReducerSeriesDatapoints(series [] redistimeseries.Range) (c redistimeseries.Range, err error) {
