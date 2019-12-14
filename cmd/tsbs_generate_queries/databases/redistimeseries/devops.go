@@ -241,6 +241,14 @@ func (d *Devops) HighCPUForHosts(qi query.Query, nHosts int) {
 	humanDesc := fmt.Sprintf("%s: %s", humanLabel, interval.StartString())
 	d.fillInQueryStrings(qi, humanLabel, humanDesc)
 	d.AddQuery(qi, redisQuery, []byte("TS.MRANGE"))
+	functorName := query.GetFunctionName(query.HighCpu)
+	d.SetApplyFunctor(qi, true, functorName )
+	//if nHosts == 1 {
+	//
+	//} else {
+	//	//functorName := query.GetFunctionName(query.GroupByTimeAndTagMax)
+	//	//d.SetApplyFunctor(qi, true, functorName )
+	//}
 }
 
 // GroupByOrderByLimit populates a query.Query that has a time WHERE clause, that groups by a truncated date, orders by that date, and takes a limit:

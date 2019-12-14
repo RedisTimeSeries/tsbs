@@ -88,12 +88,36 @@ func GroupByTimeAndTagAvg(res interface{}) (result interface{}, err error) {
 		if err != nil {
 			return result, err
 		}
-		//reducedSerie, err := ReduceSeriesOnTimestampBy(filteredSeries, AvgReducerSeriesDatapoints)
-		//if err != nil {
-		//	return result, err
-		//}
 		merged := MergeSeriesOnTimestamp(filteredSeries)
 		outseries = append(outseries, merged)
+	}
+	result = outseries
+	return
+}
+
+func HighCpu(res interface{}) (result interface{}, err error) {
+	parsedRes, err := redistimeseries.ParseRanges(res)
+	if err != nil {
+		return
+	}
+	labels, err := GetUniqueLabelValue(parsedRes, "hostname")
+	if err != nil {
+		return
+	}
+	var outseries = make([]MultiRange, 0, 0)
+	for _, label := range labels {
+		filteredSeries, err := FilterRangesByLabelValue(parsedRes, "hostname", label, true)
+		if err != nil {
+			return result, err
+		}
+		merged := MergeSeriesOnTimestamp(filteredSeries)
+		above, err  := FilterRangesByThresholdAbove( merged, "fieldname" , "usage_user", 90 )
+		if err != nil {
+			return result, err
+		}
+		if len(above.DataPoints ) > 0 {
+			outseries = append(outseries, above)
+		}
 	}
 	result = outseries
 	return
@@ -115,6 +139,28 @@ func FilterRangesByLabelValue(series []redistimeseries.Range, labelname, labelva
 
 		}
 	}
+	return
+}
+
+func FilterRangesByThresholdAbove(serie MultiRange, labelname, labelvalue string, above float64) (result MultiRange, err error) {
+	datapoints := make(map[int64]MultiDataPoint)
+	thresholdIdx := -1
+	for idx, labels := range serie.Labels{
+		v, found := labels[labelname]
+		if found {
+			if labelvalue == v{
+				thresholdIdx=idx
+			}
+		}
+	}
+
+	for ts, datapoint := range serie.DataPoints {
+		vp := datapoint.Values[thresholdIdx]
+		if vp != nil && *vp > above {
+			datapoints[ts] = datapoint
+		}
+	}
+	result = MultiRange{serie.Names, serie.Labels, datapoints}
 	return
 }
 

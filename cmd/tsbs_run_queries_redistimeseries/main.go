@@ -38,6 +38,7 @@ var (
 	reflect_GroupByTimeAndMax    = query.GetFunctionName(query.GroupByTimeAndMax)
 	reflect_GroupByTimeAndTagMax = query.GetFunctionName(query.GroupByTimeAndTagMax)
 	reflect_GroupByTimeAndTagAvg = query.GetFunctionName(query.GroupByTimeAndTagAvg)
+	reflect_HighCpu = query.GetFunctionName(query.HighCpu)
 )
 
 var (
@@ -268,6 +269,14 @@ func (p *processor) ProcessQuery(q query.Query, isWarm bool) (queryStats []*quer
 						fmt.Println(fmt.Sprintf("Applying functor reflect_GroupByTimeAndTagAvg %s", reflect_GroupByTimeAndTagAvg ))
 					}
 					result, err = query.GroupByTimeAndTagAvg(res)
+					if err != nil {
+						return nil, err
+					}
+				case reflect_HighCpu:
+					if p.opts.debug {
+						fmt.Println(fmt.Sprintf("Applying functor reflect_HighCpu %s", reflect_HighCpu ))
+					}
+					result, err = query.HighCpu(res)
 					if err != nil {
 						return nil, err
 					}
