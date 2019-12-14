@@ -35,8 +35,9 @@ var (
 	runner                    *query.BenchmarkRunner
 	cmdMrange                 = []byte("TS.MRANGE")
 	cmdQueryIndex             = []byte("TS.QUERYINDEX")
-	Functor_SingleGroupByTime = query.SingleGroupByTime
-	Functor_GroupByTimeAndMax = query.GroupByTimeAndMax
+	reflect_SingleGroupByTime = reflect.ValueOf(query.SingleGroupByTime).String()
+	reflect_GroupByTimeAndMax = reflect.ValueOf(query.GroupByTimeAndMax).String()
+	reflect_GroupByTimeAndTag = reflect.ValueOf(query.GroupByTimeAndTag).String()
 )
 
 var (
@@ -127,7 +128,7 @@ func prettyPrintResponseRange(responses []interface{}, q *query.RedisTimeSeries)
 		res := responses[idx]
 		switch v := res.(type) {
 		case []redistimeseries.Range:
-			resp["client_side_work"] =  q.ApplyFunctor
+			resp["client_side_work"] = q.ApplyFunctor
 			rows := []map[string]interface{}{}
 			for _, r := range res.([]redistimeseries.Range) {
 				row := make(map[string]interface{})
@@ -211,16 +212,28 @@ func (p *processor) ProcessQuery(q query.Query, isWarm bool) (queryStats []*quer
 			}
 			if tq.ApplyFunctor {
 				switch tq.Functor {
-				case reflect.ValueOf(Functor_SingleGroupByTime).String():
-					result, err = Functor_SingleGroupByTime(res)
+				case reflect_SingleGroupByTime:
+					result, err = query.SingleGroupByTime(res)
 					if err != nil {
 						return nil, err
 					}
-				case  reflect.ValueOf(Functor_GroupByTimeAndMax).String():
-					result, err = Functor_GroupByTimeAndMax(res)
+				case reflect_GroupByTimeAndMax:
+					result, err = query.GroupByTimeAndMax(res)
 					if err != nil {
 						return nil, err
 					}
+				case reflect_GroupByTimeAndMax:
+					//result, err = query.GroupByTimeAndTag(res)
+					if err != nil {
+						return nil, err
+					}
+				default:
+					errors.Errorf("The selected functor %s is not known!\n", tq.Functor)
+				}
+			} else {
+				result, err = redistimeseries.ParseRanges(res)
+				if err != nil {
+					return nil, err
 				}
 			}
 

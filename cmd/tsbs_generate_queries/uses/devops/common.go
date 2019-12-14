@@ -120,6 +120,12 @@ type HighCPUFiller interface {
 	HighCPUForHosts(query.Query, int)
 }
 
+// GetSingleGroupByLabel returns the Query human-readable label for DoubleGroupBy queries
+func GetSingleGroupByLabel(dbName string, numMetrics , nHosts int, timerange string ) string {
+	return fmt.Sprintf("%s MAX of %d metrics,random %4d hosts, random %s by 1m", dbName, numMetrics, nHosts, timerange )
+
+}
+
 // GetDoubleGroupByLabel returns the Query human-readable label for DoubleGroupBy queries
 func GetDoubleGroupByLabel(dbName string, numMetrics int) string {
 	return fmt.Sprintf("%s mean of %d metrics, all hosts, random %s by 1h", dbName, numMetrics, DoubleGroupByDuration)

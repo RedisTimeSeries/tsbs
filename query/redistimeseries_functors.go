@@ -3,13 +3,15 @@ package query
 import (
 	"fmt"
 	redistimeseries "github.com/RedisTimeSeries/redistimeseries-go"
+	"log"
 	"sort"
 	"strings"
 )
 
 type ResponseFunctor func(interface{}) (interface{}, error)
-type ResponseReducer func(series [] redistimeseries.Range) (redistimeseries.Range, error)
+type void struct{}
 
+var member void
 
 type MultiDataPoint struct {
 	Timestamp        int64
@@ -23,17 +25,51 @@ type MultiRange struct {
 	DataPoints map[int64]MultiDataPoint
 }
 
-
 func SingleGroupByTime(res interface{}) (result interface{}, err error) {
 	parsedRes, err := redistimeseries.ParseRanges(res)
+	if err != nil {
+		return
+	}
 	result = MergeSeriesOnTimestamp(parsedRes)
 	return
 }
 
 func GroupByTimeAndMax(res interface{}) (result interface{}, err error) {
 	parsedRes, err := redistimeseries.ParseRanges(res)
-	result = parsedRes
+	if err != nil {
+		return
+	}
 	result, err = ReduceSeriesOnTimestampBy(parsedRes, MaxReducerSeriesDatapoints)
+	return
+}
+
+func GroupByTimeAndTag(res interface{}) (result interface{}, err error) {
+	parsedRes, err := redistimeseries.ParseRanges(res)
+	if err != nil {
+		return
+	}
+	labels, err := GetUniqueLabelValue(parsedRes, "fieldname")
+	if err != nil {
+		return
+	}
+	//fmt.Println(result)
+	log.Fatal(labels)
+
+	return
+}
+
+func GetUniqueLabelValue(series []redistimeseries.Range, label string) (result []string, err error) {
+	set := make(map[string]void) // New empty set
+	result = make([]string, 0, 0)
+	for _, serie := range series {
+		value, found := serie.Labels[label]
+		if found == true {
+			set[value] = member
+		}
+	}
+	for k := range set {
+		result = append(result, k)
+	}
 	return
 }
 

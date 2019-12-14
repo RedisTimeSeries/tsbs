@@ -5,8 +5,6 @@ import (
 	"sync"
 )
 
-
-
 // RedisTimeSeries encodes a RedisTimeSeries request. This will be serialized for use
 // by the tsbs_run_queries_redistimeseries program.
 type RedisTimeSeries struct {
@@ -55,7 +53,7 @@ func (q *RedisTimeSeries) SetApplyFunctor(value bool) {
 	q.ApplyFunctor = value
 }
 
-func  (q *RedisTimeSeries) SetFunctor(f string) {
+func (q *RedisTimeSeries) SetFunctor(f string) {
 	q.Functor = f
 }
 

@@ -115,7 +115,6 @@ func TestReduceSeriesOnTimestampBy(t *testing.T) {
 					{"serie1", map[string]string{"host": "1"}, []redistimeseries.DataPoint{{ts[0], vals[1]}, {ts[1], vals[0]}},},
 					{"serie2", map[string]string{"host": "2"}, []redistimeseries.DataPoint{{ts[0], vals[0]}},},
 					{"serie3", map[string]string{"host": "3"}, []redistimeseries.DataPoint{{ts[0], vals[2]}},},
-
 				},
 				MaxReducerSeriesDatapoints,
 			},
@@ -138,6 +137,70 @@ func TestReduceSeriesOnTimestampBy(t *testing.T) {
 			}
 			if !reflect.DeepEqual(gotOutserie.DataPoints, tt.wantOutserie.DataPoints) {
 				t.Errorf("MergeSeriesOnTimestamp() Error on DataPoints got %v, want %v", gotOutserie.DataPoints, tt.wantOutserie.DataPoints)
+			}
+		})
+	}
+}
+
+func TestGetUniqueLabelValue(t *testing.T) {
+	type args struct {
+		series []redistimeseries.Range
+		label  string
+	}
+	ts := []int64{1, 2, 3, 4, 5}
+	vals := []float64{1.0, 2.0, 3.0, 4.0, 5.0}
+	tests := []struct {
+		name       string
+		args       args
+		wantResult []string
+		wantErr    bool
+	}{
+		{"test empty label series with distinct labels and datapoints",
+			args{
+				[]redistimeseries.Range{
+					{"serie1", nil, []redistimeseries.DataPoint{{ts[0], vals[1]}, {ts[1], vals[0]}},},
+					{"serie2", nil, []redistimeseries.DataPoint{{ts[0], vals[0]}},},
+					{"serie3", nil, []redistimeseries.DataPoint{{ts[0], vals[2]}},},
+				},
+				"host",
+			},
+			[]string{},
+			false,
+		},
+		{"test 3 series with equal labels and datapoints",
+			args{
+				[]redistimeseries.Range{
+					{"serie1", map[string]string{"host": "1"}, []redistimeseries.DataPoint{{ts[0], vals[1]}, {ts[1], vals[0]}},},
+					{"serie2", map[string]string{"host": "1"}, []redistimeseries.DataPoint{{ts[0], vals[0]}},},
+					{"serie3", map[string]string{"host": "1"}, []redistimeseries.DataPoint{{ts[0], vals[2]}},},
+				},
+				"host",
+			},
+			[]string{"1"},
+			false,
+		},
+		{"test 3 series with distinct labels and datapoints",
+			args{
+				[]redistimeseries.Range{
+					{"serie1", map[string]string{"host": "1"}, []redistimeseries.DataPoint{{ts[0], vals[1]}, {ts[1], vals[0]}},},
+					{"serie2", map[string]string{"host": "2"}, []redistimeseries.DataPoint{{ts[0], vals[0]}},},
+					{"serie3", map[string]string{"host": "3"}, []redistimeseries.DataPoint{{ts[0], vals[2]}},},
+				},
+				"host",
+			},
+			[]string{"1", "2", "3"},
+			false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			gotResult, err := GetUniqueLabelValue(tt.args.series, tt.args.label)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("GetUniqueLabelValue() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if !reflect.DeepEqual(gotResult, tt.wantResult) {
+				t.Errorf("GetUniqueLabelValue() gotResult = %v, want %v", gotResult, tt.wantResult)
 			}
 		})
 	}

@@ -88,7 +88,7 @@ func (d *Devops) GroupByTime(qi query.Query, nHosts, numMetrics int, timeRange t
 	}
 	redisQuery = append(redisQuery, []byte(redisArg ))
 
-	humanLabel := fmt.Sprintf("RedisTimeSeries %d cpu metric(s), random %4d hosts, random %s by 1m", numMetrics, nHosts, timeRange)
+	humanLabel := devops.GetSingleGroupByLabel("RedisTimeSeries",numMetrics, nHosts, string(timeRange))
 	humanDesc := fmt.Sprintf("%s: %s", humanLabel, interval.StartString())
 	d.fillInQueryStrings(qi, humanLabel, humanDesc)
 	d.AddQuery(qi, redisQuery, []byte("TS.MRANGE"))
@@ -101,7 +101,8 @@ func (d *Devops) GroupByTime(qi query.Query, nHosts, numMetrics int, timeRange t
 		d.SetApplyFunctor(qi, true, functorName )
 	}
 	if nHosts > 1 && numMetrics > 1 {
-
+		functorName := reflect.ValueOf(query.GroupByTimeAndTag).String()
+		d.SetApplyFunctor(qi, true, functorName )
 	}
 }
 
