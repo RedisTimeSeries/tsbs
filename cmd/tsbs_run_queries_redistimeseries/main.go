@@ -142,6 +142,30 @@ func prettyPrintResponseRange(responses []interface{}, q *query.RedisTimeSeries)
 		case redistimeseries.Range:
 			resp["client_side_work"] = q.ApplyFunctor
 			resp["results"] = res.(redistimeseries.Range)
+		case []query.MultiRange:
+			resp["client_side_work"] = q.ApplyFunctor
+			rows := []map[string]interface{}{}
+			for _, converted := range res.([]query.MultiRange) {
+				query_result := map[string]interface{}{}
+				//converted := r.(query.MultiRange)
+				query_result["names"] = converted.Names
+				query_result["labels"] = converted.Labels
+				datapoints := make([]query.MultiDataPoint, 0, len(converted.DataPoints))
+				var keys []int
+				for k := range converted.DataPoints {
+					keys = append(keys, int(k))
+				}
+				sort.Ints(keys)
+				for _, k := range keys {
+					dp := converted.DataPoints[int64(k)]
+					time_str := time.Unix(dp.Timestamp/1000, 0).Format(time.RFC3339)
+					dp.HumanReadbleTime = &time_str
+					datapoints = append(datapoints, dp)
+				}
+				query_result["datapoints"] = datapoints
+				rows = append(rows, query_result)
+			}
+			resp["results"] = rows
 		case query.MultiRange:
 			resp["client_side_work"] = q.ApplyFunctor
 			query_result := map[string]interface{}{}

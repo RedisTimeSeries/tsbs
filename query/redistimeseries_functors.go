@@ -82,19 +82,20 @@ func GroupByTimeAndTagAvg(res interface{}) (result interface{}, err error) {
 	if err != nil {
 		return
 	}
-	var outseries = make([]redistimeseries.Range, 0, 0)
+	var outseries = make([]MultiRange, 0, 0)
 	for _, label := range labels {
 		filteredSeries, err := FilterRangesByLabelValue(parsedRes, "hostname", label, true)
 		if err != nil {
 			return result, err
 		}
-		reducedSerie, err := ReduceSeriesOnTimestampBy(filteredSeries, AvgReducerSeriesDatapoints)
-		if err != nil {
-			return result, err
-		}
-		outseries = append(outseries, reducedSerie)
+		//reducedSerie, err := ReduceSeriesOnTimestampBy(filteredSeries, AvgReducerSeriesDatapoints)
+		//if err != nil {
+		//	return result, err
+		//}
+		merged := MergeSeriesOnTimestamp(filteredSeries)
+		outseries = append(outseries, merged)
 	}
-	result = MergeSeriesOnTimestamp(outseries)
+	result = outseries
 	return
 }
 

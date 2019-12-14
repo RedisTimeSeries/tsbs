@@ -144,10 +144,10 @@ func (d *Devops) GroupByTimeAndPrimaryTag(qi query.Query, numMetrics int) {
 	humanDesc := fmt.Sprintf("%s: %s", humanLabel, interval.StartString())
 	d.fillInQueryStrings(qi, humanLabel, humanDesc)
 	d.AddQuery(qi, redisQuery, []byte("TS.MRANGE"))
-	if numMetrics > 1 {
+	//if numMetrics > 1 {
 		functorName := query.GetFunctionName(query.GroupByTimeAndTagAvg)
 		d.SetApplyFunctor(qi, true, functorName )
-	}
+	//}
 }
 
 // MaxAllCPU fetches the aggregate across all CPU metrics per hour over 1 hour for a single host.
