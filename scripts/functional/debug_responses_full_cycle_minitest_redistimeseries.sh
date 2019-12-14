@@ -35,5 +35,6 @@ for queryName in "single-groupby-1-1-1" "single-groupby-1-1-12" "single-groupby-
   echo "running query: $queryName"
   $GOPATH/bin/tsbs_run_queries_${FORMAT} --print-responses \
     --workers=1 \
+    --debug=3 \
     --file /tmp/bulk_data/${FORMAT}_query_$queryName >${FORMAT}_$queryName.json
 done

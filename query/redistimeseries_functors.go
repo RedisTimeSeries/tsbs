@@ -3,7 +3,8 @@ package query
 import (
 	"fmt"
 	redistimeseries "github.com/RedisTimeSeries/redistimeseries-go"
-	"log"
+	"reflect"
+	"runtime"
 	"sort"
 	"strings"
 )
@@ -23,6 +24,10 @@ type MultiRange struct {
 	Names      []string
 	Labels     []map[string]string
 	DataPoints map[int64]MultiDataPoint
+}
+
+func GetFunctionName(i interface{}) string {
+	return runtime.FuncForPC(reflect.ValueOf(i).Pointer()).Name()
 }
 
 func SingleGroupByTime(res interface{}) (result interface{}, err error) {
@@ -52,9 +57,38 @@ func GroupByTimeAndTag(res interface{}) (result interface{}, err error) {
 	if err != nil {
 		return
 	}
-	//fmt.Println(result)
-	log.Fatal(labels)
+	var outseries = make([]redistimeseries.Range, 0, 0)
+	for _, label := range labels {
+		filteredSeries, err := FilterRangesByLabelValue(parsedRes, "fieldname", label, true)
+		if err != nil {
+			return result, err
+		}
+		reducedSerie, err := ReduceSeriesOnTimestampBy(filteredSeries, MaxReducerSeriesDatapoints)
+		if err != nil {
+			return result, err
+		}
+		outseries = append(outseries, reducedSerie)
+	}
+	result = MergeSeriesOnTimestamp(outseries)
+	return
+}
 
+func FilterRangesByLabelValue(series []redistimeseries.Range, labelname, labelvalue string, keepMatches bool) (result []redistimeseries.Range, err error) {
+	result = make([]redistimeseries.Range, 0, 1)
+	for _, serie := range series {
+		flagged := false
+		value, labelExists := serie.Labels[labelname]
+		if labelExists == true && value == labelvalue {
+			flagged = true
+		}
+		if flagged == true && keepMatches == true {
+			result = append(result, serie)
+		}
+		if flagged == false && keepMatches == false {
+			result = append(result, serie)
+
+		}
+	}
 	return
 }
 

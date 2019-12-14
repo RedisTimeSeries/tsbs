@@ -93,15 +93,15 @@ func (d *Devops) GroupByTime(qi query.Query, nHosts, numMetrics int, timeRange t
 	d.fillInQueryStrings(qi, humanLabel, humanDesc)
 	d.AddQuery(qi, redisQuery, []byte("TS.MRANGE"))
 	if numMetrics > 1 && nHosts == 1 {
-		functorName := reflect.ValueOf(query.SingleGroupByTime).String()
+		functorName := query.GetFunctionName(query.SingleGroupByTime)
 		d.SetApplyFunctor(qi, true, functorName )
 	}
 	if nHosts > 1 && numMetrics == 1 {
-		functorName := reflect.ValueOf(query.GroupByTimeAndMax).String()
+		functorName := query.GetFunctionName(query.GroupByTimeAndMax)
 		d.SetApplyFunctor(qi, true, functorName )
 	}
 	if nHosts > 1 && numMetrics > 1 {
-		functorName := reflect.ValueOf(query.GroupByTimeAndTag).String()
+		functorName := query.GetFunctionName(query.GroupByTimeAndTag)
 		d.SetApplyFunctor(qi, true, functorName )
 	}
 }

@@ -17,7 +17,6 @@ import (
 	"github.com/timescale/tsbs/internal/utils"
 	"github.com/timescale/tsbs/query"
 	"log"
-	"reflect"
 	"sort"
 	"strings"
 	"time"
@@ -35,9 +34,9 @@ var (
 	runner                    *query.BenchmarkRunner
 	cmdMrange                 = []byte("TS.MRANGE")
 	cmdQueryIndex             = []byte("TS.QUERYINDEX")
-	reflect_SingleGroupByTime = reflect.ValueOf(query.SingleGroupByTime).String()
-	reflect_GroupByTimeAndMax = reflect.ValueOf(query.GroupByTimeAndMax).String()
-	reflect_GroupByTimeAndTag = reflect.ValueOf(query.GroupByTimeAndTag).String()
+	reflect_SingleGroupByTime = query.GetFunctionName(query.SingleGroupByTime)
+	reflect_GroupByTimeAndMax = query.GetFunctionName(query.GroupByTimeAndMax)
+	reflect_GroupByTimeAndTag = query.GetFunctionName(query.GroupByTimeAndTag)
 )
 
 var (
@@ -211,19 +210,31 @@ func (p *processor) ProcessQuery(q query.Query, isWarm bool) (queryStats []*quer
 				return nil, err
 			}
 			if tq.ApplyFunctor {
+				if p.opts.debug {
+					fmt.Println(fmt.Sprintf("Applying functor %s on %s", tq.Functor,tq.HumanLabel ))
+				}
 				switch tq.Functor {
 				case reflect_SingleGroupByTime:
+					if p.opts.debug {
+						fmt.Println(fmt.Sprintf("Applying functor reflect_SingleGroupByTime %s", reflect_SingleGroupByTime ))
+					}
 					result, err = query.SingleGroupByTime(res)
 					if err != nil {
 						return nil, err
 					}
 				case reflect_GroupByTimeAndMax:
+					if p.opts.debug {
+						fmt.Println(fmt.Sprintf("Applying functor reflect_GroupByTimeAndMax %s", reflect_GroupByTimeAndMax ))
+					}
 					result, err = query.GroupByTimeAndMax(res)
 					if err != nil {
 						return nil, err
 					}
-				case reflect_GroupByTimeAndMax:
-					//result, err = query.GroupByTimeAndTag(res)
+				case reflect_GroupByTimeAndTag:
+					if p.opts.debug {
+						fmt.Println(fmt.Sprintf("Applying functor reflect_GroupByTimeAndTag %s", reflect_GroupByTimeAndTag ))
+					}
+					result, err = query.GroupByTimeAndTag(res)
 					if err != nil {
 						return nil, err
 					}
