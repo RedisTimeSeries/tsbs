@@ -145,7 +145,7 @@ func (d *Devops) GroupByTimeAndPrimaryTag(qi query.Query, numMetrics int) {
 	d.fillInQueryStrings(qi, humanLabel, humanDesc)
 	d.AddQuery(qi, redisQuery, []byte("TS.MRANGE"))
 	//if numMetrics > 1 {
-		functorName := query.GetFunctionName(query.GroupByTimeAndTagAvg)
+		functorName := query.GetFunctionName(query.GroupByTimeAndTagHostname)
 		d.SetApplyFunctor(qi, true, functorName )
 	//}
 }
@@ -198,15 +198,23 @@ func (d *Devops) MaxAllCPU(qi query.Query, nHosts int) {
 // LastPointPerHost finds the last row for every host in the dataset
 func (d *Devops) LastPointPerHost(qi query.Query) {
 	redisQuery := [][]byte{
-		//[]byte("TS.QUERYINDEX"), Just to help understanding
+		//[]byte("TS.MREVRANGE"), Just to help understanding
+		[]byte("+"),
+		[]byte("-"),
+		[]byte("COUNT"),
+		[]byte("1"),
+		[]byte("FILTER"),
 		[]byte("measurement=cpu"),
 		[]byte("hostname!="),
 	}
-	//redisQuery := fmt.Sprintf(`TS.QUERYINDEX measurement=cpu hostname!=`)
+
 	humanLabel := "RedisTimeSeries last row per host"
 	humanDesc := fmt.Sprintf("%s", humanLabel)
 	d.fillInQueryStrings(qi, humanLabel, humanDesc)
-	d.AddQuery(qi, redisQuery, []byte("TS.QUERYINDEX"))
+	d.AddQuery(qi, redisQuery, []byte("TS.MREVRANGE"))
+	functorName := query.GetFunctionName(query.GroupByTimeAndTagHostname)
+	d.SetApplyFunctor(qi, true, functorName )
+
 }
 
 func (d *Devops) HighCPUForHosts(qi query.Query, nHosts int) {

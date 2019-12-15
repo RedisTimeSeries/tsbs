@@ -73,7 +73,7 @@ func GroupByTimeAndTagMax(res interface{}) (result interface{}, err error) {
 	return
 }
 
-func GroupByTimeAndTagAvg(res interface{}) (result interface{}, err error) {
+func GroupByTimeAndTagHostname(res interface{}) (result interface{}, err error) {
 	parsedRes, err := redistimeseries.ParseRanges(res)
 	if err != nil {
 		return

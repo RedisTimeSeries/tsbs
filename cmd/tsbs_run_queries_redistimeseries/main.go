@@ -31,14 +31,15 @@ var (
 
 // Global vars:
 var (
-	runner                       *query.BenchmarkRunner
-	cmdMrange                    = []byte("TS.MRANGE")
-	cmdQueryIndex                = []byte("TS.QUERYINDEX")
-	reflect_SingleGroupByTime    = query.GetFunctionName(query.SingleGroupByTime)
-	reflect_GroupByTimeAndMax    = query.GetFunctionName(query.GroupByTimeAndMax)
-	reflect_GroupByTimeAndTagMax = query.GetFunctionName(query.GroupByTimeAndTagMax)
-	reflect_GroupByTimeAndTagAvg = query.GetFunctionName(query.GroupByTimeAndTagAvg)
-	reflect_HighCpu = query.GetFunctionName(query.HighCpu)
+	runner                            *query.BenchmarkRunner
+	cmdMrange                         = []byte("TS.MRANGE")
+	cmdMRevRange                         = []byte("TS.MREVRANGE")
+	cmdQueryIndex                     = []byte("TS.QUERYINDEX")
+	reflect_SingleGroupByTime         = query.GetFunctionName(query.SingleGroupByTime)
+	reflect_GroupByTimeAndMax         = query.GetFunctionName(query.GroupByTimeAndMax)
+	reflect_GroupByTimeAndTagMax      = query.GetFunctionName(query.GroupByTimeAndTagMax)
+	reflect_GroupByTimeAndTagHostname = query.GetFunctionName(query.GroupByTimeAndTagHostname)
+	reflect_HighCpu                   = query.GetFunctionName(query.HighCpu)
 )
 
 var (
@@ -230,7 +231,7 @@ func (p *processor) ProcessQuery(q query.Query, isWarm bool) (queryStats []*quer
 		if err != nil {
 			return nil, err
 		}
-		if bytes.Compare(tq.CommandNames[idx], cmdMrange) == 0 {
+		if bytes.Compare(tq.CommandNames[idx], cmdMrange) == 0 || bytes.Compare(tq.CommandNames[idx], cmdMRevRange) == 0 {
 
 			if err != nil {
 				return nil, err
@@ -264,11 +265,11 @@ func (p *processor) ProcessQuery(q query.Query, isWarm bool) (queryStats []*quer
 					if err != nil {
 						return nil, err
 					}
-				case reflect_GroupByTimeAndTagAvg:
+				case reflect_GroupByTimeAndTagHostname:
 					if p.opts.debug {
-						fmt.Println(fmt.Sprintf("Applying functor reflect_GroupByTimeAndTagAvg %s", reflect_GroupByTimeAndTagAvg ))
+						fmt.Println(fmt.Sprintf("Applying functor reflect_GroupByTimeAndTagHostname %s", reflect_GroupByTimeAndTagHostname))
 					}
-					result, err = query.GroupByTimeAndTagAvg(res)
+					result, err = query.GroupByTimeAndTagHostname(res)
 					if err != nil {
 						return nil, err
 					}
