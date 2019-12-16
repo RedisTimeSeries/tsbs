@@ -87,21 +87,21 @@ func (d *Devops) GroupByTime(qi query.Query, nHosts, numMetrics int, timeRange t
 	}
 	redisQuery = append(redisQuery, []byte(redisArg ))
 
-	humanLabel := devops.GetSingleGroupByLabel("RedisTimeSeries",numMetrics, nHosts, string(timeRange))
+	humanLabel := devops.GetSingleGroupByLabel("RedisTimeSeries", numMetrics, nHosts, string(timeRange))
 	humanDesc := fmt.Sprintf("%s: %s", humanLabel, interval.StartString())
 	d.fillInQueryStrings(qi, humanLabel, humanDesc)
 	d.AddQuery(qi, redisQuery, []byte("TS.MRANGE"))
 	if numMetrics > 1 && nHosts == 1 {
 		functorName := query.GetFunctionName(query.SingleGroupByTime)
-		d.SetApplyFunctor(qi, true, functorName )
+		d.SetApplyFunctor(qi, true, functorName)
 	}
 	if nHosts > 1 && numMetrics == 1 {
 		functorName := query.GetFunctionName(query.GroupByTimeAndMax)
-		d.SetApplyFunctor(qi, true, functorName )
+		d.SetApplyFunctor(qi, true, functorName)
 	}
 	if nHosts > 1 && numMetrics > 1 {
 		functorName := query.GetFunctionName(query.GroupByTimeAndTagMax)
-		d.SetApplyFunctor(qi, true, functorName )
+		d.SetApplyFunctor(qi, true, functorName)
 	}
 }
 
@@ -145,8 +145,8 @@ func (d *Devops) GroupByTimeAndPrimaryTag(qi query.Query, numMetrics int) {
 	d.fillInQueryStrings(qi, humanLabel, humanDesc)
 	d.AddQuery(qi, redisQuery, []byte("TS.MRANGE"))
 	//if numMetrics > 1 {
-		functorName := query.GetFunctionName(query.GroupByTimeAndTagHostname)
-		d.SetApplyFunctor(qi, true, functorName )
+	functorName := query.GetFunctionName(query.GroupByTimeAndTagHostname)
+	d.SetApplyFunctor(qi, true, functorName)
 	//}
 }
 
@@ -188,10 +188,10 @@ func (d *Devops) MaxAllCPU(qi query.Query, nHosts int) {
 	d.AddQuery(qi, redisQuery, []byte("TS.MRANGE"))
 	if nHosts == 1 {
 		functorName := query.GetFunctionName(query.SingleGroupByTime)
-		d.SetApplyFunctor(qi, true, functorName )
+		d.SetApplyFunctor(qi, true, functorName)
 	} else {
 		functorName := query.GetFunctionName(query.GroupByTimeAndTagMax)
-		d.SetApplyFunctor(qi, true, functorName )
+		d.SetApplyFunctor(qi, true, functorName)
 	}
 }
 
@@ -213,7 +213,7 @@ func (d *Devops) LastPointPerHost(qi query.Query) {
 	d.fillInQueryStrings(qi, humanLabel, humanDesc)
 	d.AddQuery(qi, redisQuery, []byte("TS.MREVRANGE"))
 	functorName := query.GetFunctionName(query.GroupByTimeAndTagHostname)
-	d.SetApplyFunctor(qi, true, functorName )
+	d.SetApplyFunctor(qi, true, functorName)
 
 }
 
@@ -250,7 +250,7 @@ func (d *Devops) HighCPUForHosts(qi query.Query, nHosts int) {
 	d.fillInQueryStrings(qi, humanLabel, humanDesc)
 	d.AddQuery(qi, redisQuery, []byte("TS.MRANGE"))
 	functorName := query.GetFunctionName(query.HighCpu)
-	d.SetApplyFunctor(qi, true, functorName )
+	d.SetApplyFunctor(qi, true, functorName)
 	//if nHosts == 1 {
 	//
 	//} else {
@@ -267,13 +267,14 @@ func (d *Devops) GroupByOrderByLimit(qi query.Query) {
 		//[]byte("TS.MREVRANGE"), Just to help understanding
 		[]byte(fmt.Sprintf("%d", interval.EndUnixMillis())),
 		[]byte("-"),
+		[]byte("COUNT"),
+		[]byte("5"),
 		[]byte("AGGREGATION"),
 		[]byte("MAX"),
 		[]byte(fmt.Sprintf("%d", oneMinuteMillis)),
 		[]byte("FILTER"),
 		[]byte("measurement=cpu"),
-		[]byte("LIMIT"),
-		[]byte("5"),
+		[]byte("fieldname=usage_user"),
 	}
 
 	humanLabel := devops.GetGroupByOrderByLimitLabel("RedisTimeSeries")
