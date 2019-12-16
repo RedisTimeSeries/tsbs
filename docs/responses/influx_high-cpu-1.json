@@ -1,14 +1,17 @@
 {
-  "results": [
-    {
-      "statement_id": 0
-    }
-  ]
+  "influxql": "SELECT * from cpu where usage_user \u003e 90.0 and (hostname = 'host_9') and time \u003e= '2016-01-01T06:16:22Z' and time \u003c '2016-01-01T18:16:22Z'",
+  "response": {
+    "results": [
+      {
+        "statement_id": 0
+      }
+    ]
+  }
 }
 
-Run complete after 1 queries with 1 workers (Overall query rate 43.00 queries/sec):
+Run complete after 1 queries with 1 workers (Overall query rate 75.46 queries/sec):
 Influx CPU over threshold, 1 host(s):
-min:    22.78ms, med:    22.78ms, mean:    22.78ms, max:   22.78ms, stddev:     0.00ms, sum:   0.0sec, count: 1
+min:    12.65ms, med:    12.65ms, mean:    12.65ms, max:   12.65ms, stddev:     0.00ms, sum:   0.0sec, count: 1
 all queries                         :
-min:    22.78ms, med:    22.78ms, mean:    22.78ms, max:   22.78ms, stddev:     0.00ms, sum:   0.0sec, count: 1
-wall clock time: 0.029802sec
+min:    12.65ms, med:    12.65ms, mean:    12.65ms, max:   12.65ms, stddev:     0.00ms, sum:   0.0sec, count: 1
+wall clock time: 0.017070sec
