@@ -1,0 +1,266 @@
+Issuing command (TS.MRANGE 1451679382646 1451682982646 AGGREGATION MAX 60000 FILTER measurement=cpu fieldname=usage_user hostname=(host_9,host_3,host_5,host_1,host_7,host_2,host_8,host_4))
+Applying functor github.com/timescale/tsbs/query.GroupByTimeAndMax on RedisTimeSeries MAX of 1 metrics,random    8 hosts, random � by 1m
+Applying functor reflect_GroupByTimeAndMax github.com/timescale/tsbs/query.GroupByTimeAndMax
+{
+  "query 1": {
+    "client_side_work": true,
+    "query": "TS.MRANGE 1451679382646 1451682982646 AGGREGATION MAX 60000 FILTER measurement=cpu fieldname=usage_user hostname=(host_9,host_3,host_5,host_1,host_7,host_2,host_8,host_4)",
+    "results": {
+      "Name": "max reduction over cpu_usage_user{1245923230} cpu_usage_user{1451654927} cpu_usage_user{147337842} cpu_usage_user{1578048592} cpu_usage_user{2157791835} cpu_usage_user{831020642} cpu_usage_user{911640529} cpu_usage_user{948008140}",
+      "Labels": null,
+      "DataPoints": [
+        {
+          "Timestamp": 1451679360000,
+          "Value": 72
+        },
+        {
+          "Timestamp": 1451679420000,
+          "Value": 70
+        },
+        {
+          "Timestamp": 1451679480000,
+          "Value": 72
+        },
+        {
+          "Timestamp": 1451679540000,
+          "Value": 74
+        },
+        {
+          "Timestamp": 1451679600000,
+          "Value": 72
+        },
+        {
+          "Timestamp": 1451679660000,
+          "Value": 67
+        },
+        {
+          "Timestamp": 1451679720000,
+          "Value": 66
+        },
+        {
+          "Timestamp": 1451679780000,
+          "Value": 65
+        },
+        {
+          "Timestamp": 1451679840000,
+          "Value": 64
+        },
+        {
+          "Timestamp": 1451679900000,
+          "Value": 64
+        },
+        {
+          "Timestamp": 1451679960000,
+          "Value": 65
+        },
+        {
+          "Timestamp": 1451680020000,
+          "Value": 64
+        },
+        {
+          "Timestamp": 1451680080000,
+          "Value": 66
+        },
+        {
+          "Timestamp": 1451680140000,
+          "Value": 68
+        },
+        {
+          "Timestamp": 1451680200000,
+          "Value": 68
+        },
+        {
+          "Timestamp": 1451680260000,
+          "Value": 71
+        },
+        {
+          "Timestamp": 1451680320000,
+          "Value": 71
+        },
+        {
+          "Timestamp": 1451680380000,
+          "Value": 69
+        },
+        {
+          "Timestamp": 1451680440000,
+          "Value": 69
+        },
+        {
+          "Timestamp": 1451680500000,
+          "Value": 67
+        },
+        {
+          "Timestamp": 1451680560000,
+          "Value": 69
+        },
+        {
+          "Timestamp": 1451680620000,
+          "Value": 69
+        },
+        {
+          "Timestamp": 1451680680000,
+          "Value": 65
+        },
+        {
+          "Timestamp": 1451680740000,
+          "Value": 67
+        },
+        {
+          "Timestamp": 1451680800000,
+          "Value": 69
+        },
+        {
+          "Timestamp": 1451680860000,
+          "Value": 69
+        },
+        {
+          "Timestamp": 1451680920000,
+          "Value": 68
+        },
+        {
+          "Timestamp": 1451680980000,
+          "Value": 66
+        },
+        {
+          "Timestamp": 1451681040000,
+          "Value": 63
+        },
+        {
+          "Timestamp": 1451681100000,
+          "Value": 65
+        },
+        {
+          "Timestamp": 1451681160000,
+          "Value": 65
+        },
+        {
+          "Timestamp": 1451681220000,
+          "Value": 63
+        },
+        {
+          "Timestamp": 1451681280000,
+          "Value": 60
+        },
+        {
+          "Timestamp": 1451681340000,
+          "Value": 59
+        },
+        {
+          "Timestamp": 1451681400000,
+          "Value": 62
+        },
+        {
+          "Timestamp": 1451681460000,
+          "Value": 67
+        },
+        {
+          "Timestamp": 1451681520000,
+          "Value": 68
+        },
+        {
+          "Timestamp": 1451681580000,
+          "Value": 67
+        },
+        {
+          "Timestamp": 1451681640000,
+          "Value": 67
+        },
+        {
+          "Timestamp": 1451681700000,
+          "Value": 64
+        },
+        {
+          "Timestamp": 1451681760000,
+          "Value": 66
+        },
+        {
+          "Timestamp": 1451681820000,
+          "Value": 63
+        },
+        {
+          "Timestamp": 1451681880000,
+          "Value": 64
+        },
+        {
+          "Timestamp": 1451681940000,
+          "Value": 66
+        },
+        {
+          "Timestamp": 1451682000000,
+          "Value": 67
+        },
+        {
+          "Timestamp": 1451682060000,
+          "Value": 72
+        },
+        {
+          "Timestamp": 1451682120000,
+          "Value": 74
+        },
+        {
+          "Timestamp": 1451682180000,
+          "Value": 76
+        },
+        {
+          "Timestamp": 1451682240000,
+          "Value": 75
+        },
+        {
+          "Timestamp": 1451682300000,
+          "Value": 75
+        },
+        {
+          "Timestamp": 1451682360000,
+          "Value": 72
+        },
+        {
+          "Timestamp": 1451682420000,
+          "Value": 72
+        },
+        {
+          "Timestamp": 1451682480000,
+          "Value": 70
+        },
+        {
+          "Timestamp": 1451682540000,
+          "Value": 70
+        },
+        {
+          "Timestamp": 1451682600000,
+          "Value": 68
+        },
+        {
+          "Timestamp": 1451682660000,
+          "Value": 68
+        },
+        {
+          "Timestamp": 1451682720000,
+          "Value": 67
+        },
+        {
+          "Timestamp": 1451682780000,
+          "Value": 70
+        },
+        {
+          "Timestamp": 1451682840000,
+          "Value": 71
+        },
+        {
+          "Timestamp": 1451682900000,
+          "Value": 71
+        },
+        {
+          "Timestamp": 1451682960000,
+          "Value": 72
+        }
+      ]
+    }
+  }
+}
+
+Run complete after 1 queries with 1 workers (Overall query rate 235.38 queries/sec):
+RedisTimeSeries MAX of 1 metrics,random    8 hosts, random � by 1m:
+min:     1.24ms, med:     1.24ms, mean:     1.24ms, max:    1.24ms, stddev:     0.00ms, sum:   0.0sec, count: 1
+all queries                                                         :
+min:     1.24ms, med:     1.24ms, mean:     1.24ms, max:    1.24ms, stddev:     0.00ms, sum:   0.0sec, count: 1
+wall clock time: 0.005143sec

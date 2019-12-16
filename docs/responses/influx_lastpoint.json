@@ -1,0 +1,536 @@
+{
+  "results": [
+    {
+      "statement_id": 0,
+      "series": [
+        {
+          "name": "cpu",
+          "tags": {
+            "hostname": "host_9"
+          },
+          "columns": [
+            "time",
+            "arch",
+            "datacenter",
+            "os",
+            "rack",
+            "region",
+            "service",
+            "service_environment",
+            "service_version",
+            "team",
+            "usage_guest",
+            "usage_guest_nice",
+            "usage_idle",
+            "usage_iowait",
+            "usage_irq",
+            "usage_nice",
+            "usage_softirq",
+            "usage_steal",
+            "usage_system",
+            "usage_user"
+          ],
+          "values": [
+            [
+              "2016-01-01T23:59:50Z",
+              "x86",
+              "ap-southeast-2a",
+              "Ubuntu16.04LTS",
+              "0",
+              "ap-southeast-2",
+              "18",
+              "production",
+              "0",
+              "CHI",
+              52,
+              22,
+              46,
+              38,
+              19,
+              28,
+              6,
+              81,
+              81,
+              74
+            ]
+          ]
+        },
+        {
+          "name": "cpu",
+          "tags": {
+            "hostname": "host_8"
+          },
+          "columns": [
+            "time",
+            "arch",
+            "datacenter",
+            "os",
+            "rack",
+            "region",
+            "service",
+            "service_environment",
+            "service_version",
+            "team",
+            "usage_guest",
+            "usage_guest_nice",
+            "usage_idle",
+            "usage_iowait",
+            "usage_irq",
+            "usage_nice",
+            "usage_softirq",
+            "usage_steal",
+            "usage_system",
+            "usage_user"
+          ],
+          "values": [
+            [
+              "2016-01-01T23:59:50Z",
+              "x64",
+              "eu-west-1a",
+              "Ubuntu16.04LTS",
+              "17",
+              "eu-west-1",
+              "2",
+              "test",
+              "0",
+              "LON",
+              49,
+              38,
+              44,
+              78,
+              55,
+              33,
+              31,
+              72,
+              81,
+              79
+            ]
+          ]
+        },
+        {
+          "name": "cpu",
+          "tags": {
+            "hostname": "host_7"
+          },
+          "columns": [
+            "time",
+            "arch",
+            "datacenter",
+            "os",
+            "rack",
+            "region",
+            "service",
+            "service_environment",
+            "service_version",
+            "team",
+            "usage_guest",
+            "usage_guest_nice",
+            "usage_idle",
+            "usage_iowait",
+            "usage_irq",
+            "usage_nice",
+            "usage_softirq",
+            "usage_steal",
+            "usage_system",
+            "usage_user"
+          ],
+          "values": [
+            [
+              "2016-01-01T23:59:50Z",
+              "x64",
+              "eu-west-1c",
+              "Ubuntu16.10",
+              "44",
+              "eu-west-1",
+              "7",
+              "test",
+              "1",
+              "LON",
+              19,
+              67,
+              57,
+              11,
+              32,
+              6,
+              70,
+              0,
+              61,
+              52
+            ]
+          ]
+        },
+        {
+          "name": "cpu",
+          "tags": {
+            "hostname": "host_6"
+          },
+          "columns": [
+            "time",
+            "arch",
+            "datacenter",
+            "os",
+            "rack",
+            "region",
+            "service",
+            "service_environment",
+            "service_version",
+            "team",
+            "usage_guest",
+            "usage_guest_nice",
+            "usage_idle",
+            "usage_iowait",
+            "usage_irq",
+            "usage_nice",
+            "usage_softirq",
+            "usage_steal",
+            "usage_system",
+            "usage_user"
+          ],
+          "values": [
+            [
+              "2016-01-01T23:59:50Z",
+              "x86",
+              "ap-southeast-1b",
+              "Ubuntu16.10",
+              "49",
+              "ap-southeast-1",
+              "7",
+              "staging",
+              "0",
+              "CHI",
+              17,
+              97,
+              43,
+              60,
+              42,
+              65,
+              49,
+              63,
+              81,
+              48
+            ]
+          ]
+        },
+        {
+          "name": "cpu",
+          "tags": {
+            "hostname": "host_5"
+          },
+          "columns": [
+            "time",
+            "arch",
+            "datacenter",
+            "os",
+            "rack",
+            "region",
+            "service",
+            "service_environment",
+            "service_version",
+            "team",
+            "usage_guest",
+            "usage_guest_nice",
+            "usage_idle",
+            "usage_iowait",
+            "usage_irq",
+            "usage_nice",
+            "usage_softirq",
+            "usage_steal",
+            "usage_system",
+            "usage_user"
+          ],
+          "values": [
+            [
+              "2016-01-01T23:59:50Z",
+              "x64",
+              "us-west-1b",
+              "Ubuntu16.10",
+              "18",
+              "us-west-1",
+              "14",
+              "staging",
+              "0",
+              "CHI",
+              70,
+              27,
+              30,
+              9,
+              34,
+              64,
+              47,
+              0,
+              51,
+              7
+            ]
+          ]
+        },
+        {
+          "name": "cpu",
+          "tags": {
+            "hostname": "host_4"
+          },
+          "columns": [
+            "time",
+            "arch",
+            "datacenter",
+            "os",
+            "rack",
+            "region",
+            "service",
+            "service_environment",
+            "service_version",
+            "team",
+            "usage_guest",
+            "usage_guest_nice",
+            "usage_idle",
+            "usage_iowait",
+            "usage_irq",
+            "usage_nice",
+            "usage_softirq",
+            "usage_steal",
+            "usage_system",
+            "usage_user"
+          ],
+          "values": [
+            [
+              "2016-01-01T23:59:50Z",
+              "x86",
+              "sa-east-1c",
+              "Ubuntu16.10",
+              "74",
+              "sa-east-1",
+              "7",
+              "staging",
+              "0",
+              "SF",
+              88,
+              37,
+              70,
+              52,
+              85,
+              53,
+              15,
+              10,
+              37,
+              2
+            ]
+          ]
+        },
+        {
+          "name": "cpu",
+          "tags": {
+            "hostname": "host_3"
+          },
+          "columns": [
+            "time",
+            "arch",
+            "datacenter",
+            "os",
+            "rack",
+            "region",
+            "service",
+            "service_environment",
+            "service_version",
+            "team",
+            "usage_guest",
+            "usage_guest_nice",
+            "usage_idle",
+            "usage_iowait",
+            "usage_irq",
+            "usage_nice",
+            "usage_softirq",
+            "usage_steal",
+            "usage_system",
+            "usage_user"
+          ],
+          "values": [
+            [
+              "2016-01-01T23:59:50Z",
+              "x64",
+              "us-west-2b",
+              "Ubuntu15.10",
+              "12",
+              "us-west-2",
+              "18",
+              "production",
+              "1",
+              "CHI",
+              23,
+              39,
+              58,
+              11,
+              34,
+              80,
+              41,
+              97,
+              59,
+              17
+            ]
+          ]
+        },
+        {
+          "name": "cpu",
+          "tags": {
+            "hostname": "host_2"
+          },
+          "columns": [
+            "time",
+            "arch",
+            "datacenter",
+            "os",
+            "rack",
+            "region",
+            "service",
+            "service_environment",
+            "service_version",
+            "team",
+            "usage_guest",
+            "usage_guest_nice",
+            "usage_idle",
+            "usage_iowait",
+            "usage_irq",
+            "usage_nice",
+            "usage_softirq",
+            "usage_steal",
+            "usage_system",
+            "usage_user"
+          ],
+          "values": [
+            [
+              "2016-01-01T23:59:50Z",
+              "x86",
+              "sa-east-1a",
+              "Ubuntu16.04LTS",
+              "89",
+              "sa-east-1",
+              "13",
+              "staging",
+              "0",
+              "LON",
+              69,
+              22,
+              24,
+              90,
+              24,
+              67,
+              35,
+              45,
+              46,
+              5
+            ]
+          ]
+        },
+        {
+          "name": "cpu",
+          "tags": {
+            "hostname": "host_1"
+          },
+          "columns": [
+            "time",
+            "arch",
+            "datacenter",
+            "os",
+            "rack",
+            "region",
+            "service",
+            "service_environment",
+            "service_version",
+            "team",
+            "usage_guest",
+            "usage_guest_nice",
+            "usage_idle",
+            "usage_iowait",
+            "usage_irq",
+            "usage_nice",
+            "usage_softirq",
+            "usage_steal",
+            "usage_system",
+            "usage_user"
+          ],
+          "values": [
+            [
+              "2016-01-01T23:59:50Z",
+              "x64",
+              "us-west-1a",
+              "Ubuntu15.10",
+              "41",
+              "us-west-1",
+              "9",
+              "staging",
+              "1",
+              "NYC",
+              67,
+              8,
+              58,
+              87,
+              13,
+              81,
+              92,
+              53,
+              48,
+              76
+            ]
+          ]
+        },
+        {
+          "name": "cpu",
+          "tags": {
+            "hostname": "host_0"
+          },
+          "columns": [
+            "time",
+            "arch",
+            "datacenter",
+            "os",
+            "rack",
+            "region",
+            "service",
+            "service_environment",
+            "service_version",
+            "team",
+            "usage_guest",
+            "usage_guest_nice",
+            "usage_idle",
+            "usage_iowait",
+            "usage_irq",
+            "usage_nice",
+            "usage_softirq",
+            "usage_steal",
+            "usage_system",
+            "usage_user"
+          ],
+          "values": [
+            [
+              "2016-01-01T23:59:50Z",
+              "x86",
+              "eu-central-1a",
+              "Ubuntu15.10",
+              "6",
+              "eu-central-1",
+              "19",
+              "test",
+              "1",
+              "SF",
+              17,
+              84,
+              22,
+              5,
+              76,
+              8,
+              94,
+              52,
+              34,
+              69
+            ]
+          ]
+        }
+      ]
+    }
+  ]
+}
+
+Run complete after 1 queries with 1 workers (Overall query rate 11.71 queries/sec):
+Influx last row per host:
+min:    84.30ms, med:    84.31ms, mean:    84.31ms, max:   84.31ms, stddev:     0.00ms, sum:   0.1sec, count: 1
+all queries             :
+min:    84.30ms, med:    84.31ms, mean:    84.31ms, max:   84.31ms, stddev:     0.00ms, sum:   0.1sec, count: 1
+wall clock time: 0.099490sec

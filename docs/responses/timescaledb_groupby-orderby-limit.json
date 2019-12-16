@@ -1,0 +1,32 @@
+{
+  "query": "SELECT time_bucket('60 seconds', time) AS minute, max(usage_user)\n        FROM cpu\n        WHERE time \u003c '2016-01-01 21:16:22.646325 +0000'\n        GROUP BY minute\n        ORDER BY minute DESC\n        LIMIT 5",
+  "results": [
+    {
+      "max": 72,
+      "minute": "2016-01-01T21:16:00Z"
+    },
+    {
+      "max": 71,
+      "minute": "2016-01-01T21:15:00Z"
+    },
+    {
+      "max": 71,
+      "minute": "2016-01-01T21:14:00Z"
+    },
+    {
+      "max": 70,
+      "minute": "2016-01-01T21:13:00Z"
+    },
+    {
+      "max": 67,
+      "minute": "2016-01-01T21:12:00Z"
+    }
+  ]
+}
+
+Run complete after 1 queries with 1 workers (Overall query rate 58.97 queries/sec):
+TimescaleDB max cpu over last 5 min-intervals (random end):
+min:    16.55ms, med:    16.55ms, mean:    16.55ms, max:   16.55ms, stddev:     0.00ms, sum:   0.0sec, count: 1
+all queries                                               :
+min:    16.55ms, med:    16.55ms, mean:    16.55ms, max:   16.55ms, stddev:     0.00ms, sum:   0.0sec, count: 1
+wall clock time: 0.023745sec

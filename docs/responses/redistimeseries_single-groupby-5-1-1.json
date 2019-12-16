@@ -1,0 +1,770 @@
+Issuing command (TS.MRANGE 1451679382646 1451682982646 AGGREGATION MAX 60000 FILTER measurement=cpu fieldname=(usage_user,usage_system,usage_idle,usage_nice,usage_iowait) hostname=host_9)
+Applying functor github.com/timescale/tsbs/query.SingleGroupByTime on RedisTimeSeries MAX of 5 metrics,random    1 hosts, random � by 1m
+Applying functor reflect_SingleGroupByTime github.com/timescale/tsbs/query.SingleGroupByTime
+{
+  "query 1": {
+    "client_side_work": true,
+    "query": "TS.MRANGE 1451679382646 1451682982646 AGGREGATION MAX 60000 FILTER measurement=cpu fieldname=(usage_user,usage_system,usage_idle,usage_nice,usage_iowait) hostname=host_9",
+    "results": {
+      "datapoints": [
+        {
+          "Timestamp": 1451679360000,
+          "HumanReadbleTime": "2016-01-01T20:16:00Z",
+          "Values": [
+            37,
+            85,
+            49,
+            87,
+            20
+          ]
+        },
+        {
+          "Timestamp": 1451679420000,
+          "HumanReadbleTime": "2016-01-01T20:17:00Z",
+          "Values": [
+            37,
+            84,
+            48,
+            91,
+            22
+          ]
+        },
+        {
+          "Timestamp": 1451679480000,
+          "HumanReadbleTime": "2016-01-01T20:18:00Z",
+          "Values": [
+            39,
+            82,
+            47,
+            91,
+            21
+          ]
+        },
+        {
+          "Timestamp": 1451679540000,
+          "HumanReadbleTime": "2016-01-01T20:19:00Z",
+          "Values": [
+            40,
+            82,
+            46,
+            90,
+            24
+          ]
+        },
+        {
+          "Timestamp": 1451679600000,
+          "HumanReadbleTime": "2016-01-01T20:20:00Z",
+          "Values": [
+            40,
+            82,
+            45,
+            91,
+            25
+          ]
+        },
+        {
+          "Timestamp": 1451679660000,
+          "HumanReadbleTime": "2016-01-01T20:21:00Z",
+          "Values": [
+            41,
+            82,
+            47,
+            89,
+            24
+          ]
+        },
+        {
+          "Timestamp": 1451679720000,
+          "HumanReadbleTime": "2016-01-01T20:22:00Z",
+          "Values": [
+            39,
+            80,
+            48,
+            93,
+            27
+          ]
+        },
+        {
+          "Timestamp": 1451679780000,
+          "HumanReadbleTime": "2016-01-01T20:23:00Z",
+          "Values": [
+            38,
+            77,
+            49,
+            91,
+            27
+          ]
+        },
+        {
+          "Timestamp": 1451679840000,
+          "HumanReadbleTime": "2016-01-01T20:24:00Z",
+          "Values": [
+            37,
+            80,
+            49,
+            88,
+            29
+          ]
+        },
+        {
+          "Timestamp": 1451679900000,
+          "HumanReadbleTime": "2016-01-01T20:25:00Z",
+          "Values": [
+            38,
+            78,
+            50,
+            82,
+            30
+          ]
+        },
+        {
+          "Timestamp": 1451679960000,
+          "HumanReadbleTime": "2016-01-01T20:26:00Z",
+          "Values": [
+            40,
+            76,
+            47,
+            82,
+            29
+          ]
+        },
+        {
+          "Timestamp": 1451680020000,
+          "HumanReadbleTime": "2016-01-01T20:27:00Z",
+          "Values": [
+            40,
+            75,
+            47,
+            78,
+            29
+          ]
+        },
+        {
+          "Timestamp": 1451680080000,
+          "HumanReadbleTime": "2016-01-01T20:28:00Z",
+          "Values": [
+            39,
+            77,
+            49,
+            77,
+            29
+          ]
+        },
+        {
+          "Timestamp": 1451680140000,
+          "HumanReadbleTime": "2016-01-01T20:29:00Z",
+          "Values": [
+            41,
+            78,
+            52,
+            77,
+            29
+          ]
+        },
+        {
+          "Timestamp": 1451680200000,
+          "HumanReadbleTime": "2016-01-01T20:30:00Z",
+          "Values": [
+            42,
+            75,
+            56,
+            79,
+            29
+          ]
+        },
+        {
+          "Timestamp": 1451680260000,
+          "HumanReadbleTime": "2016-01-01T20:31:00Z",
+          "Values": [
+            44,
+            72,
+            58,
+            82,
+            30
+          ]
+        },
+        {
+          "Timestamp": 1451680320000,
+          "HumanReadbleTime": "2016-01-01T20:32:00Z",
+          "Values": [
+            46,
+            70,
+            61,
+            84,
+            28
+          ]
+        },
+        {
+          "Timestamp": 1451680380000,
+          "HumanReadbleTime": "2016-01-01T20:33:00Z",
+          "Values": [
+            46,
+            63,
+            63,
+            83,
+            29
+          ]
+        },
+        {
+          "Timestamp": 1451680440000,
+          "HumanReadbleTime": "2016-01-01T20:34:00Z",
+          "Values": [
+            46,
+            60,
+            63,
+            84,
+            30
+          ]
+        },
+        {
+          "Timestamp": 1451680500000,
+          "HumanReadbleTime": "2016-01-01T20:35:00Z",
+          "Values": [
+            48,
+            65,
+            62,
+            87,
+            34
+          ]
+        },
+        {
+          "Timestamp": 1451680560000,
+          "HumanReadbleTime": "2016-01-01T20:36:00Z",
+          "Values": [
+            50,
+            67,
+            59,
+            86,
+            35
+          ]
+        },
+        {
+          "Timestamp": 1451680620000,
+          "HumanReadbleTime": "2016-01-01T20:37:00Z",
+          "Values": [
+            52,
+            68,
+            57,
+            87,
+            37
+          ]
+        },
+        {
+          "Timestamp": 1451680680000,
+          "HumanReadbleTime": "2016-01-01T20:38:00Z",
+          "Values": [
+            53,
+            67,
+            60,
+            88,
+            37
+          ]
+        },
+        {
+          "Timestamp": 1451680740000,
+          "HumanReadbleTime": "2016-01-01T20:39:00Z",
+          "Values": [
+            53,
+            64,
+            59,
+            89,
+            34
+          ]
+        },
+        {
+          "Timestamp": 1451680800000,
+          "HumanReadbleTime": "2016-01-01T20:40:00Z",
+          "Values": [
+            52,
+            63,
+            59,
+            90,
+            34
+          ]
+        },
+        {
+          "Timestamp": 1451680860000,
+          "HumanReadbleTime": "2016-01-01T20:41:00Z",
+          "Values": [
+            48,
+            63,
+            57,
+            92,
+            32
+          ]
+        },
+        {
+          "Timestamp": 1451680920000,
+          "HumanReadbleTime": "2016-01-01T20:42:00Z",
+          "Values": [
+            48,
+            61,
+            57,
+            92,
+            31
+          ]
+        },
+        {
+          "Timestamp": 1451680980000,
+          "HumanReadbleTime": "2016-01-01T20:43:00Z",
+          "Values": [
+            49,
+            62,
+            60,
+            92,
+            33
+          ]
+        },
+        {
+          "Timestamp": 1451681040000,
+          "HumanReadbleTime": "2016-01-01T20:44:00Z",
+          "Values": [
+            48,
+            60,
+            61,
+            93,
+            34
+          ]
+        },
+        {
+          "Timestamp": 1451681100000,
+          "HumanReadbleTime": "2016-01-01T20:45:00Z",
+          "Values": [
+            44,
+            58,
+            63,
+            94,
+            33
+          ]
+        },
+        {
+          "Timestamp": 1451681160000,
+          "HumanReadbleTime": "2016-01-01T20:46:00Z",
+          "Values": [
+            45,
+            56,
+            62,
+            97,
+            30
+          ]
+        },
+        {
+          "Timestamp": 1451681220000,
+          "HumanReadbleTime": "2016-01-01T20:47:00Z",
+          "Values": [
+            46,
+            53,
+            62,
+            94,
+            29
+          ]
+        },
+        {
+          "Timestamp": 1451681280000,
+          "HumanReadbleTime": "2016-01-01T20:48:00Z",
+          "Values": [
+            46,
+            54,
+            61,
+            93,
+            30
+          ]
+        },
+        {
+          "Timestamp": 1451681340000,
+          "HumanReadbleTime": "2016-01-01T20:49:00Z",
+          "Values": [
+            50,
+            54,
+            62,
+            91,
+            29
+          ]
+        },
+        {
+          "Timestamp": 1451681400000,
+          "HumanReadbleTime": "2016-01-01T20:50:00Z",
+          "Values": [
+            50,
+            55,
+            62,
+            92,
+            27
+          ]
+        },
+        {
+          "Timestamp": 1451681460000,
+          "HumanReadbleTime": "2016-01-01T20:51:00Z",
+          "Values": [
+            55,
+            58,
+            61,
+            93,
+            29
+          ]
+        },
+        {
+          "Timestamp": 1451681520000,
+          "HumanReadbleTime": "2016-01-01T20:52:00Z",
+          "Values": [
+            58,
+            58,
+            64,
+            95,
+            33
+          ]
+        },
+        {
+          "Timestamp": 1451681580000,
+          "HumanReadbleTime": "2016-01-01T20:53:00Z",
+          "Values": [
+            60,
+            59,
+            66,
+            95,
+            33
+          ]
+        },
+        {
+          "Timestamp": 1451681640000,
+          "HumanReadbleTime": "2016-01-01T20:54:00Z",
+          "Values": [
+            60,
+            61,
+            66,
+            100,
+            35
+          ]
+        },
+        {
+          "Timestamp": 1451681700000,
+          "HumanReadbleTime": "2016-01-01T20:55:00Z",
+          "Values": [
+            62,
+            62,
+            69,
+            100,
+            32
+          ]
+        },
+        {
+          "Timestamp": 1451681760000,
+          "HumanReadbleTime": "2016-01-01T20:56:00Z",
+          "Values": [
+            62,
+            61,
+            69,
+            99,
+            38
+          ]
+        },
+        {
+          "Timestamp": 1451681820000,
+          "HumanReadbleTime": "2016-01-01T20:57:00Z",
+          "Values": [
+            66,
+            60,
+            71,
+            96,
+            38
+          ]
+        },
+        {
+          "Timestamp": 1451681880000,
+          "HumanReadbleTime": "2016-01-01T20:58:00Z",
+          "Values": [
+            67,
+            61,
+            70,
+            96,
+            38
+          ]
+        },
+        {
+          "Timestamp": 1451681940000,
+          "HumanReadbleTime": "2016-01-01T20:59:00Z",
+          "Values": [
+            68,
+            64,
+            71,
+            100,
+            36
+          ]
+        },
+        {
+          "Timestamp": 1451682000000,
+          "HumanReadbleTime": "2016-01-01T21:00:00Z",
+          "Values": [
+            63,
+            65,
+            73,
+            97,
+            34
+          ]
+        },
+        {
+          "Timestamp": 1451682060000,
+          "HumanReadbleTime": "2016-01-01T21:01:00Z",
+          "Values": [
+            62,
+            68,
+            72,
+            97,
+            35
+          ]
+        },
+        {
+          "Timestamp": 1451682120000,
+          "HumanReadbleTime": "2016-01-01T21:02:00Z",
+          "Values": [
+            62,
+            67,
+            74,
+            99,
+            34
+          ]
+        },
+        {
+          "Timestamp": 1451682180000,
+          "HumanReadbleTime": "2016-01-01T21:03:00Z",
+          "Values": [
+            60,
+            68,
+            74,
+            98,
+            32
+          ]
+        },
+        {
+          "Timestamp": 1451682240000,
+          "HumanReadbleTime": "2016-01-01T21:04:00Z",
+          "Values": [
+            58,
+            67,
+            72,
+            100,
+            32
+          ]
+        },
+        {
+          "Timestamp": 1451682300000,
+          "HumanReadbleTime": "2016-01-01T21:05:00Z",
+          "Values": [
+            57,
+            66,
+            72,
+            100,
+            33
+          ]
+        },
+        {
+          "Timestamp": 1451682360000,
+          "HumanReadbleTime": "2016-01-01T21:06:00Z",
+          "Values": [
+            57,
+            66,
+            66,
+            100,
+            32
+          ]
+        },
+        {
+          "Timestamp": 1451682420000,
+          "HumanReadbleTime": "2016-01-01T21:07:00Z",
+          "Values": [
+            61,
+            67,
+            63,
+            100,
+            36
+          ]
+        },
+        {
+          "Timestamp": 1451682480000,
+          "HumanReadbleTime": "2016-01-01T21:08:00Z",
+          "Values": [
+            62,
+            65,
+            62,
+            100,
+            37
+          ]
+        },
+        {
+          "Timestamp": 1451682540000,
+          "HumanReadbleTime": "2016-01-01T21:09:00Z",
+          "Values": [
+            65,
+            66,
+            65,
+            99,
+            38
+          ]
+        },
+        {
+          "Timestamp": 1451682600000,
+          "HumanReadbleTime": "2016-01-01T21:10:00Z",
+          "Values": [
+            65,
+            68,
+            67,
+            100,
+            37
+          ]
+        },
+        {
+          "Timestamp": 1451682660000,
+          "HumanReadbleTime": "2016-01-01T21:11:00Z",
+          "Values": [
+            66,
+            70,
+            65,
+            100,
+            38
+          ]
+        },
+        {
+          "Timestamp": 1451682720000,
+          "HumanReadbleTime": "2016-01-01T21:12:00Z",
+          "Values": [
+            66,
+            72,
+            67,
+            98,
+            40
+          ]
+        },
+        {
+          "Timestamp": 1451682780000,
+          "HumanReadbleTime": "2016-01-01T21:13:00Z",
+          "Values": [
+            68,
+            70,
+            68,
+            95,
+            35
+          ]
+        },
+        {
+          "Timestamp": 1451682840000,
+          "HumanReadbleTime": "2016-01-01T21:14:00Z",
+          "Values": [
+            67,
+            64,
+            70,
+            97,
+            37
+          ]
+        },
+        {
+          "Timestamp": 1451682900000,
+          "HumanReadbleTime": "2016-01-01T21:15:00Z",
+          "Values": [
+            70,
+            67,
+            76,
+            97,
+            37
+          ]
+        },
+        {
+          "Timestamp": 1451682960000,
+          "HumanReadbleTime": "2016-01-01T21:16:00Z",
+          "Values": [
+            67,
+            65,
+            73,
+            96,
+            35
+          ]
+        }
+      ],
+      "labels": [
+        {
+          "arch": "x86",
+          "datacenter": "ap-southeast-2a",
+          "fieldname": "usage_idle",
+          "hostname": "host_9",
+          "measurement": "cpu",
+          "os": "Ubuntu16.04LTS",
+          "rack": "0",
+          "region": "ap-southeast-2",
+          "service": "18",
+          "service_environment": "production",
+          "service_version": "0",
+          "team": "CHI"
+        },
+        {
+          "arch": "x86",
+          "datacenter": "ap-southeast-2a",
+          "fieldname": "usage_iowait",
+          "hostname": "host_9",
+          "measurement": "cpu",
+          "os": "Ubuntu16.04LTS",
+          "rack": "0",
+          "region": "ap-southeast-2",
+          "service": "18",
+          "service_environment": "production",
+          "service_version": "0",
+          "team": "CHI"
+        },
+        {
+          "arch": "x86",
+          "datacenter": "ap-southeast-2a",
+          "fieldname": "usage_nice",
+          "hostname": "host_9",
+          "measurement": "cpu",
+          "os": "Ubuntu16.04LTS",
+          "rack": "0",
+          "region": "ap-southeast-2",
+          "service": "18",
+          "service_environment": "production",
+          "service_version": "0",
+          "team": "CHI"
+        },
+        {
+          "arch": "x86",
+          "datacenter": "ap-southeast-2a",
+          "fieldname": "usage_system",
+          "hostname": "host_9",
+          "measurement": "cpu",
+          "os": "Ubuntu16.04LTS",
+          "rack": "0",
+          "region": "ap-southeast-2",
+          "service": "18",
+          "service_environment": "production",
+          "service_version": "0",
+          "team": "CHI"
+        },
+        {
+          "arch": "x86",
+          "datacenter": "ap-southeast-2a",
+          "fieldname": "usage_user",
+          "hostname": "host_9",
+          "measurement": "cpu",
+          "os": "Ubuntu16.04LTS",
+          "rack": "0",
+          "region": "ap-southeast-2",
+          "service": "18",
+          "service_environment": "production",
+          "service_version": "0",
+          "team": "CHI"
+        }
+      ],
+      "names": [
+        "cpu_usage_idle{1451654927}",
+        "cpu_usage_iowait{1451654927}",
+        "cpu_usage_nice{1451654927}",
+        "cpu_usage_system{1451654927}",
+        "cpu_usage_user{1451654927}"
+      ]
+    }
+  }
+}
+
+Run complete after 1 queries with 1 workers (Overall query rate 217.18 queries/sec):
+RedisTimeSeries MAX of 5 metrics,random    1 hosts, random � by 1m:
+min:     1.17ms, med:     1.17ms, mean:     1.17ms, max:    1.17ms, stddev:     0.00ms, sum:   0.0sec, count: 1
+all queries                                                         :
+min:     1.17ms, med:     1.17ms, mean:     1.17ms, max:    1.17ms, stddev:     0.00ms, sum:   0.0sec, count: 1
+wall clock time: 0.005754sec

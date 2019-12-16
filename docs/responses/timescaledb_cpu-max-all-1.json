@@ -1,0 +1,129 @@
+{
+  "query": "SELECT time_bucket('3600 seconds', time) AS hour,\n        max(usage_user) as max_usage_user, max(usage_system) as max_usage_system, max(usage_idle) as max_usage_idle, max(usage_nice) as max_usage_nice, max(usage_iowait) as max_usage_iowait, max(usage_irq) as max_usage_irq, max(usage_softirq) as max_usage_softirq, max(usage_steal) as max_usage_steal, max(usage_guest) as max_usage_guest, max(usage_guest_nice) as max_usage_guest_nice\n        FROM cpu\n        WHERE tags_id IN (SELECT id FROM tags WHERE hostname IN ('host_9')) AND time \u003e= '2016-01-01 02:16:22.646325 +0000' AND time \u003c '2016-01-01 10:16:22.646325 +0000'\n        GROUP BY hour ORDER BY hour",
+  "results": [
+    {
+      "hour": "2016-01-01T02:00:00Z",
+      "max_usage_guest": 38,
+      "max_usage_guest_nice": 52,
+      "max_usage_idle": 55,
+      "max_usage_iowait": 46,
+      "max_usage_irq": 25,
+      "max_usage_nice": 17,
+      "max_usage_softirq": 33,
+      "max_usage_steal": 44,
+      "max_usage_system": 11,
+      "max_usage_user": 48
+    },
+    {
+      "hour": "2016-01-01T03:00:00Z",
+      "max_usage_guest": 40,
+      "max_usage_guest_nice": 59,
+      "max_usage_idle": 84,
+      "max_usage_iowait": 52,
+      "max_usage_irq": 35,
+      "max_usage_nice": 27,
+      "max_usage_softirq": 33,
+      "max_usage_steal": 85,
+      "max_usage_system": 9,
+      "max_usage_user": 27
+    },
+    {
+      "hour": "2016-01-01T04:00:00Z",
+      "max_usage_guest": 33,
+      "max_usage_guest_nice": 68,
+      "max_usage_idle": 74,
+      "max_usage_iowait": 83,
+      "max_usage_irq": 31,
+      "max_usage_nice": 29,
+      "max_usage_softirq": 20,
+      "max_usage_steal": 99,
+      "max_usage_system": 12,
+      "max_usage_user": 19
+    },
+    {
+      "hour": "2016-01-01T05:00:00Z",
+      "max_usage_guest": 27,
+      "max_usage_guest_nice": 81,
+      "max_usage_idle": 86,
+      "max_usage_iowait": 71,
+      "max_usage_irq": 11,
+      "max_usage_nice": 12,
+      "max_usage_softirq": 31,
+      "max_usage_steal": 100,
+      "max_usage_system": 19,
+      "max_usage_user": 24
+    },
+    {
+      "hour": "2016-01-01T06:00:00Z",
+      "max_usage_guest": 26,
+      "max_usage_guest_nice": 84,
+      "max_usage_idle": 58,
+      "max_usage_iowait": 63,
+      "max_usage_irq": 13,
+      "max_usage_nice": 26,
+      "max_usage_softirq": 53,
+      "max_usage_steal": 100,
+      "max_usage_system": 36,
+      "max_usage_user": 37
+    },
+    {
+      "hour": "2016-01-01T07:00:00Z",
+      "max_usage_guest": 24,
+      "max_usage_guest_nice": 87,
+      "max_usage_idle": 60,
+      "max_usage_iowait": 79,
+      "max_usage_irq": 16,
+      "max_usage_nice": 25,
+      "max_usage_softirq": 47,
+      "max_usage_steal": 84,
+      "max_usage_system": 27,
+      "max_usage_user": 41
+    },
+    {
+      "hour": "2016-01-01T08:00:00Z",
+      "max_usage_guest": 35,
+      "max_usage_guest_nice": 91,
+      "max_usage_idle": 59,
+      "max_usage_iowait": 95,
+      "max_usage_irq": 36,
+      "max_usage_nice": 31,
+      "max_usage_softirq": 39,
+      "max_usage_steal": 91,
+      "max_usage_system": 27,
+      "max_usage_user": 62
+    },
+    {
+      "hour": "2016-01-01T09:00:00Z",
+      "max_usage_guest": 48,
+      "max_usage_guest_nice": 89,
+      "max_usage_idle": 54,
+      "max_usage_iowait": 84,
+      "max_usage_irq": 32,
+      "max_usage_nice": 43,
+      "max_usage_softirq": 31,
+      "max_usage_steal": 100,
+      "max_usage_system": 35,
+      "max_usage_user": 57
+    },
+    {
+      "hour": "2016-01-01T10:00:00Z",
+      "max_usage_guest": 59,
+      "max_usage_guest_nice": 84,
+      "max_usage_idle": 51,
+      "max_usage_iowait": 81,
+      "max_usage_irq": 18,
+      "max_usage_nice": 46,
+      "max_usage_softirq": 26,
+      "max_usage_steal": 100,
+      "max_usage_system": 36,
+      "max_usage_user": 42
+    }
+  ]
+}
+
+Run complete after 1 queries with 1 workers (Overall query rate 63.86 queries/sec):
+TimescaleDB max of all CPU metrics, random    1 hosts, random 8h0m0s by 1h:
+min:    15.33ms, med:    15.33ms, mean:    15.33ms, max:   15.33ms, stddev:     0.00ms, sum:   0.0sec, count: 1
+all queries                                                               :
+min:    15.33ms, med:    15.33ms, mean:    15.33ms, max:   15.33ms, stddev:     0.00ms, sum:   0.0sec, count: 1
+wall clock time: 0.020459sec

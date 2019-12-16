@@ -1,0 +1,256 @@
+Issuing command (TS.MREVRANGE 1451682982646 - COUNT 5 AGGREGATION MAX 60000 FILTER measurement=cpu fieldname=usage_user)
+{
+  "query 1": {
+    "client_side_work": false,
+    "query": "TS.MREVRANGE 1451682982646 - COUNT 5 AGGREGATION MAX 60000 FILTER measurement=cpu fieldname=usage_user",
+    "results": [
+      {
+        "cpu_usage_user{1245923230}": {
+          "datapoints": [
+            {
+              "Timestamp": 1451682960000,
+              "Value": 30
+            }
+          ],
+          "labels": {
+            "arch": "x64",
+            "datacenter": "us-west-1b",
+            "fieldname": "usage_user",
+            "hostname": "host_5",
+            "measurement": "cpu",
+            "os": "Ubuntu16.10",
+            "rack": "18",
+            "region": "us-west-1",
+            "service": "14",
+            "service_environment": "staging",
+            "service_version": "0",
+            "team": "CHI"
+          }
+        }
+      },
+      {
+        "cpu_usage_user{1451654927}": {
+          "datapoints": [
+            {
+              "Timestamp": 1451682960000,
+              "Value": 40
+            }
+          ],
+          "labels": {
+            "arch": "x86",
+            "datacenter": "ap-southeast-2a",
+            "fieldname": "usage_user",
+            "hostname": "host_9",
+            "measurement": "cpu",
+            "os": "Ubuntu16.04LTS",
+            "rack": "0",
+            "region": "ap-southeast-2",
+            "service": "18",
+            "service_environment": "production",
+            "service_version": "0",
+            "team": "CHI"
+          }
+        }
+      },
+      {
+        "cpu_usage_user{147337842}": {
+          "datapoints": [
+            {
+              "Timestamp": 1451682960000,
+              "Value": 13
+            }
+          ],
+          "labels": {
+            "arch": "x86",
+            "datacenter": "sa-east-1a",
+            "fieldname": "usage_user",
+            "hostname": "host_2",
+            "measurement": "cpu",
+            "os": "Ubuntu16.04LTS",
+            "rack": "89",
+            "region": "sa-east-1",
+            "service": "13",
+            "service_environment": "staging",
+            "service_version": "0",
+            "team": "LON"
+          }
+        }
+      },
+      {
+        "cpu_usage_user{1578048592}": {
+          "datapoints": [
+            {
+              "Timestamp": 1451682960000,
+              "Value": 64
+            }
+          ],
+          "labels": {
+            "arch": "x64",
+            "datacenter": "us-west-1a",
+            "fieldname": "usage_user",
+            "hostname": "host_1",
+            "measurement": "cpu",
+            "os": "Ubuntu15.10",
+            "rack": "41",
+            "region": "us-west-1",
+            "service": "9",
+            "service_environment": "staging",
+            "service_version": "1",
+            "team": "NYC"
+          }
+        }
+      },
+      {
+        "cpu_usage_user{2045477637}": {
+          "datapoints": [
+            {
+              "Timestamp": 1451682960000,
+              "Value": 52
+            }
+          ],
+          "labels": {
+            "arch": "x86",
+            "datacenter": "ap-southeast-1b",
+            "fieldname": "usage_user",
+            "hostname": "host_6",
+            "measurement": "cpu",
+            "os": "Ubuntu16.10",
+            "rack": "49",
+            "region": "ap-southeast-1",
+            "service": "7",
+            "service_environment": "staging",
+            "service_version": "0",
+            "team": "CHI"
+          }
+        }
+      },
+      {
+        "cpu_usage_user{2157791835}": {
+          "datapoints": [
+            {
+              "Timestamp": 1451682960000,
+              "Value": 31
+            }
+          ],
+          "labels": {
+            "arch": "x86",
+            "datacenter": "sa-east-1c",
+            "fieldname": "usage_user",
+            "hostname": "host_4",
+            "measurement": "cpu",
+            "os": "Ubuntu16.10",
+            "rack": "74",
+            "region": "sa-east-1",
+            "service": "7",
+            "service_environment": "staging",
+            "service_version": "0",
+            "team": "SF"
+          }
+        }
+      },
+      {
+        "cpu_usage_user{3297394792}": {
+          "datapoints": [
+            {
+              "Timestamp": 1451682960000,
+              "Value": 14
+            }
+          ],
+          "labels": {
+            "arch": "x86",
+            "datacenter": "eu-central-1a",
+            "fieldname": "usage_user",
+            "hostname": "host_0",
+            "measurement": "cpu",
+            "os": "Ubuntu15.10",
+            "rack": "6",
+            "region": "eu-central-1",
+            "service": "19",
+            "service_environment": "test",
+            "service_version": "1",
+            "team": "SF"
+          }
+        }
+      },
+      {
+        "cpu_usage_user{831020642}": {
+          "datapoints": [
+            {
+              "Timestamp": 1451682960000,
+              "Value": 76
+            }
+          ],
+          "labels": {
+            "arch": "x64",
+            "datacenter": "eu-west-1c",
+            "fieldname": "usage_user",
+            "hostname": "host_7",
+            "measurement": "cpu",
+            "os": "Ubuntu16.10",
+            "rack": "44",
+            "region": "eu-west-1",
+            "service": "7",
+            "service_environment": "test",
+            "service_version": "1",
+            "team": "LON"
+          }
+        }
+      },
+      {
+        "cpu_usage_user{911640529}": {
+          "datapoints": [
+            {
+              "Timestamp": 1451682960000,
+              "Value": 65
+            }
+          ],
+          "labels": {
+            "arch": "x64",
+            "datacenter": "eu-west-1a",
+            "fieldname": "usage_user",
+            "hostname": "host_8",
+            "measurement": "cpu",
+            "os": "Ubuntu16.04LTS",
+            "rack": "17",
+            "region": "eu-west-1",
+            "service": "2",
+            "service_environment": "test",
+            "service_version": "0",
+            "team": "LON"
+          }
+        }
+      },
+      {
+        "cpu_usage_user{948008140}": {
+          "datapoints": [
+            {
+              "Timestamp": 1451682960000,
+              "Value": 18
+            }
+          ],
+          "labels": {
+            "arch": "x64",
+            "datacenter": "us-west-2b",
+            "fieldname": "usage_user",
+            "hostname": "host_3",
+            "measurement": "cpu",
+            "os": "Ubuntu15.10",
+            "rack": "12",
+            "region": "us-west-2",
+            "service": "18",
+            "service_environment": "production",
+            "service_version": "1",
+            "team": "CHI"
+          }
+        }
+      }
+    ]
+  }
+}
+
+Run complete after 1 queries with 1 workers (Overall query rate 374.87 queries/sec):
+RedisTimeSeries max cpu over last 5 min-intervals (random end):
+min:     0.40ms, med:     0.40ms, mean:     0.40ms, max:    0.40ms, stddev:     0.00ms, sum:   0.0sec, count: 1
+all queries                                                   :
+min:     0.40ms, med:     0.40ms, mean:     0.40ms, max:    0.40ms, stddev:     0.00ms, sum:   0.0sec, count: 1
+wall clock time: 0.003233sec

@@ -1,0 +1,2278 @@
+Issuing command (TS.MRANGE 1451628982646 1451672182646 AGGREGATION AVG 3600000 FILTER measurement=cpu fieldname=(usage_user,usage_system,usage_idle,usage_nice,usage_iowait))
+Applying functor github.com/timescale/tsbs/query.GroupByTimeAndTagHostname on RedisTimeSeries mean of 5 metrics, all hosts, random 12h0m0s by 1h
+Applying functor reflect_GroupByTimeAndTagHostname github.com/timescale/tsbs/query.GroupByTimeAndTagHostname
+{
+  "query 1": {
+    "client_side_work": true,
+    "query": "TS.MRANGE 1451628982646 1451672182646 AGGREGATION AVG 3600000 FILTER measurement=cpu fieldname=(usage_user,usage_system,usage_idle,usage_nice,usage_iowait)",
+    "results": [
+      {
+        "datapoints": [
+          {
+            "Timestamp": 1451628000000,
+            "HumanReadbleTime": "2016-01-01T06:00:00Z",
+            "Values": [
+              39.38697318007663,
+              49.39846743295019,
+              14.731800766283525,
+              22.54022988505747,
+              28.413793103448278
+            ]
+          },
+          {
+            "Timestamp": 1451631600000,
+            "HumanReadbleTime": "2016-01-01T07:00:00Z",
+            "Values": [
+              40.84722222222222,
+              60.44722222222222,
+              17.705555555555556,
+              9.308333333333334,
+              23.538888888888888
+            ]
+          },
+          {
+            "Timestamp": 1451635200000,
+            "HumanReadbleTime": "2016-01-01T08:00:00Z",
+            "Values": [
+              35.297222222222224,
+              81.28611111111111,
+              19.083333333333332,
+              17.65,
+              45.980555555555554
+            ]
+          },
+          {
+            "Timestamp": 1451638800000,
+            "HumanReadbleTime": "2016-01-01T09:00:00Z",
+            "Values": [
+              42.28611111111111,
+              69.93333333333334,
+              20.46388888888889,
+              21.79722222222222,
+              42.23888888888889
+            ]
+          },
+          {
+            "Timestamp": 1451642400000,
+            "HumanReadbleTime": "2016-01-01T10:00:00Z",
+            "Values": [
+              36.99444444444445,
+              77.18611111111112,
+              36.50277777777778,
+              22.169444444444444,
+              39.041666666666664
+            ]
+          },
+          {
+            "Timestamp": 1451646000000,
+            "HumanReadbleTime": "2016-01-01T11:00:00Z",
+            "Values": [
+              19.844444444444445,
+              62.17777777777778,
+              43.891666666666666,
+              17.41111111111111,
+              32.46944444444444
+            ]
+          },
+          {
+            "Timestamp": 1451649600000,
+            "HumanReadbleTime": "2016-01-01T12:00:00Z",
+            "Values": [
+              29.075,
+              50.06388888888889,
+              41.36388888888889,
+              8.08611111111111,
+              39.705555555555556
+            ]
+          },
+          {
+            "Timestamp": 1451653200000,
+            "HumanReadbleTime": "2016-01-01T13:00:00Z",
+            "Values": [
+              41.672222222222224,
+              38.983333333333334,
+              34.78611111111111,
+              10.133333333333333,
+              42.12222222222222
+            ]
+          },
+          {
+            "Timestamp": 1451656800000,
+            "HumanReadbleTime": "2016-01-01T14:00:00Z",
+            "Values": [
+              16.90277777777778,
+              51.794444444444444,
+              38.12777777777778,
+              18.552777777777777,
+              47.83611111111111
+            ]
+          },
+          {
+            "Timestamp": 1451660400000,
+            "HumanReadbleTime": "2016-01-01T15:00:00Z",
+            "Values": [
+              10.61111111111111,
+              39.05555555555556,
+              49.791666666666664,
+              28.072222222222223,
+              40.44722222222222
+            ]
+          },
+          {
+            "Timestamp": 1451664000000,
+            "HumanReadbleTime": "2016-01-01T16:00:00Z",
+            "Values": [
+              11.172222222222222,
+              46.86666666666667,
+              69.97222222222223,
+              51.41388888888889,
+              26.158333333333335
+            ]
+          },
+          {
+            "Timestamp": 1451667600000,
+            "HumanReadbleTime": "2016-01-01T17:00:00Z",
+            "Values": [
+              8.352777777777778,
+              71.88333333333334,
+              70.71388888888889,
+              73.03055555555555,
+              26.42222222222222
+            ]
+          },
+          {
+            "Timestamp": 1451671200000,
+            "HumanReadbleTime": "2016-01-01T18:00:00Z",
+            "Values": [
+              11.323232323232324,
+              94.58585858585859,
+              75.23232323232324,
+              73.05050505050505,
+              22.96969696969697
+            ]
+          }
+        ],
+        "labels": [
+          {
+            "arch": "x86",
+            "datacenter": "ap-southeast-2a",
+            "fieldname": "usage_idle",
+            "hostname": "host_9",
+            "measurement": "cpu",
+            "os": "Ubuntu16.04LTS",
+            "rack": "0",
+            "region": "ap-southeast-2",
+            "service": "18",
+            "service_environment": "production",
+            "service_version": "0",
+            "team": "CHI"
+          },
+          {
+            "arch": "x86",
+            "datacenter": "ap-southeast-2a",
+            "fieldname": "usage_iowait",
+            "hostname": "host_9",
+            "measurement": "cpu",
+            "os": "Ubuntu16.04LTS",
+            "rack": "0",
+            "region": "ap-southeast-2",
+            "service": "18",
+            "service_environment": "production",
+            "service_version": "0",
+            "team": "CHI"
+          },
+          {
+            "arch": "x86",
+            "datacenter": "ap-southeast-2a",
+            "fieldname": "usage_nice",
+            "hostname": "host_9",
+            "measurement": "cpu",
+            "os": "Ubuntu16.04LTS",
+            "rack": "0",
+            "region": "ap-southeast-2",
+            "service": "18",
+            "service_environment": "production",
+            "service_version": "0",
+            "team": "CHI"
+          },
+          {
+            "arch": "x86",
+            "datacenter": "ap-southeast-2a",
+            "fieldname": "usage_system",
+            "hostname": "host_9",
+            "measurement": "cpu",
+            "os": "Ubuntu16.04LTS",
+            "rack": "0",
+            "region": "ap-southeast-2",
+            "service": "18",
+            "service_environment": "production",
+            "service_version": "0",
+            "team": "CHI"
+          },
+          {
+            "arch": "x86",
+            "datacenter": "ap-southeast-2a",
+            "fieldname": "usage_user",
+            "hostname": "host_9",
+            "measurement": "cpu",
+            "os": "Ubuntu16.04LTS",
+            "rack": "0",
+            "region": "ap-southeast-2",
+            "service": "18",
+            "service_environment": "production",
+            "service_version": "0",
+            "team": "CHI"
+          }
+        ],
+        "names": [
+          "cpu_usage_idle{1451654927}",
+          "cpu_usage_iowait{1451654927}",
+          "cpu_usage_nice{1451654927}",
+          "cpu_usage_system{1451654927}",
+          "cpu_usage_user{1451654927}"
+        ]
+      },
+      {
+        "datapoints": [
+          {
+            "Timestamp": 1451628000000,
+            "HumanReadbleTime": "2016-01-01T06:00:00Z",
+            "Values": [
+              73,
+              33.69348659003831,
+              9.157088122605364,
+              9.130268199233717,
+              81.89272030651341
+            ]
+          },
+          {
+            "Timestamp": 1451631600000,
+            "HumanReadbleTime": "2016-01-01T07:00:00Z",
+            "Values": [
+              88.09444444444445,
+              30.45277777777778,
+              10.35,
+              6.905555555555556,
+              92.92222222222222
+            ]
+          },
+          {
+            "Timestamp": 1451635200000,
+            "HumanReadbleTime": "2016-01-01T08:00:00Z",
+            "Values": [
+              81.31111111111112,
+              17.625,
+              14.958333333333334,
+              21.975,
+              95.4
+            ]
+          },
+          {
+            "Timestamp": 1451638800000,
+            "HumanReadbleTime": "2016-01-01T09:00:00Z",
+            "Values": [
+              93.21666666666667,
+              19.641666666666666,
+              14.730555555555556,
+              49.09166666666667,
+              78.42777777777778
+            ]
+          },
+          {
+            "Timestamp": 1451642400000,
+            "HumanReadbleTime": "2016-01-01T10:00:00Z",
+            "Values": [
+              74.79722222222222,
+              23.163888888888888,
+              42.83611111111111,
+              51.21111111111111,
+              82.12777777777778
+            ]
+          },
+          {
+            "Timestamp": 1451646000000,
+            "HumanReadbleTime": "2016-01-01T11:00:00Z",
+            "Values": [
+              61.78333333333333,
+              29.788888888888888,
+              34.62777777777778,
+              52.141666666666666,
+              90.625
+            ]
+          },
+          {
+            "Timestamp": 1451649600000,
+            "HumanReadbleTime": "2016-01-01T12:00:00Z",
+            "Values": [
+              52.22222222222222,
+              36.63055555555555,
+              21.433333333333334,
+              40.87777777777778,
+              73.35
+            ]
+          },
+          {
+            "Timestamp": 1451653200000,
+            "HumanReadbleTime": "2016-01-01T13:00:00Z",
+            "Values": [
+              41.041666666666664,
+              29.983333333333334,
+              5.902777777777778,
+              37.419444444444444,
+              90.66111111111111
+            ]
+          },
+          {
+            "Timestamp": 1451656800000,
+            "HumanReadbleTime": "2016-01-01T14:00:00Z",
+            "Values": [
+              63.833333333333336,
+              14.044444444444444,
+              15.33611111111111,
+              47.93888888888889,
+              91
+            ]
+          },
+          {
+            "Timestamp": 1451660400000,
+            "HumanReadbleTime": "2016-01-01T15:00:00Z",
+            "Values": [
+              90.46666666666667,
+              35.95,
+              12.355555555555556,
+              39.861111111111114,
+              93.28888888888889
+            ]
+          },
+          {
+            "Timestamp": 1451664000000,
+            "HumanReadbleTime": "2016-01-01T16:00:00Z",
+            "Values": [
+              94.41388888888889,
+              41.25833333333333,
+              27.09722222222222,
+              23.727777777777778,
+              95.27777777777777
+            ]
+          },
+          {
+            "Timestamp": 1451667600000,
+            "HumanReadbleTime": "2016-01-01T17:00:00Z",
+            "Values": [
+              80.95277777777778,
+              41.263888888888886,
+              29.43611111111111,
+              20.755555555555556,
+              93.46666666666667
+            ]
+          },
+          {
+            "Timestamp": 1451671200000,
+            "HumanReadbleTime": "2016-01-01T18:00:00Z",
+            "Values": [
+              90.17171717171718,
+              23.303030303030305,
+              26.151515151515152,
+              25.80808080808081,
+              94.45454545454545
+            ]
+          }
+        ],
+        "labels": [
+          {
+            "arch": "x64",
+            "datacenter": "eu-west-1c",
+            "fieldname": "usage_idle",
+            "hostname": "host_7",
+            "measurement": "cpu",
+            "os": "Ubuntu16.10",
+            "rack": "44",
+            "region": "eu-west-1",
+            "service": "7",
+            "service_environment": "test",
+            "service_version": "1",
+            "team": "LON"
+          },
+          {
+            "arch": "x64",
+            "datacenter": "eu-west-1c",
+            "fieldname": "usage_iowait",
+            "hostname": "host_7",
+            "measurement": "cpu",
+            "os": "Ubuntu16.10",
+            "rack": "44",
+            "region": "eu-west-1",
+            "service": "7",
+            "service_environment": "test",
+            "service_version": "1",
+            "team": "LON"
+          },
+          {
+            "arch": "x64",
+            "datacenter": "eu-west-1c",
+            "fieldname": "usage_nice",
+            "hostname": "host_7",
+            "measurement": "cpu",
+            "os": "Ubuntu16.10",
+            "rack": "44",
+            "region": "eu-west-1",
+            "service": "7",
+            "service_environment": "test",
+            "service_version": "1",
+            "team": "LON"
+          },
+          {
+            "arch": "x64",
+            "datacenter": "eu-west-1c",
+            "fieldname": "usage_system",
+            "hostname": "host_7",
+            "measurement": "cpu",
+            "os": "Ubuntu16.10",
+            "rack": "44",
+            "region": "eu-west-1",
+            "service": "7",
+            "service_environment": "test",
+            "service_version": "1",
+            "team": "LON"
+          },
+          {
+            "arch": "x64",
+            "datacenter": "eu-west-1c",
+            "fieldname": "usage_user",
+            "hostname": "host_7",
+            "measurement": "cpu",
+            "os": "Ubuntu16.10",
+            "rack": "44",
+            "region": "eu-west-1",
+            "service": "7",
+            "service_environment": "test",
+            "service_version": "1",
+            "team": "LON"
+          }
+        ],
+        "names": [
+          "cpu_usage_idle{831020642}",
+          "cpu_usage_iowait{831020642}",
+          "cpu_usage_nice{831020642}",
+          "cpu_usage_system{831020642}",
+          "cpu_usage_user{831020642}"
+        ]
+      },
+      {
+        "datapoints": [
+          {
+            "Timestamp": 1451628000000,
+            "HumanReadbleTime": "2016-01-01T06:00:00Z",
+            "Values": [
+              42.71647509578544,
+              32.383141762452105,
+              80.26436781609195,
+              77.16091954022988,
+              29.82758620689655
+            ]
+          },
+          {
+            "Timestamp": 1451631600000,
+            "HumanReadbleTime": "2016-01-01T07:00:00Z",
+            "Values": [
+              51.84166666666667,
+              50.730555555555554,
+              92.64444444444445,
+              89.50277777777778,
+              32.30833333333333
+            ]
+          },
+          {
+            "Timestamp": 1451635200000,
+            "HumanReadbleTime": "2016-01-01T08:00:00Z",
+            "Values": [
+              48.49722222222222,
+              92.34166666666667,
+              81.38333333333334,
+              79.47222222222223,
+              46.36944444444445
+            ]
+          },
+          {
+            "Timestamp": 1451638800000,
+            "HumanReadbleTime": "2016-01-01T09:00:00Z",
+            "Values": [
+              42.43888888888889,
+              71.08611111111111,
+              42.4,
+              92.42222222222222,
+              61.608333333333334
+            ]
+          },
+          {
+            "Timestamp": 1451642400000,
+            "HumanReadbleTime": "2016-01-01T10:00:00Z",
+            "Values": [
+              16.794444444444444,
+              42.78611111111111,
+              40.65833333333333,
+              94.24444444444444,
+              56.87222222222222
+            ]
+          },
+          {
+            "Timestamp": 1451646000000,
+            "HumanReadbleTime": "2016-01-01T11:00:00Z",
+            "Values": [
+              20.925,
+              27.883333333333333,
+              47.52777777777778,
+              89.03611111111111,
+              54.830555555555556
+            ]
+          },
+          {
+            "Timestamp": 1451649600000,
+            "HumanReadbleTime": "2016-01-01T12:00:00Z",
+            "Values": [
+              13.686111111111112,
+              40.08611111111111,
+              58.86944444444445,
+              91.94166666666666,
+              39.65833333333333
+            ]
+          },
+          {
+            "Timestamp": 1451653200000,
+            "HumanReadbleTime": "2016-01-01T13:00:00Z",
+            "Values": [
+              28.794444444444444,
+              59.86666666666667,
+              48.297222222222224,
+              68.04166666666667,
+              17.275
+            ]
+          },
+          {
+            "Timestamp": 1451656800000,
+            "HumanReadbleTime": "2016-01-01T14:00:00Z",
+            "Values": [
+              45.18333333333333,
+              83.46944444444445,
+              49.41111111111111,
+              80.325,
+              8.036111111111111
+            ]
+          },
+          {
+            "Timestamp": 1451660400000,
+            "HumanReadbleTime": "2016-01-01T15:00:00Z",
+            "Values": [
+              47.87777777777778,
+              62.17777777777778,
+              71.60833333333333,
+              79.90833333333333,
+              9.08611111111111
+            ]
+          },
+          {
+            "Timestamp": 1451664000000,
+            "HumanReadbleTime": "2016-01-01T16:00:00Z",
+            "Values": [
+              53.952777777777776,
+              42.2,
+              67.01388888888889,
+              91.4888888888889,
+              12.430555555555555
+            ]
+          },
+          {
+            "Timestamp": 1451667600000,
+            "HumanReadbleTime": "2016-01-01T17:00:00Z",
+            "Values": [
+              52.71388888888889,
+              20.43611111111111,
+              72.4888888888889,
+              80.44722222222222,
+              8.255555555555556
+            ]
+          },
+          {
+            "Timestamp": 1451671200000,
+            "HumanReadbleTime": "2016-01-01T18:00:00Z",
+            "Values": [
+              62.08080808080808,
+              5.101010101010101,
+              71.1010101010101,
+              85.31313131313131,
+              7.232323232323233
+            ]
+          }
+        ],
+        "labels": [
+          {
+            "arch": "x64",
+            "datacenter": "us-west-2b",
+            "fieldname": "usage_idle",
+            "hostname": "host_3",
+            "measurement": "cpu",
+            "os": "Ubuntu15.10",
+            "rack": "12",
+            "region": "us-west-2",
+            "service": "18",
+            "service_environment": "production",
+            "service_version": "1",
+            "team": "CHI"
+          },
+          {
+            "arch": "x64",
+            "datacenter": "us-west-2b",
+            "fieldname": "usage_iowait",
+            "hostname": "host_3",
+            "measurement": "cpu",
+            "os": "Ubuntu15.10",
+            "rack": "12",
+            "region": "us-west-2",
+            "service": "18",
+            "service_environment": "production",
+            "service_version": "1",
+            "team": "CHI"
+          },
+          {
+            "arch": "x64",
+            "datacenter": "us-west-2b",
+            "fieldname": "usage_nice",
+            "hostname": "host_3",
+            "measurement": "cpu",
+            "os": "Ubuntu15.10",
+            "rack": "12",
+            "region": "us-west-2",
+            "service": "18",
+            "service_environment": "production",
+            "service_version": "1",
+            "team": "CHI"
+          },
+          {
+            "arch": "x64",
+            "datacenter": "us-west-2b",
+            "fieldname": "usage_system",
+            "hostname": "host_3",
+            "measurement": "cpu",
+            "os": "Ubuntu15.10",
+            "rack": "12",
+            "region": "us-west-2",
+            "service": "18",
+            "service_environment": "production",
+            "service_version": "1",
+            "team": "CHI"
+          },
+          {
+            "arch": "x64",
+            "datacenter": "us-west-2b",
+            "fieldname": "usage_user",
+            "hostname": "host_3",
+            "measurement": "cpu",
+            "os": "Ubuntu15.10",
+            "rack": "12",
+            "region": "us-west-2",
+            "service": "18",
+            "service_environment": "production",
+            "service_version": "1",
+            "team": "CHI"
+          }
+        ],
+        "names": [
+          "cpu_usage_idle{948008140}",
+          "cpu_usage_iowait{948008140}",
+          "cpu_usage_nice{948008140}",
+          "cpu_usage_system{948008140}",
+          "cpu_usage_user{948008140}"
+        ]
+      },
+      {
+        "datapoints": [
+          {
+            "Timestamp": 1451628000000,
+            "HumanReadbleTime": "2016-01-01T06:00:00Z",
+            "Values": [
+              12.340996168582375,
+              31.89272030651341,
+              10.835249042145595,
+              15.218390804597702,
+              70.28735632183908
+            ]
+          },
+          {
+            "Timestamp": 1451631600000,
+            "HumanReadbleTime": "2016-01-01T07:00:00Z",
+            "Values": [
+              15.627777777777778,
+              42.013888888888886,
+              7.058333333333334,
+              10.938888888888888,
+              54.06388888888889
+            ]
+          },
+          {
+            "Timestamp": 1451635200000,
+            "HumanReadbleTime": "2016-01-01T08:00:00Z",
+            "Values": [
+              27.2,
+              43.13611111111111,
+              21.7,
+              20.63888888888889,
+              42.68333333333333
+            ]
+          },
+          {
+            "Timestamp": 1451638800000,
+            "HumanReadbleTime": "2016-01-01T09:00:00Z",
+            "Values": [
+              26.091666666666665,
+              52.16111111111111,
+              29.969444444444445,
+              60.358333333333334,
+              48.00555555555555
+            ]
+          },
+          {
+            "Timestamp": 1451642400000,
+            "HumanReadbleTime": "2016-01-01T10:00:00Z",
+            "Values": [
+              29.119444444444444,
+              55.175,
+              29.475,
+              51.825,
+              60.43055555555556
+            ]
+          },
+          {
+            "Timestamp": 1451646000000,
+            "HumanReadbleTime": "2016-01-01T11:00:00Z",
+            "Values": [
+              24.36111111111111,
+              32.03055555555556,
+              32.05,
+              47.76111111111111,
+              50.425
+            ]
+          },
+          {
+            "Timestamp": 1451649600000,
+            "HumanReadbleTime": "2016-01-01T12:00:00Z",
+            "Values": [
+              39.13611111111111,
+              25.36111111111111,
+              22.444444444444443,
+              46.65277777777778,
+              45.92777777777778
+            ]
+          },
+          {
+            "Timestamp": 1451653200000,
+            "HumanReadbleTime": "2016-01-01T13:00:00Z",
+            "Values": [
+              46.15555555555556,
+              25.225,
+              30.805555555555557,
+              59.025,
+              16.008333333333333
+            ]
+          },
+          {
+            "Timestamp": 1451656800000,
+            "HumanReadbleTime": "2016-01-01T14:00:00Z",
+            "Values": [
+              67.64166666666667,
+              14.713888888888889,
+              24.719444444444445,
+              37.330555555555556,
+              18.127777777777776
+            ]
+          },
+          {
+            "Timestamp": 1451660400000,
+            "HumanReadbleTime": "2016-01-01T15:00:00Z",
+            "Values": [
+              63.78333333333333,
+              19.716666666666665,
+              33.175,
+              62.272222222222226,
+              13
+            ]
+          },
+          {
+            "Timestamp": 1451664000000,
+            "HumanReadbleTime": "2016-01-01T16:00:00Z",
+            "Values": [
+              62.291666666666664,
+              24.408333333333335,
+              40.30555555555556,
+              35.986111111111114,
+              21.455555555555556
+            ]
+          },
+          {
+            "Timestamp": 1451667600000,
+            "HumanReadbleTime": "2016-01-01T17:00:00Z",
+            "Values": [
+              51.147222222222226,
+              15.136111111111111,
+              47.980555555555554,
+              11.277777777777779,
+              18.583333333333332
+            ]
+          },
+          {
+            "Timestamp": 1451671200000,
+            "HumanReadbleTime": "2016-01-01T18:00:00Z",
+            "Values": [
+              44.82828282828283,
+              17,
+              44.878787878787875,
+              4.222222222222222,
+              26.505050505050505
+            ]
+          }
+        ],
+        "labels": [
+          {
+            "arch": "x64",
+            "datacenter": "us-west-1b",
+            "fieldname": "usage_idle",
+            "hostname": "host_5",
+            "measurement": "cpu",
+            "os": "Ubuntu16.10",
+            "rack": "18",
+            "region": "us-west-1",
+            "service": "14",
+            "service_environment": "staging",
+            "service_version": "0",
+            "team": "CHI"
+          },
+          {
+            "arch": "x64",
+            "datacenter": "us-west-1b",
+            "fieldname": "usage_iowait",
+            "hostname": "host_5",
+            "measurement": "cpu",
+            "os": "Ubuntu16.10",
+            "rack": "18",
+            "region": "us-west-1",
+            "service": "14",
+            "service_environment": "staging",
+            "service_version": "0",
+            "team": "CHI"
+          },
+          {
+            "arch": "x64",
+            "datacenter": "us-west-1b",
+            "fieldname": "usage_nice",
+            "hostname": "host_5",
+            "measurement": "cpu",
+            "os": "Ubuntu16.10",
+            "rack": "18",
+            "region": "us-west-1",
+            "service": "14",
+            "service_environment": "staging",
+            "service_version": "0",
+            "team": "CHI"
+          },
+          {
+            "arch": "x64",
+            "datacenter": "us-west-1b",
+            "fieldname": "usage_system",
+            "hostname": "host_5",
+            "measurement": "cpu",
+            "os": "Ubuntu16.10",
+            "rack": "18",
+            "region": "us-west-1",
+            "service": "14",
+            "service_environment": "staging",
+            "service_version": "0",
+            "team": "CHI"
+          },
+          {
+            "arch": "x64",
+            "datacenter": "us-west-1b",
+            "fieldname": "usage_user",
+            "hostname": "host_5",
+            "measurement": "cpu",
+            "os": "Ubuntu16.10",
+            "rack": "18",
+            "region": "us-west-1",
+            "service": "14",
+            "service_environment": "staging",
+            "service_version": "0",
+            "team": "CHI"
+          }
+        ],
+        "names": [
+          "cpu_usage_idle{1245923230}",
+          "cpu_usage_iowait{1245923230}",
+          "cpu_usage_nice{1245923230}",
+          "cpu_usage_system{1245923230}",
+          "cpu_usage_user{1245923230}"
+        ]
+      },
+      {
+        "datapoints": [
+          {
+            "Timestamp": 1451628000000,
+            "HumanReadbleTime": "2016-01-01T06:00:00Z",
+            "Values": [
+              45.89272030651341,
+              56.40229885057471,
+              67.62068965517241,
+              58.191570881226056,
+              3.7624521072796937
+            ]
+          },
+          {
+            "Timestamp": 1451631600000,
+            "HumanReadbleTime": "2016-01-01T07:00:00Z",
+            "Values": [
+              16.802777777777777,
+              57.016666666666666,
+              68.95277777777778,
+              67.90277777777777,
+              4.441666666666666
+            ]
+          },
+          {
+            "Timestamp": 1451635200000,
+            "HumanReadbleTime": "2016-01-01T08:00:00Z",
+            "Values": [
+              4.85,
+              45.925,
+              41.80555555555556,
+              81.31666666666666,
+              3.9277777777777776
+            ]
+          },
+          {
+            "Timestamp": 1451638800000,
+            "HumanReadbleTime": "2016-01-01T09:00:00Z",
+            "Values": [
+              16.258333333333333,
+              37.044444444444444,
+              58.294444444444444,
+              92.36666666666666,
+              13.691666666666666
+            ]
+          },
+          {
+            "Timestamp": 1451642400000,
+            "HumanReadbleTime": "2016-01-01T10:00:00Z",
+            "Values": [
+              23.302777777777777,
+              46.86944444444445,
+              61.38055555555555,
+              95.14722222222223,
+              21.1
+            ]
+          },
+          {
+            "Timestamp": 1451646000000,
+            "HumanReadbleTime": "2016-01-01T11:00:00Z",
+            "Values": [
+              27.572222222222223,
+              44.53611111111111,
+              60.68333333333333,
+              83.41944444444445,
+              21.96388888888889
+            ]
+          },
+          {
+            "Timestamp": 1451649600000,
+            "HumanReadbleTime": "2016-01-01T12:00:00Z",
+            "Values": [
+              32.111111111111114,
+              41.325,
+              89.45277777777778,
+              87.89444444444445,
+              15.563888888888888
+            ]
+          },
+          {
+            "Timestamp": 1451653200000,
+            "HumanReadbleTime": "2016-01-01T13:00:00Z",
+            "Values": [
+              9.3,
+              37.49444444444445,
+              84.71944444444445,
+              91.48333333333333,
+              19.9
+            ]
+          },
+          {
+            "Timestamp": 1451656800000,
+            "HumanReadbleTime": "2016-01-01T14:00:00Z",
+            "Values": [
+              8.791666666666666,
+              19.022222222222222,
+              69.17222222222222,
+              83.48333333333333,
+              35.44722222222222
+            ]
+          },
+          {
+            "Timestamp": 1451660400000,
+            "HumanReadbleTime": "2016-01-01T15:00:00Z",
+            "Values": [
+              29.227777777777778,
+              4.694444444444445,
+              46.69444444444444,
+              72.125,
+              34.45
+            ]
+          },
+          {
+            "Timestamp": 1451664000000,
+            "HumanReadbleTime": "2016-01-01T16:00:00Z",
+            "Values": [
+              27.852777777777778,
+              22.291666666666668,
+              27.552777777777777,
+              63.105555555555554,
+              23.863888888888887
+            ]
+          },
+          {
+            "Timestamp": 1451667600000,
+            "HumanReadbleTime": "2016-01-01T17:00:00Z",
+            "Values": [
+              24.825,
+              14.180555555555555,
+              36.53888888888889,
+              65.14166666666667,
+              19.211111111111112
+            ]
+          },
+          {
+            "Timestamp": 1451671200000,
+            "HumanReadbleTime": "2016-01-01T18:00:00Z",
+            "Values": [
+              17.737373737373737,
+              10.444444444444445,
+              41.43434343434343,
+              51.07070707070707,
+              18.747474747474747
+            ]
+          }
+        ],
+        "labels": [
+          {
+            "arch": "x86",
+            "datacenter": "sa-east-1a",
+            "fieldname": "usage_idle",
+            "hostname": "host_2",
+            "measurement": "cpu",
+            "os": "Ubuntu16.04LTS",
+            "rack": "89",
+            "region": "sa-east-1",
+            "service": "13",
+            "service_environment": "staging",
+            "service_version": "0",
+            "team": "LON"
+          },
+          {
+            "arch": "x86",
+            "datacenter": "sa-east-1a",
+            "fieldname": "usage_iowait",
+            "hostname": "host_2",
+            "measurement": "cpu",
+            "os": "Ubuntu16.04LTS",
+            "rack": "89",
+            "region": "sa-east-1",
+            "service": "13",
+            "service_environment": "staging",
+            "service_version": "0",
+            "team": "LON"
+          },
+          {
+            "arch": "x86",
+            "datacenter": "sa-east-1a",
+            "fieldname": "usage_nice",
+            "hostname": "host_2",
+            "measurement": "cpu",
+            "os": "Ubuntu16.04LTS",
+            "rack": "89",
+            "region": "sa-east-1",
+            "service": "13",
+            "service_environment": "staging",
+            "service_version": "0",
+            "team": "LON"
+          },
+          {
+            "arch": "x86",
+            "datacenter": "sa-east-1a",
+            "fieldname": "usage_system",
+            "hostname": "host_2",
+            "measurement": "cpu",
+            "os": "Ubuntu16.04LTS",
+            "rack": "89",
+            "region": "sa-east-1",
+            "service": "13",
+            "service_environment": "staging",
+            "service_version": "0",
+            "team": "LON"
+          },
+          {
+            "arch": "x86",
+            "datacenter": "sa-east-1a",
+            "fieldname": "usage_user",
+            "hostname": "host_2",
+            "measurement": "cpu",
+            "os": "Ubuntu16.04LTS",
+            "rack": "89",
+            "region": "sa-east-1",
+            "service": "13",
+            "service_environment": "staging",
+            "service_version": "0",
+            "team": "LON"
+          }
+        ],
+        "names": [
+          "cpu_usage_idle{147337842}",
+          "cpu_usage_iowait{147337842}",
+          "cpu_usage_nice{147337842}",
+          "cpu_usage_system{147337842}",
+          "cpu_usage_user{147337842}"
+        ]
+      },
+      {
+        "datapoints": [
+          {
+            "Timestamp": 1451628000000,
+            "HumanReadbleTime": "2016-01-01T06:00:00Z",
+            "Values": [
+              86.55172413793103,
+              33.59003831417625,
+              53,
+              4.931034482758621,
+              44.40996168582375
+            ]
+          },
+          {
+            "Timestamp": 1451631600000,
+            "HumanReadbleTime": "2016-01-01T07:00:00Z",
+            "Values": [
+              76.20555555555555,
+              14.819444444444445,
+              49.31111111111111,
+              6.486111111111111,
+              50.7
+            ]
+          },
+          {
+            "Timestamp": 1451635200000,
+            "HumanReadbleTime": "2016-01-01T08:00:00Z",
+            "Values": [
+              51.733333333333334,
+              33.544444444444444,
+              59.69722222222222,
+              3.433333333333333,
+              62.06944444444444
+            ]
+          },
+          {
+            "Timestamp": 1451638800000,
+            "HumanReadbleTime": "2016-01-01T09:00:00Z",
+            "Values": [
+              49.08888888888889,
+              42.297222222222224,
+              74.7,
+              23.533333333333335,
+              82.53611111111111
+            ]
+          },
+          {
+            "Timestamp": 1451642400000,
+            "HumanReadbleTime": "2016-01-01T10:00:00Z",
+            "Values": [
+              68.325,
+              51.80555555555556,
+              70.20277777777778,
+              24.941666666666666,
+              66.90555555555555
+            ]
+          },
+          {
+            "Timestamp": 1451646000000,
+            "HumanReadbleTime": "2016-01-01T11:00:00Z",
+            "Values": [
+              81.20277777777778,
+              67.68611111111112,
+              79.35555555555555,
+              16.363888888888887,
+              76.55277777777778
+            ]
+          },
+          {
+            "Timestamp": 1451649600000,
+            "HumanReadbleTime": "2016-01-01T12:00:00Z",
+            "Values": [
+              77.44722222222222,
+              55.09722222222222,
+              87.01388888888889,
+              27.322222222222223,
+              81.325
+            ]
+          },
+          {
+            "Timestamp": 1451653200000,
+            "HumanReadbleTime": "2016-01-01T13:00:00Z",
+            "Values": [
+              71.99444444444444,
+              41.28611111111111,
+              82.61111111111111,
+              20.56111111111111,
+              72.51388888888889
+            ]
+          },
+          {
+            "Timestamp": 1451656800000,
+            "HumanReadbleTime": "2016-01-01T14:00:00Z",
+            "Values": [
+              71.56944444444444,
+              52.56944444444444,
+              62.15,
+              14.113888888888889,
+              54.62222222222222
+            ]
+          },
+          {
+            "Timestamp": 1451660400000,
+            "HumanReadbleTime": "2016-01-01T15:00:00Z",
+            "Values": [
+              84.39722222222223,
+              17.380555555555556,
+              66.84444444444445,
+              31.719444444444445,
+              61.605555555555554
+            ]
+          },
+          {
+            "Timestamp": 1451664000000,
+            "HumanReadbleTime": "2016-01-01T16:00:00Z",
+            "Values": [
+              92.14444444444445,
+              4.572222222222222,
+              64.28888888888889,
+              17.97222222222222,
+              56.147222222222226
+            ]
+          },
+          {
+            "Timestamp": 1451667600000,
+            "HumanReadbleTime": "2016-01-01T17:00:00Z",
+            "Values": [
+              93.4888888888889,
+              1.8472222222222223,
+              61.75555555555555,
+              38.34722222222222,
+              70.31111111111112
+            ]
+          },
+          {
+            "Timestamp": 1451671200000,
+            "HumanReadbleTime": "2016-01-01T18:00:00Z",
+            "Values": [
+              92.83838383838383,
+              12.121212121212121,
+              44.464646464646464,
+              29.575757575757574,
+              46.464646464646464
+            ]
+          }
+        ],
+        "labels": [
+          {
+            "arch": "x64",
+            "datacenter": "us-west-1a",
+            "fieldname": "usage_idle",
+            "hostname": "host_1",
+            "measurement": "cpu",
+            "os": "Ubuntu15.10",
+            "rack": "41",
+            "region": "us-west-1",
+            "service": "9",
+            "service_environment": "staging",
+            "service_version": "1",
+            "team": "NYC"
+          },
+          {
+            "arch": "x64",
+            "datacenter": "us-west-1a",
+            "fieldname": "usage_iowait",
+            "hostname": "host_1",
+            "measurement": "cpu",
+            "os": "Ubuntu15.10",
+            "rack": "41",
+            "region": "us-west-1",
+            "service": "9",
+            "service_environment": "staging",
+            "service_version": "1",
+            "team": "NYC"
+          },
+          {
+            "arch": "x64",
+            "datacenter": "us-west-1a",
+            "fieldname": "usage_nice",
+            "hostname": "host_1",
+            "measurement": "cpu",
+            "os": "Ubuntu15.10",
+            "rack": "41",
+            "region": "us-west-1",
+            "service": "9",
+            "service_environment": "staging",
+            "service_version": "1",
+            "team": "NYC"
+          },
+          {
+            "arch": "x64",
+            "datacenter": "us-west-1a",
+            "fieldname": "usage_system",
+            "hostname": "host_1",
+            "measurement": "cpu",
+            "os": "Ubuntu15.10",
+            "rack": "41",
+            "region": "us-west-1",
+            "service": "9",
+            "service_environment": "staging",
+            "service_version": "1",
+            "team": "NYC"
+          },
+          {
+            "arch": "x64",
+            "datacenter": "us-west-1a",
+            "fieldname": "usage_user",
+            "hostname": "host_1",
+            "measurement": "cpu",
+            "os": "Ubuntu15.10",
+            "rack": "41",
+            "region": "us-west-1",
+            "service": "9",
+            "service_environment": "staging",
+            "service_version": "1",
+            "team": "NYC"
+          }
+        ],
+        "names": [
+          "cpu_usage_idle{1578048592}",
+          "cpu_usage_iowait{1578048592}",
+          "cpu_usage_nice{1578048592}",
+          "cpu_usage_system{1578048592}",
+          "cpu_usage_user{1578048592}"
+        ]
+      },
+      {
+        "datapoints": [
+          {
+            "Timestamp": 1451628000000,
+            "HumanReadbleTime": "2016-01-01T06:00:00Z",
+            "Values": [
+              10.662835249042146,
+              64.0536398467433,
+              8.950191570881225,
+              76.62835249042146,
+              87.5632183908046
+            ]
+          },
+          {
+            "Timestamp": 1451631600000,
+            "HumanReadbleTime": "2016-01-01T07:00:00Z",
+            "Values": [
+              15.816666666666666,
+              47.91388888888889,
+              15.897222222222222,
+              88.90833333333333,
+              85.00277777777778
+            ]
+          },
+          {
+            "Timestamp": 1451635200000,
+            "HumanReadbleTime": "2016-01-01T08:00:00Z",
+            "Values": [
+              7.916666666666667,
+              46.05277777777778,
+              28.25,
+              92.78611111111111,
+              84.425
+            ]
+          },
+          {
+            "Timestamp": 1451638800000,
+            "HumanReadbleTime": "2016-01-01T09:00:00Z",
+            "Values": [
+              13.241666666666667,
+              65.64722222222223,
+              53.55833333333333,
+              79.45,
+              83.35833333333333
+            ]
+          },
+          {
+            "Timestamp": 1451642400000,
+            "HumanReadbleTime": "2016-01-01T10:00:00Z",
+            "Values": [
+              10.394444444444444,
+              62.38333333333333,
+              60.82222222222222,
+              75.24722222222222,
+              93.25833333333334
+            ]
+          },
+          {
+            "Timestamp": 1451646000000,
+            "HumanReadbleTime": "2016-01-01T11:00:00Z",
+            "Values": [
+              33.297222222222224,
+              53.888888888888886,
+              61.833333333333336,
+              46.580555555555556,
+              64.24722222222222
+            ]
+          },
+          {
+            "Timestamp": 1451649600000,
+            "HumanReadbleTime": "2016-01-01T12:00:00Z",
+            "Values": [
+              13.338888888888889,
+              43.41388888888889,
+              71.78611111111111,
+              51.86388888888889,
+              50.352777777777774
+            ]
+          },
+          {
+            "Timestamp": 1451653200000,
+            "HumanReadbleTime": "2016-01-01T13:00:00Z",
+            "Values": [
+              4.008333333333334,
+              38.15,
+              78.8,
+              69.07777777777778,
+              26.483333333333334
+            ]
+          },
+          {
+            "Timestamp": 1451656800000,
+            "HumanReadbleTime": "2016-01-01T14:00:00Z",
+            "Values": [
+              7.075,
+              17.580555555555556,
+              89.58333333333333,
+              66.35,
+              25.591666666666665
+            ]
+          },
+          {
+            "Timestamp": 1451660400000,
+            "HumanReadbleTime": "2016-01-01T15:00:00Z",
+            "Values": [
+              24.77777777777778,
+              13.258333333333333,
+              78.43055555555556,
+              77.6,
+              43.03888888888889
+            ]
+          },
+          {
+            "Timestamp": 1451664000000,
+            "HumanReadbleTime": "2016-01-01T16:00:00Z",
+            "Values": [
+              34.955555555555556,
+              15.208333333333334,
+              85.97777777777777,
+              70.08888888888889,
+              48.044444444444444
+            ]
+          },
+          {
+            "Timestamp": 1451667600000,
+            "HumanReadbleTime": "2016-01-01T17:00:00Z",
+            "Values": [
+              52.53611111111111,
+              12.508333333333333,
+              68.06944444444444,
+              88.23611111111111,
+              31.43888888888889
+            ]
+          },
+          {
+            "Timestamp": 1451671200000,
+            "HumanReadbleTime": "2016-01-01T18:00:00Z",
+            "Values": [
+              49.27272727272727,
+              25.12121212121212,
+              60.91919191919192,
+              93.28282828282828,
+              44.898989898989896
+            ]
+          }
+        ],
+        "labels": [
+          {
+            "arch": "x86",
+            "datacenter": "ap-southeast-1b",
+            "fieldname": "usage_idle",
+            "hostname": "host_6",
+            "measurement": "cpu",
+            "os": "Ubuntu16.10",
+            "rack": "49",
+            "region": "ap-southeast-1",
+            "service": "7",
+            "service_environment": "staging",
+            "service_version": "0",
+            "team": "CHI"
+          },
+          {
+            "arch": "x86",
+            "datacenter": "ap-southeast-1b",
+            "fieldname": "usage_iowait",
+            "hostname": "host_6",
+            "measurement": "cpu",
+            "os": "Ubuntu16.10",
+            "rack": "49",
+            "region": "ap-southeast-1",
+            "service": "7",
+            "service_environment": "staging",
+            "service_version": "0",
+            "team": "CHI"
+          },
+          {
+            "arch": "x86",
+            "datacenter": "ap-southeast-1b",
+            "fieldname": "usage_nice",
+            "hostname": "host_6",
+            "measurement": "cpu",
+            "os": "Ubuntu16.10",
+            "rack": "49",
+            "region": "ap-southeast-1",
+            "service": "7",
+            "service_environment": "staging",
+            "service_version": "0",
+            "team": "CHI"
+          },
+          {
+            "arch": "x86",
+            "datacenter": "ap-southeast-1b",
+            "fieldname": "usage_system",
+            "hostname": "host_6",
+            "measurement": "cpu",
+            "os": "Ubuntu16.10",
+            "rack": "49",
+            "region": "ap-southeast-1",
+            "service": "7",
+            "service_environment": "staging",
+            "service_version": "0",
+            "team": "CHI"
+          },
+          {
+            "arch": "x86",
+            "datacenter": "ap-southeast-1b",
+            "fieldname": "usage_user",
+            "hostname": "host_6",
+            "measurement": "cpu",
+            "os": "Ubuntu16.10",
+            "rack": "49",
+            "region": "ap-southeast-1",
+            "service": "7",
+            "service_environment": "staging",
+            "service_version": "0",
+            "team": "CHI"
+          }
+        ],
+        "names": [
+          "cpu_usage_idle{2045477637}",
+          "cpu_usage_iowait{2045477637}",
+          "cpu_usage_nice{2045477637}",
+          "cpu_usage_system{2045477637}",
+          "cpu_usage_user{2045477637}"
+        ]
+      },
+      {
+        "datapoints": [
+          {
+            "Timestamp": 1451628000000,
+            "HumanReadbleTime": "2016-01-01T06:00:00Z",
+            "Values": [
+              33.7816091954023,
+              43.32567049808429,
+              48.69348659003831,
+              89.67432950191571,
+              27.402298850574713
+            ]
+          },
+          {
+            "Timestamp": 1451631600000,
+            "HumanReadbleTime": "2016-01-01T07:00:00Z",
+            "Values": [
+              41.59166666666667,
+              26.094444444444445,
+              36.05277777777778,
+              92.61944444444444,
+              58.99166666666667
+            ]
+          },
+          {
+            "Timestamp": 1451635200000,
+            "HumanReadbleTime": "2016-01-01T08:00:00Z",
+            "Values": [
+              47.31944444444444,
+              5.322222222222222,
+              55.544444444444444,
+              84.55833333333334,
+              68.11666666666666
+            ]
+          },
+          {
+            "Timestamp": 1451638800000,
+            "HumanReadbleTime": "2016-01-01T09:00:00Z",
+            "Values": [
+              78.46666666666667,
+              13.811111111111112,
+              63.62777777777778,
+              77.7388888888889,
+              70.8861111111111
+            ]
+          },
+          {
+            "Timestamp": 1451642400000,
+            "HumanReadbleTime": "2016-01-01T10:00:00Z",
+            "Values": [
+              82.93611111111112,
+              10.491666666666667,
+              79.20833333333333,
+              72.525,
+              78.81666666666666
+            ]
+          },
+          {
+            "Timestamp": 1451646000000,
+            "HumanReadbleTime": "2016-01-01T11:00:00Z",
+            "Values": [
+              48.78055555555556,
+              15.75,
+              84.04722222222222,
+              79.80833333333334,
+              83.66111111111111
+            ]
+          },
+          {
+            "Timestamp": 1451649600000,
+            "HumanReadbleTime": "2016-01-01T12:00:00Z",
+            "Values": [
+              27.727777777777778,
+              5.144444444444445,
+              90.17777777777778,
+              83.6361111111111,
+              73.20833333333333
+            ]
+          },
+          {
+            "Timestamp": 1451653200000,
+            "HumanReadbleTime": "2016-01-01T13:00:00Z",
+            "Values": [
+              17.241666666666667,
+              22.408333333333335,
+              86.66944444444445,
+              90.66388888888889,
+              73.1361111111111
+            ]
+          },
+          {
+            "Timestamp": 1451656800000,
+            "HumanReadbleTime": "2016-01-01T14:00:00Z",
+            "Values": [
+              41.74444444444445,
+              36.77777777777778,
+              64.15,
+              69.26388888888889,
+              61.458333333333336
+            ]
+          },
+          {
+            "Timestamp": 1451660400000,
+            "HumanReadbleTime": "2016-01-01T15:00:00Z",
+            "Values": [
+              53.85,
+              43.2,
+              69.88888888888889,
+              70.65277777777777,
+              52.88333333333333
+            ]
+          },
+          {
+            "Timestamp": 1451664000000,
+            "HumanReadbleTime": "2016-01-01T16:00:00Z",
+            "Values": [
+              52.12777777777778,
+              33.922222222222224,
+              85.23611111111111,
+              92.33611111111111,
+              39.52777777777778
+            ]
+          },
+          {
+            "Timestamp": 1451667600000,
+            "HumanReadbleTime": "2016-01-01T17:00:00Z",
+            "Values": [
+              43.141666666666666,
+              9.936111111111112,
+              77.35277777777777,
+              73.53611111111111,
+              46.40833333333333
+            ]
+          },
+          {
+            "Timestamp": 1451671200000,
+            "HumanReadbleTime": "2016-01-01T18:00:00Z",
+            "Values": [
+              55.494949494949495,
+              1.4242424242424243,
+              79.43434343434343,
+              63.42424242424242,
+              40.04040404040404
+            ]
+          }
+        ],
+        "labels": [
+          {
+            "arch": "x86",
+            "datacenter": "sa-east-1c",
+            "fieldname": "usage_idle",
+            "hostname": "host_4",
+            "measurement": "cpu",
+            "os": "Ubuntu16.10",
+            "rack": "74",
+            "region": "sa-east-1",
+            "service": "7",
+            "service_environment": "staging",
+            "service_version": "0",
+            "team": "SF"
+          },
+          {
+            "arch": "x86",
+            "datacenter": "sa-east-1c",
+            "fieldname": "usage_iowait",
+            "hostname": "host_4",
+            "measurement": "cpu",
+            "os": "Ubuntu16.10",
+            "rack": "74",
+            "region": "sa-east-1",
+            "service": "7",
+            "service_environment": "staging",
+            "service_version": "0",
+            "team": "SF"
+          },
+          {
+            "arch": "x86",
+            "datacenter": "sa-east-1c",
+            "fieldname": "usage_nice",
+            "hostname": "host_4",
+            "measurement": "cpu",
+            "os": "Ubuntu16.10",
+            "rack": "74",
+            "region": "sa-east-1",
+            "service": "7",
+            "service_environment": "staging",
+            "service_version": "0",
+            "team": "SF"
+          },
+          {
+            "arch": "x86",
+            "datacenter": "sa-east-1c",
+            "fieldname": "usage_system",
+            "hostname": "host_4",
+            "measurement": "cpu",
+            "os": "Ubuntu16.10",
+            "rack": "74",
+            "region": "sa-east-1",
+            "service": "7",
+            "service_environment": "staging",
+            "service_version": "0",
+            "team": "SF"
+          },
+          {
+            "arch": "x86",
+            "datacenter": "sa-east-1c",
+            "fieldname": "usage_user",
+            "hostname": "host_4",
+            "measurement": "cpu",
+            "os": "Ubuntu16.10",
+            "rack": "74",
+            "region": "sa-east-1",
+            "service": "7",
+            "service_environment": "staging",
+            "service_version": "0",
+            "team": "SF"
+          }
+        ],
+        "names": [
+          "cpu_usage_idle{2157791835}",
+          "cpu_usage_iowait{2157791835}",
+          "cpu_usage_nice{2157791835}",
+          "cpu_usage_system{2157791835}",
+          "cpu_usage_user{2157791835}"
+        ]
+      },
+      {
+        "datapoints": [
+          {
+            "Timestamp": 1451628000000,
+            "HumanReadbleTime": "2016-01-01T06:00:00Z",
+            "Values": [
+              35.310344827586206,
+              36.14942528735632,
+              34.59770114942529,
+              34.241379310344826,
+              85.69348659003832
+            ]
+          },
+          {
+            "Timestamp": 1451631600000,
+            "HumanReadbleTime": "2016-01-01T07:00:00Z",
+            "Values": [
+              49.108333333333334,
+              31.169444444444444,
+              22.836111111111112,
+              34.00555555555555,
+              89.88888888888889
+            ]
+          },
+          {
+            "Timestamp": 1451635200000,
+            "HumanReadbleTime": "2016-01-01T08:00:00Z",
+            "Values": [
+              52.73888888888889,
+              47.15555555555556,
+              11.63888888888889,
+              23.766666666666666,
+              66.56111111111112
+            ]
+          },
+          {
+            "Timestamp": 1451638800000,
+            "HumanReadbleTime": "2016-01-01T09:00:00Z",
+            "Values": [
+              68.50833333333334,
+              46.1,
+              15.713888888888889,
+              17.45277777777778,
+              41.94166666666667
+            ]
+          },
+          {
+            "Timestamp": 1451642400000,
+            "HumanReadbleTime": "2016-01-01T10:00:00Z",
+            "Values": [
+              87.79722222222222,
+              22.855555555555554,
+              28.083333333333332,
+              31.43888888888889,
+              53.675
+            ]
+          },
+          {
+            "Timestamp": 1451646000000,
+            "HumanReadbleTime": "2016-01-01T11:00:00Z",
+            "Values": [
+              73.65,
+              10.866666666666667,
+              29.980555555555554,
+              49.419444444444444,
+              42.31944444444444
+            ]
+          },
+          {
+            "Timestamp": 1451649600000,
+            "HumanReadbleTime": "2016-01-01T12:00:00Z",
+            "Values": [
+              70.49722222222222,
+              26.841666666666665,
+              47.86388888888889,
+              47.49722222222222,
+              30.375
+            ]
+          },
+          {
+            "Timestamp": 1451653200000,
+            "HumanReadbleTime": "2016-01-01T13:00:00Z",
+            "Values": [
+              74.31666666666666,
+              32.611111111111114,
+              37.333333333333336,
+              72.89722222222223,
+              21.005555555555556
+            ]
+          },
+          {
+            "Timestamp": 1451656800000,
+            "HumanReadbleTime": "2016-01-01T14:00:00Z",
+            "Values": [
+              59.62222222222222,
+              42.44444444444444,
+              23.502777777777776,
+              94.6361111111111,
+              5.475
+            ]
+          },
+          {
+            "Timestamp": 1451660400000,
+            "HumanReadbleTime": "2016-01-01T15:00:00Z",
+            "Values": [
+              66.8861111111111,
+              57.608333333333334,
+              18.51388888888889,
+              90.14166666666667,
+              13.708333333333334
+            ]
+          },
+          {
+            "Timestamp": 1451664000000,
+            "HumanReadbleTime": "2016-01-01T16:00:00Z",
+            "Values": [
+              76.3,
+              44.669444444444444,
+              29.791666666666668,
+              89.50277777777778,
+              6.536111111111111
+            ]
+          },
+          {
+            "Timestamp": 1451667600000,
+            "HumanReadbleTime": "2016-01-01T17:00:00Z",
+            "Values": [
+              82.64444444444445,
+              80.31111111111112,
+              21.494444444444444,
+              80.70833333333333,
+              3.236111111111111
+            ]
+          },
+          {
+            "Timestamp": 1451671200000,
+            "HumanReadbleTime": "2016-01-01T18:00:00Z",
+            "Values": [
+              65.8989898989899,
+              82.26262626262626,
+              21.171717171717173,
+              65.97979797979798,
+              1.595959595959596
+            ]
+          }
+        ],
+        "labels": [
+          {
+            "arch": "x86",
+            "datacenter": "eu-central-1a",
+            "fieldname": "usage_idle",
+            "hostname": "host_0",
+            "measurement": "cpu",
+            "os": "Ubuntu15.10",
+            "rack": "6",
+            "region": "eu-central-1",
+            "service": "19",
+            "service_environment": "test",
+            "service_version": "1",
+            "team": "SF"
+          },
+          {
+            "arch": "x86",
+            "datacenter": "eu-central-1a",
+            "fieldname": "usage_iowait",
+            "hostname": "host_0",
+            "measurement": "cpu",
+            "os": "Ubuntu15.10",
+            "rack": "6",
+            "region": "eu-central-1",
+            "service": "19",
+            "service_environment": "test",
+            "service_version": "1",
+            "team": "SF"
+          },
+          {
+            "arch": "x86",
+            "datacenter": "eu-central-1a",
+            "fieldname": "usage_nice",
+            "hostname": "host_0",
+            "measurement": "cpu",
+            "os": "Ubuntu15.10",
+            "rack": "6",
+            "region": "eu-central-1",
+            "service": "19",
+            "service_environment": "test",
+            "service_version": "1",
+            "team": "SF"
+          },
+          {
+            "arch": "x86",
+            "datacenter": "eu-central-1a",
+            "fieldname": "usage_system",
+            "hostname": "host_0",
+            "measurement": "cpu",
+            "os": "Ubuntu15.10",
+            "rack": "6",
+            "region": "eu-central-1",
+            "service": "19",
+            "service_environment": "test",
+            "service_version": "1",
+            "team": "SF"
+          },
+          {
+            "arch": "x86",
+            "datacenter": "eu-central-1a",
+            "fieldname": "usage_user",
+            "hostname": "host_0",
+            "measurement": "cpu",
+            "os": "Ubuntu15.10",
+            "rack": "6",
+            "region": "eu-central-1",
+            "service": "19",
+            "service_environment": "test",
+            "service_version": "1",
+            "team": "SF"
+          }
+        ],
+        "names": [
+          "cpu_usage_idle{3297394792}",
+          "cpu_usage_iowait{3297394792}",
+          "cpu_usage_nice{3297394792}",
+          "cpu_usage_system{3297394792}",
+          "cpu_usage_user{3297394792}"
+        ]
+      },
+      {
+        "datapoints": [
+          {
+            "Timestamp": 1451628000000,
+            "HumanReadbleTime": "2016-01-01T06:00:00Z",
+            "Values": [
+              88.17241379310344,
+              49.18007662835249,
+              92.727969348659,
+              67.38314176245211,
+              89.49425287356321
+            ]
+          },
+          {
+            "Timestamp": 1451631600000,
+            "HumanReadbleTime": "2016-01-01T07:00:00Z",
+            "Values": [
+              91.64166666666667,
+              53.263888888888886,
+              91.41111111111111,
+              59.397222222222226,
+              88.78888888888889
+            ]
+          },
+          {
+            "Timestamp": 1451635200000,
+            "HumanReadbleTime": "2016-01-01T08:00:00Z",
+            "Values": [
+              90.33888888888889,
+              69.62222222222222,
+              92.54722222222222,
+              51.09166666666667,
+              65.31666666666666
+            ]
+          },
+          {
+            "Timestamp": 1451638800000,
+            "HumanReadbleTime": "2016-01-01T09:00:00Z",
+            "Values": [
+              83.89166666666667,
+              79.19722222222222,
+              91.07222222222222,
+              20.85,
+              27.969444444444445
+            ]
+          },
+          {
+            "Timestamp": 1451642400000,
+            "HumanReadbleTime": "2016-01-01T10:00:00Z",
+            "Values": [
+              69.02777777777777,
+              74.40833333333333,
+              76.04444444444445,
+              30.133333333333333,
+              25.252777777777776
+            ]
+          },
+          {
+            "Timestamp": 1451646000000,
+            "HumanReadbleTime": "2016-01-01T11:00:00Z",
+            "Values": [
+              65.96666666666667,
+              53.50833333333333,
+              67.96388888888889,
+              45.925,
+              29.136111111111113
+            ]
+          },
+          {
+            "Timestamp": 1451649600000,
+            "HumanReadbleTime": "2016-01-01T12:00:00Z",
+            "Values": [
+              87.47222222222223,
+              19.93888888888889,
+              68.0111111111111,
+              54.66388888888889,
+              22.552777777777777
+            ]
+          },
+          {
+            "Timestamp": 1451653200000,
+            "HumanReadbleTime": "2016-01-01T13:00:00Z",
+            "Values": [
+              81.85833333333333,
+              11.8,
+              73.03888888888889,
+              58.7,
+              7.455555555555556
+            ]
+          },
+          {
+            "Timestamp": 1451656800000,
+            "HumanReadbleTime": "2016-01-01T14:00:00Z",
+            "Values": [
+              93.55833333333334,
+              20.675,
+              71.88333333333334,
+              52.797222222222224,
+              3.6055555555555556
+            ]
+          },
+          {
+            "Timestamp": 1451660400000,
+            "HumanReadbleTime": "2016-01-01T15:00:00Z",
+            "Values": [
+              75.4,
+              38.916666666666664,
+              33.83611111111111,
+              36.45,
+              1.6027777777777779
+            ]
+          },
+          {
+            "Timestamp": 1451664000000,
+            "HumanReadbleTime": "2016-01-01T16:00:00Z",
+            "Values": [
+              82.875,
+              61.00833333333333,
+              28.77777777777778,
+              16.633333333333333,
+              9.113888888888889
+            ]
+          },
+          {
+            "Timestamp": 1451667600000,
+            "HumanReadbleTime": "2016-01-01T17:00:00Z",
+            "Values": [
+              77.55,
+              66.16944444444445,
+              38.275,
+              29.869444444444444,
+              3.2916666666666665
+            ]
+          },
+          {
+            "Timestamp": 1451671200000,
+            "HumanReadbleTime": "2016-01-01T18:00:00Z",
+            "Values": [
+              79.1919191919192,
+              81.27272727272727,
+              27.09090909090909,
+              27.757575757575758,
+              1.7272727272727273
+            ]
+          }
+        ],
+        "labels": [
+          {
+            "arch": "x64",
+            "datacenter": "eu-west-1a",
+            "fieldname": "usage_idle",
+            "hostname": "host_8",
+            "measurement": "cpu",
+            "os": "Ubuntu16.04LTS",
+            "rack": "17",
+            "region": "eu-west-1",
+            "service": "2",
+            "service_environment": "test",
+            "service_version": "0",
+            "team": "LON"
+          },
+          {
+            "arch": "x64",
+            "datacenter": "eu-west-1a",
+            "fieldname": "usage_iowait",
+            "hostname": "host_8",
+            "measurement": "cpu",
+            "os": "Ubuntu16.04LTS",
+            "rack": "17",
+            "region": "eu-west-1",
+            "service": "2",
+            "service_environment": "test",
+            "service_version": "0",
+            "team": "LON"
+          },
+          {
+            "arch": "x64",
+            "datacenter": "eu-west-1a",
+            "fieldname": "usage_nice",
+            "hostname": "host_8",
+            "measurement": "cpu",
+            "os": "Ubuntu16.04LTS",
+            "rack": "17",
+            "region": "eu-west-1",
+            "service": "2",
+            "service_environment": "test",
+            "service_version": "0",
+            "team": "LON"
+          },
+          {
+            "arch": "x64",
+            "datacenter": "eu-west-1a",
+            "fieldname": "usage_system",
+            "hostname": "host_8",
+            "measurement": "cpu",
+            "os": "Ubuntu16.04LTS",
+            "rack": "17",
+            "region": "eu-west-1",
+            "service": "2",
+            "service_environment": "test",
+            "service_version": "0",
+            "team": "LON"
+          },
+          {
+            "arch": "x64",
+            "datacenter": "eu-west-1a",
+            "fieldname": "usage_user",
+            "hostname": "host_8",
+            "measurement": "cpu",
+            "os": "Ubuntu16.04LTS",
+            "rack": "17",
+            "region": "eu-west-1",
+            "service": "2",
+            "service_environment": "test",
+            "service_version": "0",
+            "team": "LON"
+          }
+        ],
+        "names": [
+          "cpu_usage_idle{911640529}",
+          "cpu_usage_iowait{911640529}",
+          "cpu_usage_nice{911640529}",
+          "cpu_usage_system{911640529}",
+          "cpu_usage_user{911640529}"
+        ]
+      }
+    ]
+  }
+}
+
+Run complete after 1 queries with 1 workers (Overall query rate 85.06 queries/sec):
+RedisTimeSeries mean of 5 metrics, all hosts, random 12h0m0s by 1h:
+min:     8.15ms, med:     8.15ms, mean:     8.15ms, max:    8.15ms, stddev:     0.00ms, sum:   0.0sec, count: 1
+all queries                                                       :
+min:     8.15ms, med:     8.15ms, mean:     8.15ms, max:    8.15ms, stddev:     0.00ms, sum:   0.0sec, count: 1
+wall clock time: 0.014665sec

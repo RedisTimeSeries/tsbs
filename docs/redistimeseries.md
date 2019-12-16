@@ -21,12 +21,8 @@ $ cd $GOPATH/src/github.com/timescale/tsbs/cmd
 $ go get ./...
 
 # Install redistimeseries binaries. 
-cd $GOPATH/src/github.com/timescale/tsbs/cmd
-cd tsbs_generate_data && go install
-cd ../tsbs_generate_queries && go install
-cd ../tsbs_load_redistimeseries && go install
-cd ../tsbs_run_queries_redistimeseries && go install
 cd $GOPATH/src/github.com/timescale/tsbs
+make
 ```
 
 ## Full cycle TSBS RedisTimeSeries scripts
@@ -35,6 +31,14 @@ Instead of calling tsbs redistimeseries binaries directly, we also supply script
 
 So for a Full cycle TSBS RedisTimeSeries benchmark, ensure that RedisTimeSeries is running and then use:
 
+# functional full cycle 
+
+```
+scripts/functional/debug_responses_full_cycle_minitest_redistimeseries.sh
+```
+
+
+# benchmark commands
 ```
 # generate the dataset 
 FORMATS="redistimeseries" SKIP_IF_EXISTS=FALSE  SCALE=100 SEED=123 \
@@ -73,163 +77,298 @@ TS.MADD cpu_usage_user{3297394792} 1451606420000 58 cpu_usage_system{3297394792}
 
 ## Query types <a name="tsbs-query-types-mapping"></a> mapping to RedisTimeSeries query language
 
+###  Client side work functors:
+ - MergeSeriesOnTimestamp - self explanatory
+ - FilterRangesByThresholdAbove - filter a MultiRange ( multiple series merged by timestamp ) on a threshold for one of the metrics in the multiseries
+ - ReduceSeriesOnTimestampBy - reduce a MultiRange over a given function ( in our specific case, Max and Avg )
+
 ### Devops / cpu-only
 
 #### Simple Rollups 
+
 ##### q1) single-groupby-1-1-1
 Simple aggregrate (MAX) on one metric for 1 host, every 1 minute for 1 hour
 
-Query language
+###### Query language
 ```
-"TS.MRANGE" "1451824006646" "1451827606646" \
-            "AGGREGATION" "max" "300000" \
-            "FILTER" "fieldname=usage_user" \
-                     "hostname=host_1"
+TS.MRANGE 1451679382646 1451682982646 AGGREGATION MAX 60000 FILTER measurement=cpu fieldname=usage_user hostname=host_9
 ```
+
+###### Sample Responses:
+- [InfluxDB](./responses/influx_single-groupby-1-1-1.json)
+- [TimescaleDB](./responses/timescaledb_single-groupby-1-1-1.json)
+- [RedistimeSeries](./responses/redistimeseries_single-groupby-1-1-1.json)
 
 ##### q2) single-groupby-1-1-12
 
 Simple aggregrate (MAX) on one metric for 1 host, every 1 minute for 12 hours
 
-Query language
+###### Query language
 ```
-"TS.MRANGE" "1451733760646" "1451776960646" \
-            "AGGREGATION" "max" "300000" \
-            "FILTER" "fieldname=usage_user" \
-                     "hostname=host_1"
+TS.MRANGE 1451628982646 1451672182646 AGGREGATION MAX 60000 FILTER measurement=cpu fieldname=usage_user hostname=host_9
 ```
 
-##### q3) single-groupby-1-8-1 ( NOT SUPPORTED )
+###### Sample Responses:
+- [InfluxDB](./responses/influx_single-groupby-1-1-12.json)
+- [TimescaleDB](./responses/timescaledb_single-groupby-1-1-12.json)
+- [RedistimeSeries](./responses/redistimeseries_single-groupby-1-1-12.json)
+
+##### q3) single-groupby-1-8-1 ( *client side work for RedisTimeSeries )
 Simple aggregrate (MAX) on one metric for 8 hosts, every 1 minute for 1 hour
 
-Query language
+###### Query language
 ```
-TBD
+TS.MRANGE 1451679382646 1451682982646 AGGREGATION MAX 60000 FILTER measurement=cpu fieldname=usage_user hostname=(host_9,host_3,host_5,host_1,host_7,host_2,host_8,host_4)
 ```
+######  Client side work description: 
+Max Reduction over time on multiple time-series with the same metric
+###### Code: [github.com/timescale/tsbs/query.GroupByTimeAndMax](./../query/redistimeseries_functors.go#L42)
+
+######  Sample Responses:
+- [InfluxDB](./responses/influx_single-groupby-1-8-1.json)
+- [TimescaleDB](./responses/timescaledb_single-groupby-1-8-1.json)
+- [RedistimeSeries](./responses/redistimeseries_single-groupby-1-8-1.json)
 
 
-##### q4) single-groupby-5-1-1
+
+##### q4) single-groupby-5-1-1 ( *client side work for RedisTimeSeries )
  Simple aggregrate (MAX) on 5 metrics for 1 host, every 5 mins for 1 hour
 
-Query language
+###### Query language
 ```
-"TS.MRANGE" "1451824006646" "1451827606646" \
-            "AGGREGATION" "max" "300000" \
-            "FILTER" "fieldname=(usage_user,usage_system,usage_idle,usage_nice,usage_iowait)" \
-                     "hostname=host_1"
+TS.MRANGE 1451679382646 1451682982646 AGGREGATION MAX 60000 FILTER measurement=cpu fieldname=(usage_user,usage_system,usage_idle,usage_nice,usage_iowait) hostname=host_9
 ```
+######  Client side work description: 
+Aggregation over time on multiple time-series datapoints with the same timestamp
+
+###### Code: [github.com/timescale/tsbs/query.SingleGroupByTime](./../query/redistimeseries_functors.go#L33)
+
+######  Sample Responses:
+- [InfluxDB](./responses/influx_single-groupby-5-1-1.json)
+- [TimescaleDB](./responses/timescaledb_single-groupby-5-1-1.json)
+- [RedistimeSeries](./responses/redistimeseries_single-groupby-5-1-1.json)
 
 
-##### q5) single-groupby-5-1-12
+
+##### q5) single-groupby-5-1-12 ( *client side work for RedisTimeSeries )
 Simple aggregrate (MAX) on 5 metrics for 1 host, every 5 mins for 12 hours
 
-Query language
-```
-"TS.MRANGE" "1451733760646" "1451776960646" \
-            "AGGREGATION" "max" "300000" \
-            "FILTER" "fieldname=(usage_user,usage_system,usage_idle,usage_nice,usage_iowait)" \
-                     "hostname=host_1"
-```
 
-##### q6) single-groupby-5-8-1 ( NOT SUPPORTED )
+###### Query language
+```
+TS.MRANGE 1451628982646 1451672182646 AGGREGATION MAX 60000 FILTER measurement=cpu fieldname=(usage_user,usage_system,usage_idle,usage_nice,usage_iowait) hostname=host_9
+```
+######  Client side work description: 
+Aggregation over time on multiple time-series datapoints with the same timestamp
+
+###### Code: [github.com/timescale/tsbs/query.SingleGroupByTime](./../query/redistimeseries_functors.go#L33)
+
+######  Sample Responses:
+- [InfluxDB](./responses/influx_single-groupby-5-1-12.json)
+- [TimescaleDB](./responses/timescaledb_single-groupby-5-1-12.json)
+- [RedistimeSeries](./responses/redistimeseries_single-groupby-5-1-12.json)
+
+
+
+##### q6) single-groupby-5-8-1 ( *client side work for RedisTimeSeries )
 Simple aggregrate (MAX) on 5 metrics for 8 hosts, every 5 mins for 1 hour
 
 
-Query language
+
+###### Query language
 ```
-TBD
+TS.MRANGE 1451679382646 1451682982646 AGGREGATION MAX 60000 FILTER measurement=cpu fieldname=(usage_user,usage_system,usage_idle,usage_nice,usage_iowait) hostname=(host_9,host_3,host_5,host_1,host_7,host_2,host_8,host_4)
 ```
+######  Client side work description: 
+Max Reduction over time on multiple time-series with the same metric, and aggregation over time on multiple time-series datapoints with the same timestamp but different metrics
+
+###### Code: [github.com/timescale/tsbs/query.GroupByTimeAndTagMax](./../query/redistimeseries_functors.go#L51)
+
+######  Sample Responses:
+- [InfluxDB](./responses/influx_single-groupby-5-8-1.json)
+- [TimescaleDB](./responses/timescaledb_single-groupby-5-8-1.json)
+- [RedistimeSeries](./responses/redistimeseries_single-groupby-5-8-1.json)
+
+
 
 #### Simple Aggregations 
 
-##### q7) cpu-max-all-1
+##### q7) cpu-max-all-1 ( *client side work for RedisTimeSeries )
 Aggregate across all CPU metrics per hour over 1 hour for a single host
 
-Query language
-```
-"TS.MRANGE" "1451648911646" "1451677711646" \
-            "AGGREGATION" "max" "3600000" \
-            "FILTER" "measurement=cpu" \
-                     "hostname=host_1"
-```
 
-##### q8) cpu-max-all-8 ( NOT SUPPORTED )
+
+###### Query language
+```
+TS.MRANGE 1451614582646 1451643382646 AGGREGATION MAX 3600000 FILTER measurement=cpu hostname=host_9
+```
+######  Client side work description: 
+Aggregation over time on multiple time-series datapoints with the same timestamp
+
+###### Code: [github.com/timescale/tsbs/query.SingleGroupByTime](./../query/redistimeseries_functors.go#L33)
+
+######  Sample Responses:
+- [InfluxDB](./responses/influx_cpu-max-all-1.json)
+- [TimescaleDB](./responses/timescaledb_cpu-max-all-1.json)
+- [RedistimeSeries](./responses/redistimeseries_cpu-max-all-1.json)
+
+
+
+##### q8) cpu-max-all-8 ( *client side work for RedisTimeSeries )
 Aggregate across all CPU metrics per hour over 1 hour for eight hosts
 
-Query language
+
+###### Query language
 ```
-TBD
+TS.MRANGE 1451614582646 1451643382646 AGGREGATION MAX 3600000 FILTER measurement=cpu hostname=(host_9,host_3,host_5,host_1,host_7,host_2,host_8,host_4)
 ```
+######  Client side work description: 
+Max Reduction over time on multiple time-series with the same metric, and aggregation over time on multiple time-series datapoints with the same timestamp but different metrics
+
+###### Code: [github.com/timescale/tsbs/query.GroupByTimeAndTagMax](./../query/redistimeseries_functors.go#L51)
+
+######  Sample Responses:
+- [InfluxDB](./responses/influx_cpu-max-all-8.json)
+- [TimescaleDB](./responses/timescaledb_cpu-max-all-8.json)
+- [RedistimeSeries](./responses/redistimeseries_cpu-max-all-8.json)
+
+
 
 #### Double Rollups 
-##### q9) double-groupby-1
+##### q9) double-groupby-1 ( *client side work for RedisTimeSeries )
 Aggregate on across both time and host, giving the average of 1 CPU metric per host per hour for 24 hours
 
 
-Query language
+###### Query language
 ```
-"TS.MRANGE" "1451733760646" "1451776960646" 
-            "AGGREGATION" "avg" "3600000" 
-            "FILTER" "measurement=cpu" 
-                     "fieldname=(usage_user)"
+TS.MRANGE 1451628982646 1451672182646 AGGREGATION AVG 3600000 FILTER measurement=cpu fieldname=usage_user
 ```
+######  Client side work description: 
+Group on multiple time-series with the same tag ( hostname ), and aggregation over time on multiple time-series datapoints with the same timestamp but same metric
 
-##### q10) double-groupby-5
+###### Code: [github.com/timescale/tsbs/query.GroupByTimeAndTagHostname](./../query/redistimeseries_functors.go#L76)
+
+######  Sample Responses:
+- [InfluxDB](./responses/influx_double-groupby-1.json)
+- [TimescaleDB](./responses/timescaledb_double-groupby-1.json)
+- [RedistimeSeries](./responses/redistimeseries_double-groupby-1.json)
+
+
+
+##### q10) double-groupby-5 ( *client side work for RedisTimeSeries )
  Aggregate on across both time and host, giving the average of 5 CPU metrics per host per hour for 24 hours
 
-``` 
-"TS.MRANGE" "1451733760646" "1451776960646" \
-            "AGGREGATION" "avg" "3600000" \
-            "FILTER" "measurement=cpu" 
-                     "fieldname=(usage_user,usage_system,usage_idle,usage_nice,usage_iowait)"
+###### Query language
 ```
+TS.MRANGE 1451628982646 1451672182646 AGGREGATION AVG 3600000 FILTER measurement=cpu fieldname=(usage_user,usage_system,usage_idle,usage_nice,usage_iowait)
+```
+######  Client side work description: 
+Group on multiple time-series with the same tag ( hostname ), and aggregation over time on multiple time-series datapoints with the same timestamp but different metrics
 
-##### q11) double-groupby-all
+###### Code: [github.com/timescale/tsbs/query.GroupByTimeAndTagHostname](./../query/redistimeseries_functors.go#L76)
+
+######  Sample Responses:
+- [InfluxDB](./responses/influx_double-groupby-5.json)
+- [TimescaleDB](./responses/timescaledb_double-groupby-5.json)
+- [RedistimeSeries](./responses/redistimeseries_double-groupby-5.json)
+
+
+
+##### q11) double-groupby-all ( *client side work for RedisTimeSeries )
  Aggregate on across both time and host, giving the average of all (10) CPU metrics per host per hour for 24 hours
 
-Query language
+###### Query language
 ```
-"TS.MRANGE" "1451733760646" "1451776960646" \
-            "AGGREGATION" "avg" "3600000" \
-            "FILTER" "measurement=cpu"
+TS.MRANGE 1451628982646 1451672182646 AGGREGATION AVG 3600000 FILTER measurement=cpu
 ```
+######  Client side work description: 
+Group on multiple time-series with the same tag ( hostname ), and aggregation over time on multiple time-series datapoints with the same timestamp but different metrics
+
+###### Code: [github.com/timescale/tsbs/query.GroupByTimeAndTagHostname](./../query/redistimeseries_functors.go#L76)
+
+######  Sample Responses:
+- [InfluxDB](./responses/influx_double-groupby-all.json)
+- [TimescaleDB](./responses/timescaledb_double-groupby-all.json)
+- [RedistimeSeries](./responses/redistimeseries_double-groupby-all.json)
+
 
 #### Thresholds
 
-##### q12) high-cpu-all ( does not implement query )
+##### q12) high-cpu-all ( *client side work for RedisTimeSeries )
 All the readings where one metric is above a threshold across all hosts
 
-Query language
+###### Query language
 ```
-TBD
+TS.MRANGE 1451628982646 1451672182646 FILTER measurement=cpu
 ```
+######  Client side work description: 
+Group on multiple time-series with the same tag ( hostname ), and aggregation over time on multiple time-series datapoints with the same timestamp but different metrics, if a specific time-series with one of the metrics (usage_user) is above a threshold
 
-##### q13) high-cpu-1 ( does not implement query )
+###### Code: [github.com/timescale/tsbs/query.HighCpu](./../query/redistimeseries_functors.go#L98)
+
+######  Sample Responses:
+- [InfluxDB](./responses/influx_high-cpu-all.json)
+- [TimescaleDB](./responses/timescaledb_high-cpu-all.json)
+- [RedistimeSeries](./responses/redistimeseries_high-cpu-all.json)
+
+
+##### q13) high-cpu-1 ( *client side work for RedisTimeSeries )
  All the readings where one metric is above a threshold for a particular host
 
-Query language
+###### Query language
 ```
-TBD
+TS.MRANGE 1451649250138 1451692450138 FILTER measurement=cpu hostname=host_5
 ```
+######  Client side work description: 
+Group on multiple time-series with the same tag ( hostname ), and aggregation over time on multiple time-series datapoints with the same timestamp but different metrics, if a specific time-series with one of the metrics (usage_user) is above a threshold
+
+###### Code: [github.com/timescale/tsbs/query.HighCpu](./../query/redistimeseries_functors.go#L98)
+
+######  Sample Responses:
+- [InfluxDB](./responses/influx_high-cpu-1.json)
+- [TimescaleDB](./responses/timescaledb_high-cpu-1.json)
+- [RedistimeSeries](./responses/redistimeseries_high-cpu-1.json)
+
 
 #### Complex queries
 
-##### q14) lastpoint ( does not implement query )
+##### q14) lastpoint ( *client side work for RedisTimeSeries )[REQUIRES MREVRANGE]
 The last reading for each host
 
-Query language
+###### Query language
 ```
-TBD
+TS.MREVRANGE + - COUNT 1 FILTER measurement=cpu hostname!=
 ```
+######  Client side work description: 
 
-##### q15) groupby-orderby-limit ( does not implement query )
+Group on multiple time-series with the same tag ( hostname ), and aggregation over time on multiple time-series datapoints with the same timestamp but different metrics
+
+###### Code: [github.com/timescale/tsbs/query.GroupByTimeAndTagHostname](./../query/redistimeseries_functors.go#L76)
+
+######  Sample Responses:
+- [InfluxDB](./responses/influx_lastpoint.json)
+- [TimescaleDB](./responses/timescaledb_lastpoint.json)
+- [RedistimeSeries](./responses/redistimeseries_lastpoint.json)
+
+
+##### q15) groupby-orderby-limit ( *client side work for RedisTimeSeries )[REQUIRES MREVRANGE] [STILL WIP]
 
 The last 5 aggregate readings (across time) before a randomly chosen endpoint
 
-Query language
+###### Query language
 ```
-TBD
+TS.MREVRANGE 1451682982646 - COUNT 5 AGGREGATION MAX 60000 FILTER measurement=cpu fieldname=usage_user
 ```
+######  Client side work description: 
+WIP
+
+###### Code: WIP
+
+######  Sample Responses:
+- [InfluxDB](./responses/influx_groupby-orderby-limit.json)
+- [TimescaleDB](./responses/timescaledb_groupby-orderby-limit.json)
+- [RedistimeSeries](./responses/redistimeseries_groupby-orderby-limit.json)
+
 
 
 ---

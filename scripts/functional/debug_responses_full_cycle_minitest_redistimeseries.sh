@@ -11,7 +11,7 @@ FORMAT="redistimeseries"
 
 mkdir -p /tmp/bulk_data
 rm /tmp/bulk_data/${FORMAT}_*
-rm ${FORMAT}_*
+rm docs/responses/${FORMAT}_*
 
 redis-cli flushall
 

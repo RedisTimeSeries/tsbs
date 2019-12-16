@@ -1,0 +1,11 @@
+{
+  "query": "SELECT * FROM cpu WHERE usage_user \u003e 90.0 and time \u003e= '2016-01-01 11:54:10.138978 +0000' AND time \u003c '2016-01-01 23:54:10.138978 +0000' AND tags_id IN (SELECT id FROM tags WHERE hostname IN ('host_5'))",
+  "results": []
+}
+
+Run complete after 1 queries with 1 workers (Overall query rate 83.08 queries/sec):
+TimescaleDB CPU over threshold, 1 host(s):
+min:    11.72ms, med:    11.72ms, mean:    11.72ms, max:   11.72ms, stddev:     0.00ms, sum:   0.0sec, count: 1
+all queries                              :
+min:    11.72ms, med:    11.72ms, mean:    11.72ms, max:   11.72ms, stddev:     0.00ms, sum:   0.0sec, count: 1
+wall clock time: 0.015504sec

@@ -1,0 +1,14 @@
+{
+  "results": [
+    {
+      "statement_id": 0
+    }
+  ]
+}
+
+Run complete after 1 queries with 1 workers (Overall query rate 43.00 queries/sec):
+Influx CPU over threshold, 1 host(s):
+min:    22.78ms, med:    22.78ms, mean:    22.78ms, max:   22.78ms, stddev:     0.00ms, sum:   0.0sec, count: 1
+all queries                         :
+min:    22.78ms, med:    22.78ms, mean:    22.78ms, max:   22.78ms, stddev:     0.00ms, sum:   0.0sec, count: 1
+wall clock time: 0.029802sec

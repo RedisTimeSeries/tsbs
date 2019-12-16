@@ -1,0 +1,500 @@
+{
+  "query": "SELECT time_bucket('60 seconds', time) AS minute,\n        max(usage_user) as max_usage_user, max(usage_system) as max_usage_system, max(usage_idle) as max_usage_idle, max(usage_nice) as max_usage_nice, max(usage_iowait) as max_usage_iowait\n        FROM cpu\n        WHERE tags_id IN (SELECT id FROM tags WHERE hostname IN ('host_9','host_3','host_5','host_1','host_7','host_2','host_8','host_4')) AND time \u003e= '2016-01-01 20:16:22.646325 +0000' AND time \u003c '2016-01-01 21:16:22.646325 +0000'\n        GROUP BY minute ORDER BY minute ASC",
+  "results": [
+    {
+      "max_usage_idle": 71,
+      "max_usage_iowait": 85,
+      "max_usage_nice": 87,
+      "max_usage_system": 87,
+      "max_usage_user": 72,
+      "minute": "2016-01-01T20:16:00Z"
+    },
+    {
+      "max_usage_idle": 72,
+      "max_usage_iowait": 84,
+      "max_usage_nice": 87,
+      "max_usage_system": 91,
+      "max_usage_user": 70,
+      "minute": "2016-01-01T20:17:00Z"
+    },
+    {
+      "max_usage_idle": 71,
+      "max_usage_iowait": 82,
+      "max_usage_nice": 87,
+      "max_usage_system": 91,
+      "max_usage_user": 72,
+      "minute": "2016-01-01T20:18:00Z"
+    },
+    {
+      "max_usage_idle": 71,
+      "max_usage_iowait": 82,
+      "max_usage_nice": 93,
+      "max_usage_system": 90,
+      "max_usage_user": 74,
+      "minute": "2016-01-01T20:19:00Z"
+    },
+    {
+      "max_usage_idle": 72,
+      "max_usage_iowait": 82,
+      "max_usage_nice": 91,
+      "max_usage_system": 91,
+      "max_usage_user": 72,
+      "minute": "2016-01-01T20:20:00Z"
+    },
+    {
+      "max_usage_idle": 74,
+      "max_usage_iowait": 82,
+      "max_usage_nice": 92,
+      "max_usage_system": 89,
+      "max_usage_user": 67,
+      "minute": "2016-01-01T20:21:00Z"
+    },
+    {
+      "max_usage_idle": 77,
+      "max_usage_iowait": 80,
+      "max_usage_nice": 93,
+      "max_usage_system": 93,
+      "max_usage_user": 66,
+      "minute": "2016-01-01T20:22:00Z"
+    },
+    {
+      "max_usage_idle": 76,
+      "max_usage_iowait": 77,
+      "max_usage_nice": 92,
+      "max_usage_system": 91,
+      "max_usage_user": 65,
+      "minute": "2016-01-01T20:23:00Z"
+    },
+    {
+      "max_usage_idle": 76,
+      "max_usage_iowait": 80,
+      "max_usage_nice": 96,
+      "max_usage_system": 88,
+      "max_usage_user": 64,
+      "minute": "2016-01-01T20:24:00Z"
+    },
+    {
+      "max_usage_idle": 75,
+      "max_usage_iowait": 78,
+      "max_usage_nice": 96,
+      "max_usage_system": 82,
+      "max_usage_user": 64,
+      "minute": "2016-01-01T20:25:00Z"
+    },
+    {
+      "max_usage_idle": 77,
+      "max_usage_iowait": 76,
+      "max_usage_nice": 96,
+      "max_usage_system": 82,
+      "max_usage_user": 65,
+      "minute": "2016-01-01T20:26:00Z"
+    },
+    {
+      "max_usage_idle": 79,
+      "max_usage_iowait": 75,
+      "max_usage_nice": 97,
+      "max_usage_system": 78,
+      "max_usage_user": 64,
+      "minute": "2016-01-01T20:27:00Z"
+    },
+    {
+      "max_usage_idle": 78,
+      "max_usage_iowait": 77,
+      "max_usage_nice": 96,
+      "max_usage_system": 77,
+      "max_usage_user": 66,
+      "minute": "2016-01-01T20:28:00Z"
+    },
+    {
+      "max_usage_idle": 74,
+      "max_usage_iowait": 78,
+      "max_usage_nice": 96,
+      "max_usage_system": 77,
+      "max_usage_user": 68,
+      "minute": "2016-01-01T20:29:00Z"
+    },
+    {
+      "max_usage_idle": 75,
+      "max_usage_iowait": 75,
+      "max_usage_nice": 98,
+      "max_usage_system": 79,
+      "max_usage_user": 68,
+      "minute": "2016-01-01T20:30:00Z"
+    },
+    {
+      "max_usage_idle": 73,
+      "max_usage_iowait": 72,
+      "max_usage_nice": 96,
+      "max_usage_system": 82,
+      "max_usage_user": 71,
+      "minute": "2016-01-01T20:31:00Z"
+    },
+    {
+      "max_usage_idle": 75,
+      "max_usage_iowait": 70,
+      "max_usage_nice": 96,
+      "max_usage_system": 84,
+      "max_usage_user": 71,
+      "minute": "2016-01-01T20:32:00Z"
+    },
+    {
+      "max_usage_idle": 76,
+      "max_usage_iowait": 68,
+      "max_usage_nice": 95,
+      "max_usage_system": 83,
+      "max_usage_user": 69,
+      "minute": "2016-01-01T20:33:00Z"
+    },
+    {
+      "max_usage_idle": 78,
+      "max_usage_iowait": 69,
+      "max_usage_nice": 97,
+      "max_usage_system": 84,
+      "max_usage_user": 69,
+      "minute": "2016-01-01T20:34:00Z"
+    },
+    {
+      "max_usage_idle": 80,
+      "max_usage_iowait": 69,
+      "max_usage_nice": 97,
+      "max_usage_system": 87,
+      "max_usage_user": 67,
+      "minute": "2016-01-01T20:35:00Z"
+    },
+    {
+      "max_usage_idle": 80,
+      "max_usage_iowait": 67,
+      "max_usage_nice": 95,
+      "max_usage_system": 86,
+      "max_usage_user": 69,
+      "minute": "2016-01-01T20:36:00Z"
+    },
+    {
+      "max_usage_idle": 84,
+      "max_usage_iowait": 68,
+      "max_usage_nice": 94,
+      "max_usage_system": 87,
+      "max_usage_user": 69,
+      "minute": "2016-01-01T20:37:00Z"
+    },
+    {
+      "max_usage_idle": 86,
+      "max_usage_iowait": 67,
+      "max_usage_nice": 93,
+      "max_usage_system": 88,
+      "max_usage_user": 65,
+      "minute": "2016-01-01T20:38:00Z"
+    },
+    {
+      "max_usage_idle": 87,
+      "max_usage_iowait": 64,
+      "max_usage_nice": 92,
+      "max_usage_system": 89,
+      "max_usage_user": 67,
+      "minute": "2016-01-01T20:39:00Z"
+    },
+    {
+      "max_usage_idle": 86,
+      "max_usage_iowait": 63,
+      "max_usage_nice": 93,
+      "max_usage_system": 90,
+      "max_usage_user": 69,
+      "minute": "2016-01-01T20:40:00Z"
+    },
+    {
+      "max_usage_idle": 85,
+      "max_usage_iowait": 66,
+      "max_usage_nice": 94,
+      "max_usage_system": 92,
+      "max_usage_user": 69,
+      "minute": "2016-01-01T20:41:00Z"
+    },
+    {
+      "max_usage_idle": 87,
+      "max_usage_iowait": 69,
+      "max_usage_nice": 98,
+      "max_usage_system": 92,
+      "max_usage_user": 68,
+      "minute": "2016-01-01T20:42:00Z"
+    },
+    {
+      "max_usage_idle": 88,
+      "max_usage_iowait": 68,
+      "max_usage_nice": 98,
+      "max_usage_system": 92,
+      "max_usage_user": 66,
+      "minute": "2016-01-01T20:43:00Z"
+    },
+    {
+      "max_usage_idle": 88,
+      "max_usage_iowait": 69,
+      "max_usage_nice": 97,
+      "max_usage_system": 93,
+      "max_usage_user": 63,
+      "minute": "2016-01-01T20:44:00Z"
+    },
+    {
+      "max_usage_idle": 90,
+      "max_usage_iowait": 68,
+      "max_usage_nice": 100,
+      "max_usage_system": 94,
+      "max_usage_user": 65,
+      "minute": "2016-01-01T20:45:00Z"
+    },
+    {
+      "max_usage_idle": 88,
+      "max_usage_iowait": 68,
+      "max_usage_nice": 100,
+      "max_usage_system": 97,
+      "max_usage_user": 65,
+      "minute": "2016-01-01T20:46:00Z"
+    },
+    {
+      "max_usage_idle": 88,
+      "max_usage_iowait": 67,
+      "max_usage_nice": 100,
+      "max_usage_system": 94,
+      "max_usage_user": 63,
+      "minute": "2016-01-01T20:47:00Z"
+    },
+    {
+      "max_usage_idle": 87,
+      "max_usage_iowait": 66,
+      "max_usage_nice": 100,
+      "max_usage_system": 93,
+      "max_usage_user": 60,
+      "minute": "2016-01-01T20:48:00Z"
+    },
+    {
+      "max_usage_idle": 89,
+      "max_usage_iowait": 62,
+      "max_usage_nice": 100,
+      "max_usage_system": 91,
+      "max_usage_user": 59,
+      "minute": "2016-01-01T20:49:00Z"
+    },
+    {
+      "max_usage_idle": 90,
+      "max_usage_iowait": 61,
+      "max_usage_nice": 100,
+      "max_usage_system": 92,
+      "max_usage_user": 62,
+      "minute": "2016-01-01T20:50:00Z"
+    },
+    {
+      "max_usage_idle": 89,
+      "max_usage_iowait": 60,
+      "max_usage_nice": 99,
+      "max_usage_system": 93,
+      "max_usage_user": 67,
+      "minute": "2016-01-01T20:51:00Z"
+    },
+    {
+      "max_usage_idle": 87,
+      "max_usage_iowait": 58,
+      "max_usage_nice": 98,
+      "max_usage_system": 95,
+      "max_usage_user": 68,
+      "minute": "2016-01-01T20:52:00Z"
+    },
+    {
+      "max_usage_idle": 86,
+      "max_usage_iowait": 59,
+      "max_usage_nice": 95,
+      "max_usage_system": 95,
+      "max_usage_user": 67,
+      "minute": "2016-01-01T20:53:00Z"
+    },
+    {
+      "max_usage_idle": 88,
+      "max_usage_iowait": 61,
+      "max_usage_nice": 97,
+      "max_usage_system": 100,
+      "max_usage_user": 67,
+      "minute": "2016-01-01T20:54:00Z"
+    },
+    {
+      "max_usage_idle": 89,
+      "max_usage_iowait": 62,
+      "max_usage_nice": 100,
+      "max_usage_system": 100,
+      "max_usage_user": 64,
+      "minute": "2016-01-01T20:55:00Z"
+    },
+    {
+      "max_usage_idle": 89,
+      "max_usage_iowait": 61,
+      "max_usage_nice": 99,
+      "max_usage_system": 99,
+      "max_usage_user": 66,
+      "minute": "2016-01-01T20:56:00Z"
+    },
+    {
+      "max_usage_idle": 93,
+      "max_usage_iowait": 60,
+      "max_usage_nice": 98,
+      "max_usage_system": 96,
+      "max_usage_user": 63,
+      "minute": "2016-01-01T20:57:00Z"
+    },
+    {
+      "max_usage_idle": 94,
+      "max_usage_iowait": 61,
+      "max_usage_nice": 100,
+      "max_usage_system": 96,
+      "max_usage_user": 64,
+      "minute": "2016-01-01T20:58:00Z"
+    },
+    {
+      "max_usage_idle": 95,
+      "max_usage_iowait": 64,
+      "max_usage_nice": 100,
+      "max_usage_system": 100,
+      "max_usage_user": 66,
+      "minute": "2016-01-01T20:59:00Z"
+    },
+    {
+      "max_usage_idle": 93,
+      "max_usage_iowait": 65,
+      "max_usage_nice": 100,
+      "max_usage_system": 97,
+      "max_usage_user": 67,
+      "minute": "2016-01-01T21:00:00Z"
+    },
+    {
+      "max_usage_idle": 96,
+      "max_usage_iowait": 68,
+      "max_usage_nice": 100,
+      "max_usage_system": 97,
+      "max_usage_user": 72,
+      "minute": "2016-01-01T21:01:00Z"
+    },
+    {
+      "max_usage_idle": 96,
+      "max_usage_iowait": 67,
+      "max_usage_nice": 100,
+      "max_usage_system": 99,
+      "max_usage_user": 74,
+      "minute": "2016-01-01T21:02:00Z"
+    },
+    {
+      "max_usage_idle": 95,
+      "max_usage_iowait": 68,
+      "max_usage_nice": 98,
+      "max_usage_system": 98,
+      "max_usage_user": 76,
+      "minute": "2016-01-01T21:03:00Z"
+    },
+    {
+      "max_usage_idle": 92,
+      "max_usage_iowait": 67,
+      "max_usage_nice": 98,
+      "max_usage_system": 100,
+      "max_usage_user": 75,
+      "minute": "2016-01-01T21:04:00Z"
+    },
+    {
+      "max_usage_idle": 92,
+      "max_usage_iowait": 66,
+      "max_usage_nice": 99,
+      "max_usage_system": 100,
+      "max_usage_user": 75,
+      "minute": "2016-01-01T21:05:00Z"
+    },
+    {
+      "max_usage_idle": 92,
+      "max_usage_iowait": 66,
+      "max_usage_nice": 99,
+      "max_usage_system": 100,
+      "max_usage_user": 72,
+      "minute": "2016-01-01T21:06:00Z"
+    },
+    {
+      "max_usage_idle": 91,
+      "max_usage_iowait": 67,
+      "max_usage_nice": 99,
+      "max_usage_system": 100,
+      "max_usage_user": 72,
+      "minute": "2016-01-01T21:07:00Z"
+    },
+    {
+      "max_usage_idle": 92,
+      "max_usage_iowait": 65,
+      "max_usage_nice": 100,
+      "max_usage_system": 100,
+      "max_usage_user": 70,
+      "minute": "2016-01-01T21:08:00Z"
+    },
+    {
+      "max_usage_idle": 92,
+      "max_usage_iowait": 66,
+      "max_usage_nice": 99,
+      "max_usage_system": 99,
+      "max_usage_user": 70,
+      "minute": "2016-01-01T21:09:00Z"
+    },
+    {
+      "max_usage_idle": 92,
+      "max_usage_iowait": 68,
+      "max_usage_nice": 96,
+      "max_usage_system": 100,
+      "max_usage_user": 68,
+      "minute": "2016-01-01T21:10:00Z"
+    },
+    {
+      "max_usage_idle": 92,
+      "max_usage_iowait": 70,
+      "max_usage_nice": 95,
+      "max_usage_system": 100,
+      "max_usage_user": 68,
+      "minute": "2016-01-01T21:11:00Z"
+    },
+    {
+      "max_usage_idle": 92,
+      "max_usage_iowait": 72,
+      "max_usage_nice": 94,
+      "max_usage_system": 99,
+      "max_usage_user": 67,
+      "minute": "2016-01-01T21:12:00Z"
+    },
+    {
+      "max_usage_idle": 91,
+      "max_usage_iowait": 70,
+      "max_usage_nice": 94,
+      "max_usage_system": 100,
+      "max_usage_user": 70,
+      "minute": "2016-01-01T21:13:00Z"
+    },
+    {
+      "max_usage_idle": 92,
+      "max_usage_iowait": 69,
+      "max_usage_nice": 96,
+      "max_usage_system": 100,
+      "max_usage_user": 71,
+      "minute": "2016-01-01T21:14:00Z"
+    },
+    {
+      "max_usage_idle": 91,
+      "max_usage_iowait": 67,
+      "max_usage_nice": 96,
+      "max_usage_system": 98,
+      "max_usage_user": 71,
+      "minute": "2016-01-01T21:15:00Z"
+    },
+    {
+      "max_usage_idle": 91,
+      "max_usage_iowait": 66,
+      "max_usage_nice": 96,
+      "max_usage_system": 100,
+      "max_usage_user": 72,
+      "minute": "2016-01-01T21:16:00Z"
+    }
+  ]
+}
+
+Run complete after 1 queries with 1 workers (Overall query rate 69.42 queries/sec):
+TimescaleDB 5 cpu metric(s), random    8 hosts, random 1h0m0s by 1m:
+min:    14.13ms, med:    14.13ms, mean:    14.13ms, max:   14.13ms, stddev:     0.00ms, sum:   0.0sec, count: 1
+all queries                                                        :
+min:    14.13ms, med:    14.13ms, mean:    14.13ms, max:   14.13ms, stddev:     0.00ms, sum:   0.0sec, count: 1
+wall clock time: 0.018613sec

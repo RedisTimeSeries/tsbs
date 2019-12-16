@@ -10,7 +10,7 @@ FORMAT="influx"
 
 mkdir -p /tmp/bulk_data
 rm /tmp/bulk_data/${FORMAT}_*
-rm ${FORMAT}_*
+rm docs/responses/${FORMAT}_*
 
 # Load parameters - common
 DATABASE_PORT=${DATABASE_PORT:-8086}

@@ -1,0 +1,1158 @@
+Issuing command (TS.MRANGE 1451628982646 1451672182646 AGGREGATION AVG 3600000 FILTER measurement=cpu fieldname=usage_user)
+Applying functor github.com/timescale/tsbs/query.GroupByTimeAndTagHostname on RedisTimeSeries mean of 1 metrics, all hosts, random 12h0m0s by 1h
+Applying functor reflect_GroupByTimeAndTagHostname github.com/timescale/tsbs/query.GroupByTimeAndTagHostname
+{
+  "query 1": {
+    "client_side_work": true,
+    "query": "TS.MRANGE 1451628982646 1451672182646 AGGREGATION AVG 3600000 FILTER measurement=cpu fieldname=usage_user",
+    "results": [
+      {
+        "datapoints": [
+          {
+            "Timestamp": 1451628000000,
+            "HumanReadbleTime": "2016-01-01T06:00:00Z",
+            "Values": [
+              28.413793103448278
+            ]
+          },
+          {
+            "Timestamp": 1451631600000,
+            "HumanReadbleTime": "2016-01-01T07:00:00Z",
+            "Values": [
+              23.538888888888888
+            ]
+          },
+          {
+            "Timestamp": 1451635200000,
+            "HumanReadbleTime": "2016-01-01T08:00:00Z",
+            "Values": [
+              45.980555555555554
+            ]
+          },
+          {
+            "Timestamp": 1451638800000,
+            "HumanReadbleTime": "2016-01-01T09:00:00Z",
+            "Values": [
+              42.23888888888889
+            ]
+          },
+          {
+            "Timestamp": 1451642400000,
+            "HumanReadbleTime": "2016-01-01T10:00:00Z",
+            "Values": [
+              39.041666666666664
+            ]
+          },
+          {
+            "Timestamp": 1451646000000,
+            "HumanReadbleTime": "2016-01-01T11:00:00Z",
+            "Values": [
+              32.46944444444444
+            ]
+          },
+          {
+            "Timestamp": 1451649600000,
+            "HumanReadbleTime": "2016-01-01T12:00:00Z",
+            "Values": [
+              39.705555555555556
+            ]
+          },
+          {
+            "Timestamp": 1451653200000,
+            "HumanReadbleTime": "2016-01-01T13:00:00Z",
+            "Values": [
+              42.12222222222222
+            ]
+          },
+          {
+            "Timestamp": 1451656800000,
+            "HumanReadbleTime": "2016-01-01T14:00:00Z",
+            "Values": [
+              47.83611111111111
+            ]
+          },
+          {
+            "Timestamp": 1451660400000,
+            "HumanReadbleTime": "2016-01-01T15:00:00Z",
+            "Values": [
+              40.44722222222222
+            ]
+          },
+          {
+            "Timestamp": 1451664000000,
+            "HumanReadbleTime": "2016-01-01T16:00:00Z",
+            "Values": [
+              26.158333333333335
+            ]
+          },
+          {
+            "Timestamp": 1451667600000,
+            "HumanReadbleTime": "2016-01-01T17:00:00Z",
+            "Values": [
+              26.42222222222222
+            ]
+          },
+          {
+            "Timestamp": 1451671200000,
+            "HumanReadbleTime": "2016-01-01T18:00:00Z",
+            "Values": [
+              22.96969696969697
+            ]
+          }
+        ],
+        "labels": [
+          {
+            "arch": "x86",
+            "datacenter": "ap-southeast-2a",
+            "fieldname": "usage_user",
+            "hostname": "host_9",
+            "measurement": "cpu",
+            "os": "Ubuntu16.04LTS",
+            "rack": "0",
+            "region": "ap-southeast-2",
+            "service": "18",
+            "service_environment": "production",
+            "service_version": "0",
+            "team": "CHI"
+          }
+        ],
+        "names": [
+          "cpu_usage_user{1451654927}"
+        ]
+      },
+      {
+        "datapoints": [
+          {
+            "Timestamp": 1451628000000,
+            "HumanReadbleTime": "2016-01-01T06:00:00Z",
+            "Values": [
+              3.7624521072796937
+            ]
+          },
+          {
+            "Timestamp": 1451631600000,
+            "HumanReadbleTime": "2016-01-01T07:00:00Z",
+            "Values": [
+              4.441666666666666
+            ]
+          },
+          {
+            "Timestamp": 1451635200000,
+            "HumanReadbleTime": "2016-01-01T08:00:00Z",
+            "Values": [
+              3.9277777777777776
+            ]
+          },
+          {
+            "Timestamp": 1451638800000,
+            "HumanReadbleTime": "2016-01-01T09:00:00Z",
+            "Values": [
+              13.691666666666666
+            ]
+          },
+          {
+            "Timestamp": 1451642400000,
+            "HumanReadbleTime": "2016-01-01T10:00:00Z",
+            "Values": [
+              21.1
+            ]
+          },
+          {
+            "Timestamp": 1451646000000,
+            "HumanReadbleTime": "2016-01-01T11:00:00Z",
+            "Values": [
+              21.96388888888889
+            ]
+          },
+          {
+            "Timestamp": 1451649600000,
+            "HumanReadbleTime": "2016-01-01T12:00:00Z",
+            "Values": [
+              15.563888888888888
+            ]
+          },
+          {
+            "Timestamp": 1451653200000,
+            "HumanReadbleTime": "2016-01-01T13:00:00Z",
+            "Values": [
+              19.9
+            ]
+          },
+          {
+            "Timestamp": 1451656800000,
+            "HumanReadbleTime": "2016-01-01T14:00:00Z",
+            "Values": [
+              35.44722222222222
+            ]
+          },
+          {
+            "Timestamp": 1451660400000,
+            "HumanReadbleTime": "2016-01-01T15:00:00Z",
+            "Values": [
+              34.45
+            ]
+          },
+          {
+            "Timestamp": 1451664000000,
+            "HumanReadbleTime": "2016-01-01T16:00:00Z",
+            "Values": [
+              23.863888888888887
+            ]
+          },
+          {
+            "Timestamp": 1451667600000,
+            "HumanReadbleTime": "2016-01-01T17:00:00Z",
+            "Values": [
+              19.211111111111112
+            ]
+          },
+          {
+            "Timestamp": 1451671200000,
+            "HumanReadbleTime": "2016-01-01T18:00:00Z",
+            "Values": [
+              18.747474747474747
+            ]
+          }
+        ],
+        "labels": [
+          {
+            "arch": "x86",
+            "datacenter": "sa-east-1a",
+            "fieldname": "usage_user",
+            "hostname": "host_2",
+            "measurement": "cpu",
+            "os": "Ubuntu16.04LTS",
+            "rack": "89",
+            "region": "sa-east-1",
+            "service": "13",
+            "service_environment": "staging",
+            "service_version": "0",
+            "team": "LON"
+          }
+        ],
+        "names": [
+          "cpu_usage_user{147337842}"
+        ]
+      },
+      {
+        "datapoints": [
+          {
+            "Timestamp": 1451628000000,
+            "HumanReadbleTime": "2016-01-01T06:00:00Z",
+            "Values": [
+              44.40996168582375
+            ]
+          },
+          {
+            "Timestamp": 1451631600000,
+            "HumanReadbleTime": "2016-01-01T07:00:00Z",
+            "Values": [
+              50.7
+            ]
+          },
+          {
+            "Timestamp": 1451635200000,
+            "HumanReadbleTime": "2016-01-01T08:00:00Z",
+            "Values": [
+              62.06944444444444
+            ]
+          },
+          {
+            "Timestamp": 1451638800000,
+            "HumanReadbleTime": "2016-01-01T09:00:00Z",
+            "Values": [
+              82.53611111111111
+            ]
+          },
+          {
+            "Timestamp": 1451642400000,
+            "HumanReadbleTime": "2016-01-01T10:00:00Z",
+            "Values": [
+              66.90555555555555
+            ]
+          },
+          {
+            "Timestamp": 1451646000000,
+            "HumanReadbleTime": "2016-01-01T11:00:00Z",
+            "Values": [
+              76.55277777777778
+            ]
+          },
+          {
+            "Timestamp": 1451649600000,
+            "HumanReadbleTime": "2016-01-01T12:00:00Z",
+            "Values": [
+              81.325
+            ]
+          },
+          {
+            "Timestamp": 1451653200000,
+            "HumanReadbleTime": "2016-01-01T13:00:00Z",
+            "Values": [
+              72.51388888888889
+            ]
+          },
+          {
+            "Timestamp": 1451656800000,
+            "HumanReadbleTime": "2016-01-01T14:00:00Z",
+            "Values": [
+              54.62222222222222
+            ]
+          },
+          {
+            "Timestamp": 1451660400000,
+            "HumanReadbleTime": "2016-01-01T15:00:00Z",
+            "Values": [
+              61.605555555555554
+            ]
+          },
+          {
+            "Timestamp": 1451664000000,
+            "HumanReadbleTime": "2016-01-01T16:00:00Z",
+            "Values": [
+              56.147222222222226
+            ]
+          },
+          {
+            "Timestamp": 1451667600000,
+            "HumanReadbleTime": "2016-01-01T17:00:00Z",
+            "Values": [
+              70.31111111111112
+            ]
+          },
+          {
+            "Timestamp": 1451671200000,
+            "HumanReadbleTime": "2016-01-01T18:00:00Z",
+            "Values": [
+              46.464646464646464
+            ]
+          }
+        ],
+        "labels": [
+          {
+            "arch": "x64",
+            "datacenter": "us-west-1a",
+            "fieldname": "usage_user",
+            "hostname": "host_1",
+            "measurement": "cpu",
+            "os": "Ubuntu15.10",
+            "rack": "41",
+            "region": "us-west-1",
+            "service": "9",
+            "service_environment": "staging",
+            "service_version": "1",
+            "team": "NYC"
+          }
+        ],
+        "names": [
+          "cpu_usage_user{1578048592}"
+        ]
+      },
+      {
+        "datapoints": [
+          {
+            "Timestamp": 1451628000000,
+            "HumanReadbleTime": "2016-01-01T06:00:00Z",
+            "Values": [
+              87.5632183908046
+            ]
+          },
+          {
+            "Timestamp": 1451631600000,
+            "HumanReadbleTime": "2016-01-01T07:00:00Z",
+            "Values": [
+              85.00277777777778
+            ]
+          },
+          {
+            "Timestamp": 1451635200000,
+            "HumanReadbleTime": "2016-01-01T08:00:00Z",
+            "Values": [
+              84.425
+            ]
+          },
+          {
+            "Timestamp": 1451638800000,
+            "HumanReadbleTime": "2016-01-01T09:00:00Z",
+            "Values": [
+              83.35833333333333
+            ]
+          },
+          {
+            "Timestamp": 1451642400000,
+            "HumanReadbleTime": "2016-01-01T10:00:00Z",
+            "Values": [
+              93.25833333333334
+            ]
+          },
+          {
+            "Timestamp": 1451646000000,
+            "HumanReadbleTime": "2016-01-01T11:00:00Z",
+            "Values": [
+              64.24722222222222
+            ]
+          },
+          {
+            "Timestamp": 1451649600000,
+            "HumanReadbleTime": "2016-01-01T12:00:00Z",
+            "Values": [
+              50.352777777777774
+            ]
+          },
+          {
+            "Timestamp": 1451653200000,
+            "HumanReadbleTime": "2016-01-01T13:00:00Z",
+            "Values": [
+              26.483333333333334
+            ]
+          },
+          {
+            "Timestamp": 1451656800000,
+            "HumanReadbleTime": "2016-01-01T14:00:00Z",
+            "Values": [
+              25.591666666666665
+            ]
+          },
+          {
+            "Timestamp": 1451660400000,
+            "HumanReadbleTime": "2016-01-01T15:00:00Z",
+            "Values": [
+              43.03888888888889
+            ]
+          },
+          {
+            "Timestamp": 1451664000000,
+            "HumanReadbleTime": "2016-01-01T16:00:00Z",
+            "Values": [
+              48.044444444444444
+            ]
+          },
+          {
+            "Timestamp": 1451667600000,
+            "HumanReadbleTime": "2016-01-01T17:00:00Z",
+            "Values": [
+              31.43888888888889
+            ]
+          },
+          {
+            "Timestamp": 1451671200000,
+            "HumanReadbleTime": "2016-01-01T18:00:00Z",
+            "Values": [
+              44.898989898989896
+            ]
+          }
+        ],
+        "labels": [
+          {
+            "arch": "x86",
+            "datacenter": "ap-southeast-1b",
+            "fieldname": "usage_user",
+            "hostname": "host_6",
+            "measurement": "cpu",
+            "os": "Ubuntu16.10",
+            "rack": "49",
+            "region": "ap-southeast-1",
+            "service": "7",
+            "service_environment": "staging",
+            "service_version": "0",
+            "team": "CHI"
+          }
+        ],
+        "names": [
+          "cpu_usage_user{2045477637}"
+        ]
+      },
+      {
+        "datapoints": [
+          {
+            "Timestamp": 1451628000000,
+            "HumanReadbleTime": "2016-01-01T06:00:00Z",
+            "Values": [
+              27.402298850574713
+            ]
+          },
+          {
+            "Timestamp": 1451631600000,
+            "HumanReadbleTime": "2016-01-01T07:00:00Z",
+            "Values": [
+              58.99166666666667
+            ]
+          },
+          {
+            "Timestamp": 1451635200000,
+            "HumanReadbleTime": "2016-01-01T08:00:00Z",
+            "Values": [
+              68.11666666666666
+            ]
+          },
+          {
+            "Timestamp": 1451638800000,
+            "HumanReadbleTime": "2016-01-01T09:00:00Z",
+            "Values": [
+              70.8861111111111
+            ]
+          },
+          {
+            "Timestamp": 1451642400000,
+            "HumanReadbleTime": "2016-01-01T10:00:00Z",
+            "Values": [
+              78.81666666666666
+            ]
+          },
+          {
+            "Timestamp": 1451646000000,
+            "HumanReadbleTime": "2016-01-01T11:00:00Z",
+            "Values": [
+              83.66111111111111
+            ]
+          },
+          {
+            "Timestamp": 1451649600000,
+            "HumanReadbleTime": "2016-01-01T12:00:00Z",
+            "Values": [
+              73.20833333333333
+            ]
+          },
+          {
+            "Timestamp": 1451653200000,
+            "HumanReadbleTime": "2016-01-01T13:00:00Z",
+            "Values": [
+              73.1361111111111
+            ]
+          },
+          {
+            "Timestamp": 1451656800000,
+            "HumanReadbleTime": "2016-01-01T14:00:00Z",
+            "Values": [
+              61.458333333333336
+            ]
+          },
+          {
+            "Timestamp": 1451660400000,
+            "HumanReadbleTime": "2016-01-01T15:00:00Z",
+            "Values": [
+              52.88333333333333
+            ]
+          },
+          {
+            "Timestamp": 1451664000000,
+            "HumanReadbleTime": "2016-01-01T16:00:00Z",
+            "Values": [
+              39.52777777777778
+            ]
+          },
+          {
+            "Timestamp": 1451667600000,
+            "HumanReadbleTime": "2016-01-01T17:00:00Z",
+            "Values": [
+              46.40833333333333
+            ]
+          },
+          {
+            "Timestamp": 1451671200000,
+            "HumanReadbleTime": "2016-01-01T18:00:00Z",
+            "Values": [
+              40.04040404040404
+            ]
+          }
+        ],
+        "labels": [
+          {
+            "arch": "x86",
+            "datacenter": "sa-east-1c",
+            "fieldname": "usage_user",
+            "hostname": "host_4",
+            "measurement": "cpu",
+            "os": "Ubuntu16.10",
+            "rack": "74",
+            "region": "sa-east-1",
+            "service": "7",
+            "service_environment": "staging",
+            "service_version": "0",
+            "team": "SF"
+          }
+        ],
+        "names": [
+          "cpu_usage_user{2157791835}"
+        ]
+      },
+      {
+        "datapoints": [
+          {
+            "Timestamp": 1451628000000,
+            "HumanReadbleTime": "2016-01-01T06:00:00Z",
+            "Values": [
+              70.28735632183908
+            ]
+          },
+          {
+            "Timestamp": 1451631600000,
+            "HumanReadbleTime": "2016-01-01T07:00:00Z",
+            "Values": [
+              54.06388888888889
+            ]
+          },
+          {
+            "Timestamp": 1451635200000,
+            "HumanReadbleTime": "2016-01-01T08:00:00Z",
+            "Values": [
+              42.68333333333333
+            ]
+          },
+          {
+            "Timestamp": 1451638800000,
+            "HumanReadbleTime": "2016-01-01T09:00:00Z",
+            "Values": [
+              48.00555555555555
+            ]
+          },
+          {
+            "Timestamp": 1451642400000,
+            "HumanReadbleTime": "2016-01-01T10:00:00Z",
+            "Values": [
+              60.43055555555556
+            ]
+          },
+          {
+            "Timestamp": 1451646000000,
+            "HumanReadbleTime": "2016-01-01T11:00:00Z",
+            "Values": [
+              50.425
+            ]
+          },
+          {
+            "Timestamp": 1451649600000,
+            "HumanReadbleTime": "2016-01-01T12:00:00Z",
+            "Values": [
+              45.92777777777778
+            ]
+          },
+          {
+            "Timestamp": 1451653200000,
+            "HumanReadbleTime": "2016-01-01T13:00:00Z",
+            "Values": [
+              16.008333333333333
+            ]
+          },
+          {
+            "Timestamp": 1451656800000,
+            "HumanReadbleTime": "2016-01-01T14:00:00Z",
+            "Values": [
+              18.127777777777776
+            ]
+          },
+          {
+            "Timestamp": 1451660400000,
+            "HumanReadbleTime": "2016-01-01T15:00:00Z",
+            "Values": [
+              13
+            ]
+          },
+          {
+            "Timestamp": 1451664000000,
+            "HumanReadbleTime": "2016-01-01T16:00:00Z",
+            "Values": [
+              21.455555555555556
+            ]
+          },
+          {
+            "Timestamp": 1451667600000,
+            "HumanReadbleTime": "2016-01-01T17:00:00Z",
+            "Values": [
+              18.583333333333332
+            ]
+          },
+          {
+            "Timestamp": 1451671200000,
+            "HumanReadbleTime": "2016-01-01T18:00:00Z",
+            "Values": [
+              26.505050505050505
+            ]
+          }
+        ],
+        "labels": [
+          {
+            "arch": "x64",
+            "datacenter": "us-west-1b",
+            "fieldname": "usage_user",
+            "hostname": "host_5",
+            "measurement": "cpu",
+            "os": "Ubuntu16.10",
+            "rack": "18",
+            "region": "us-west-1",
+            "service": "14",
+            "service_environment": "staging",
+            "service_version": "0",
+            "team": "CHI"
+          }
+        ],
+        "names": [
+          "cpu_usage_user{1245923230}"
+        ]
+      },
+      {
+        "datapoints": [
+          {
+            "Timestamp": 1451628000000,
+            "HumanReadbleTime": "2016-01-01T06:00:00Z",
+            "Values": [
+              81.89272030651341
+            ]
+          },
+          {
+            "Timestamp": 1451631600000,
+            "HumanReadbleTime": "2016-01-01T07:00:00Z",
+            "Values": [
+              92.92222222222222
+            ]
+          },
+          {
+            "Timestamp": 1451635200000,
+            "HumanReadbleTime": "2016-01-01T08:00:00Z",
+            "Values": [
+              95.4
+            ]
+          },
+          {
+            "Timestamp": 1451638800000,
+            "HumanReadbleTime": "2016-01-01T09:00:00Z",
+            "Values": [
+              78.42777777777778
+            ]
+          },
+          {
+            "Timestamp": 1451642400000,
+            "HumanReadbleTime": "2016-01-01T10:00:00Z",
+            "Values": [
+              82.12777777777778
+            ]
+          },
+          {
+            "Timestamp": 1451646000000,
+            "HumanReadbleTime": "2016-01-01T11:00:00Z",
+            "Values": [
+              90.625
+            ]
+          },
+          {
+            "Timestamp": 1451649600000,
+            "HumanReadbleTime": "2016-01-01T12:00:00Z",
+            "Values": [
+              73.35
+            ]
+          },
+          {
+            "Timestamp": 1451653200000,
+            "HumanReadbleTime": "2016-01-01T13:00:00Z",
+            "Values": [
+              90.66111111111111
+            ]
+          },
+          {
+            "Timestamp": 1451656800000,
+            "HumanReadbleTime": "2016-01-01T14:00:00Z",
+            "Values": [
+              91
+            ]
+          },
+          {
+            "Timestamp": 1451660400000,
+            "HumanReadbleTime": "2016-01-01T15:00:00Z",
+            "Values": [
+              93.28888888888889
+            ]
+          },
+          {
+            "Timestamp": 1451664000000,
+            "HumanReadbleTime": "2016-01-01T16:00:00Z",
+            "Values": [
+              95.27777777777777
+            ]
+          },
+          {
+            "Timestamp": 1451667600000,
+            "HumanReadbleTime": "2016-01-01T17:00:00Z",
+            "Values": [
+              93.46666666666667
+            ]
+          },
+          {
+            "Timestamp": 1451671200000,
+            "HumanReadbleTime": "2016-01-01T18:00:00Z",
+            "Values": [
+              94.45454545454545
+            ]
+          }
+        ],
+        "labels": [
+          {
+            "arch": "x64",
+            "datacenter": "eu-west-1c",
+            "fieldname": "usage_user",
+            "hostname": "host_7",
+            "measurement": "cpu",
+            "os": "Ubuntu16.10",
+            "rack": "44",
+            "region": "eu-west-1",
+            "service": "7",
+            "service_environment": "test",
+            "service_version": "1",
+            "team": "LON"
+          }
+        ],
+        "names": [
+          "cpu_usage_user{831020642}"
+        ]
+      },
+      {
+        "datapoints": [
+          {
+            "Timestamp": 1451628000000,
+            "HumanReadbleTime": "2016-01-01T06:00:00Z",
+            "Values": [
+              89.49425287356321
+            ]
+          },
+          {
+            "Timestamp": 1451631600000,
+            "HumanReadbleTime": "2016-01-01T07:00:00Z",
+            "Values": [
+              88.78888888888889
+            ]
+          },
+          {
+            "Timestamp": 1451635200000,
+            "HumanReadbleTime": "2016-01-01T08:00:00Z",
+            "Values": [
+              65.31666666666666
+            ]
+          },
+          {
+            "Timestamp": 1451638800000,
+            "HumanReadbleTime": "2016-01-01T09:00:00Z",
+            "Values": [
+              27.969444444444445
+            ]
+          },
+          {
+            "Timestamp": 1451642400000,
+            "HumanReadbleTime": "2016-01-01T10:00:00Z",
+            "Values": [
+              25.252777777777776
+            ]
+          },
+          {
+            "Timestamp": 1451646000000,
+            "HumanReadbleTime": "2016-01-01T11:00:00Z",
+            "Values": [
+              29.136111111111113
+            ]
+          },
+          {
+            "Timestamp": 1451649600000,
+            "HumanReadbleTime": "2016-01-01T12:00:00Z",
+            "Values": [
+              22.552777777777777
+            ]
+          },
+          {
+            "Timestamp": 1451653200000,
+            "HumanReadbleTime": "2016-01-01T13:00:00Z",
+            "Values": [
+              7.455555555555556
+            ]
+          },
+          {
+            "Timestamp": 1451656800000,
+            "HumanReadbleTime": "2016-01-01T14:00:00Z",
+            "Values": [
+              3.6055555555555556
+            ]
+          },
+          {
+            "Timestamp": 1451660400000,
+            "HumanReadbleTime": "2016-01-01T15:00:00Z",
+            "Values": [
+              1.6027777777777779
+            ]
+          },
+          {
+            "Timestamp": 1451664000000,
+            "HumanReadbleTime": "2016-01-01T16:00:00Z",
+            "Values": [
+              9.113888888888889
+            ]
+          },
+          {
+            "Timestamp": 1451667600000,
+            "HumanReadbleTime": "2016-01-01T17:00:00Z",
+            "Values": [
+              3.2916666666666665
+            ]
+          },
+          {
+            "Timestamp": 1451671200000,
+            "HumanReadbleTime": "2016-01-01T18:00:00Z",
+            "Values": [
+              1.7272727272727273
+            ]
+          }
+        ],
+        "labels": [
+          {
+            "arch": "x64",
+            "datacenter": "eu-west-1a",
+            "fieldname": "usage_user",
+            "hostname": "host_8",
+            "measurement": "cpu",
+            "os": "Ubuntu16.04LTS",
+            "rack": "17",
+            "region": "eu-west-1",
+            "service": "2",
+            "service_environment": "test",
+            "service_version": "0",
+            "team": "LON"
+          }
+        ],
+        "names": [
+          "cpu_usage_user{911640529}"
+        ]
+      },
+      {
+        "datapoints": [
+          {
+            "Timestamp": 1451628000000,
+            "HumanReadbleTime": "2016-01-01T06:00:00Z",
+            "Values": [
+              29.82758620689655
+            ]
+          },
+          {
+            "Timestamp": 1451631600000,
+            "HumanReadbleTime": "2016-01-01T07:00:00Z",
+            "Values": [
+              32.30833333333333
+            ]
+          },
+          {
+            "Timestamp": 1451635200000,
+            "HumanReadbleTime": "2016-01-01T08:00:00Z",
+            "Values": [
+              46.36944444444445
+            ]
+          },
+          {
+            "Timestamp": 1451638800000,
+            "HumanReadbleTime": "2016-01-01T09:00:00Z",
+            "Values": [
+              61.608333333333334
+            ]
+          },
+          {
+            "Timestamp": 1451642400000,
+            "HumanReadbleTime": "2016-01-01T10:00:00Z",
+            "Values": [
+              56.87222222222222
+            ]
+          },
+          {
+            "Timestamp": 1451646000000,
+            "HumanReadbleTime": "2016-01-01T11:00:00Z",
+            "Values": [
+              54.830555555555556
+            ]
+          },
+          {
+            "Timestamp": 1451649600000,
+            "HumanReadbleTime": "2016-01-01T12:00:00Z",
+            "Values": [
+              39.65833333333333
+            ]
+          },
+          {
+            "Timestamp": 1451653200000,
+            "HumanReadbleTime": "2016-01-01T13:00:00Z",
+            "Values": [
+              17.275
+            ]
+          },
+          {
+            "Timestamp": 1451656800000,
+            "HumanReadbleTime": "2016-01-01T14:00:00Z",
+            "Values": [
+              8.036111111111111
+            ]
+          },
+          {
+            "Timestamp": 1451660400000,
+            "HumanReadbleTime": "2016-01-01T15:00:00Z",
+            "Values": [
+              9.08611111111111
+            ]
+          },
+          {
+            "Timestamp": 1451664000000,
+            "HumanReadbleTime": "2016-01-01T16:00:00Z",
+            "Values": [
+              12.430555555555555
+            ]
+          },
+          {
+            "Timestamp": 1451667600000,
+            "HumanReadbleTime": "2016-01-01T17:00:00Z",
+            "Values": [
+              8.255555555555556
+            ]
+          },
+          {
+            "Timestamp": 1451671200000,
+            "HumanReadbleTime": "2016-01-01T18:00:00Z",
+            "Values": [
+              7.232323232323233
+            ]
+          }
+        ],
+        "labels": [
+          {
+            "arch": "x64",
+            "datacenter": "us-west-2b",
+            "fieldname": "usage_user",
+            "hostname": "host_3",
+            "measurement": "cpu",
+            "os": "Ubuntu15.10",
+            "rack": "12",
+            "region": "us-west-2",
+            "service": "18",
+            "service_environment": "production",
+            "service_version": "1",
+            "team": "CHI"
+          }
+        ],
+        "names": [
+          "cpu_usage_user{948008140}"
+        ]
+      },
+      {
+        "datapoints": [
+          {
+            "Timestamp": 1451628000000,
+            "HumanReadbleTime": "2016-01-01T06:00:00Z",
+            "Values": [
+              85.69348659003832
+            ]
+          },
+          {
+            "Timestamp": 1451631600000,
+            "HumanReadbleTime": "2016-01-01T07:00:00Z",
+            "Values": [
+              89.88888888888889
+            ]
+          },
+          {
+            "Timestamp": 1451635200000,
+            "HumanReadbleTime": "2016-01-01T08:00:00Z",
+            "Values": [
+              66.56111111111112
+            ]
+          },
+          {
+            "Timestamp": 1451638800000,
+            "HumanReadbleTime": "2016-01-01T09:00:00Z",
+            "Values": [
+              41.94166666666667
+            ]
+          },
+          {
+            "Timestamp": 1451642400000,
+            "HumanReadbleTime": "2016-01-01T10:00:00Z",
+            "Values": [
+              53.675
+            ]
+          },
+          {
+            "Timestamp": 1451646000000,
+            "HumanReadbleTime": "2016-01-01T11:00:00Z",
+            "Values": [
+              42.31944444444444
+            ]
+          },
+          {
+            "Timestamp": 1451649600000,
+            "HumanReadbleTime": "2016-01-01T12:00:00Z",
+            "Values": [
+              30.375
+            ]
+          },
+          {
+            "Timestamp": 1451653200000,
+            "HumanReadbleTime": "2016-01-01T13:00:00Z",
+            "Values": [
+              21.005555555555556
+            ]
+          },
+          {
+            "Timestamp": 1451656800000,
+            "HumanReadbleTime": "2016-01-01T14:00:00Z",
+            "Values": [
+              5.475
+            ]
+          },
+          {
+            "Timestamp": 1451660400000,
+            "HumanReadbleTime": "2016-01-01T15:00:00Z",
+            "Values": [
+              13.708333333333334
+            ]
+          },
+          {
+            "Timestamp": 1451664000000,
+            "HumanReadbleTime": "2016-01-01T16:00:00Z",
+            "Values": [
+              6.536111111111111
+            ]
+          },
+          {
+            "Timestamp": 1451667600000,
+            "HumanReadbleTime": "2016-01-01T17:00:00Z",
+            "Values": [
+              3.236111111111111
+            ]
+          },
+          {
+            "Timestamp": 1451671200000,
+            "HumanReadbleTime": "2016-01-01T18:00:00Z",
+            "Values": [
+              1.595959595959596
+            ]
+          }
+        ],
+        "labels": [
+          {
+            "arch": "x86",
+            "datacenter": "eu-central-1a",
+            "fieldname": "usage_user",
+            "hostname": "host_0",
+            "measurement": "cpu",
+            "os": "Ubuntu15.10",
+            "rack": "6",
+            "region": "eu-central-1",
+            "service": "19",
+            "service_environment": "test",
+            "service_version": "1",
+            "team": "SF"
+          }
+        ],
+        "names": [
+          "cpu_usage_user{3297394792}"
+        ]
+      }
+    ]
+  }
+}
+
+Run complete after 1 queries with 1 workers (Overall query rate 199.25 queries/sec):
+RedisTimeSeries mean of 1 metrics, all hosts, random 12h0m0s by 1h:
+min:     1.60ms, med:     1.60ms, mean:     1.60ms, max:    1.60ms, stddev:     0.00ms, sum:   0.0sec, count: 1
+all queries                                                       :
+min:     1.60ms, med:     1.60ms, mean:     1.60ms, max:    1.60ms, stddev:     0.00ms, sum:   0.0sec, count: 1
+wall clock time: 0.005952sec

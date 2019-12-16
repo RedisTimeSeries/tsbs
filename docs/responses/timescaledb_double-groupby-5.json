@@ -1,0 +1,1182 @@
+{
+  "query": "\n        WITH cpu_avg AS (\n          SELECT time_bucket('3600 seconds', time) as hour, tags_id,\n          avg(usage_user) as mean_usage_user, avg(usage_system) as mean_usage_system, avg(usage_idle) as mean_usage_idle, avg(usage_nice) as mean_usage_nice, avg(usage_iowait) as mean_usage_iowait\n          FROM cpu\n          WHERE time \u003e= '2016-01-01 06:16:22.646325 +0000' AND time \u003c '2016-01-01 18:16:22.646325 +0000'\n          GROUP BY hour, tags_id\n        )\n        SELECT hour, tags.hostname, mean_usage_user, mean_usage_system, mean_usage_idle, mean_usage_nice, mean_usage_iowait\n        FROM cpu_avg\n        JOIN tags ON cpu_avg.tags_id = tags.id\n        ORDER BY hour, tags.hostname",
+  "results": [
+    {
+      "hostname": "host_0",
+      "hour": "2016-01-01T06:00:00Z",
+      "mean_usage_idle": 35.310344827586206,
+      "mean_usage_iowait": 36.14942528735632,
+      "mean_usage_nice": 34.59770114942529,
+      "mean_usage_system": 34.241379310344826,
+      "mean_usage_user": 85.69348659003832
+    },
+    {
+      "hostname": "host_1",
+      "hour": "2016-01-01T06:00:00Z",
+      "mean_usage_idle": 86.55172413793103,
+      "mean_usage_iowait": 33.59003831417625,
+      "mean_usage_nice": 53,
+      "mean_usage_system": 4.931034482758621,
+      "mean_usage_user": 44.40996168582375
+    },
+    {
+      "hostname": "host_2",
+      "hour": "2016-01-01T06:00:00Z",
+      "mean_usage_idle": 45.89272030651341,
+      "mean_usage_iowait": 56.40229885057471,
+      "mean_usage_nice": 67.62068965517241,
+      "mean_usage_system": 58.191570881226056,
+      "mean_usage_user": 3.7624521072796937
+    },
+    {
+      "hostname": "host_3",
+      "hour": "2016-01-01T06:00:00Z",
+      "mean_usage_idle": 42.71647509578544,
+      "mean_usage_iowait": 32.383141762452105,
+      "mean_usage_nice": 80.26436781609195,
+      "mean_usage_system": 77.16091954022988,
+      "mean_usage_user": 29.82758620689655
+    },
+    {
+      "hostname": "host_4",
+      "hour": "2016-01-01T06:00:00Z",
+      "mean_usage_idle": 33.7816091954023,
+      "mean_usage_iowait": 43.32567049808429,
+      "mean_usage_nice": 48.69348659003831,
+      "mean_usage_system": 89.67432950191571,
+      "mean_usage_user": 27.402298850574713
+    },
+    {
+      "hostname": "host_5",
+      "hour": "2016-01-01T06:00:00Z",
+      "mean_usage_idle": 12.340996168582375,
+      "mean_usage_iowait": 31.89272030651341,
+      "mean_usage_nice": 10.835249042145595,
+      "mean_usage_system": 15.218390804597702,
+      "mean_usage_user": 70.28735632183908
+    },
+    {
+      "hostname": "host_6",
+      "hour": "2016-01-01T06:00:00Z",
+      "mean_usage_idle": 10.662835249042146,
+      "mean_usage_iowait": 64.0536398467433,
+      "mean_usage_nice": 8.950191570881225,
+      "mean_usage_system": 76.62835249042146,
+      "mean_usage_user": 87.5632183908046
+    },
+    {
+      "hostname": "host_7",
+      "hour": "2016-01-01T06:00:00Z",
+      "mean_usage_idle": 73,
+      "mean_usage_iowait": 33.69348659003831,
+      "mean_usage_nice": 9.157088122605364,
+      "mean_usage_system": 9.130268199233717,
+      "mean_usage_user": 81.89272030651341
+    },
+    {
+      "hostname": "host_8",
+      "hour": "2016-01-01T06:00:00Z",
+      "mean_usage_idle": 88.17241379310344,
+      "mean_usage_iowait": 49.18007662835249,
+      "mean_usage_nice": 92.727969348659,
+      "mean_usage_system": 67.38314176245211,
+      "mean_usage_user": 89.49425287356321
+    },
+    {
+      "hostname": "host_9",
+      "hour": "2016-01-01T06:00:00Z",
+      "mean_usage_idle": 39.38697318007663,
+      "mean_usage_iowait": 49.39846743295019,
+      "mean_usage_nice": 14.731800766283525,
+      "mean_usage_system": 22.54022988505747,
+      "mean_usage_user": 28.413793103448278
+    },
+    {
+      "hostname": "host_0",
+      "hour": "2016-01-01T07:00:00Z",
+      "mean_usage_idle": 49.108333333333334,
+      "mean_usage_iowait": 31.169444444444444,
+      "mean_usage_nice": 22.836111111111112,
+      "mean_usage_system": 34.00555555555555,
+      "mean_usage_user": 89.88888888888889
+    },
+    {
+      "hostname": "host_1",
+      "hour": "2016-01-01T07:00:00Z",
+      "mean_usage_idle": 76.20555555555555,
+      "mean_usage_iowait": 14.819444444444445,
+      "mean_usage_nice": 49.31111111111111,
+      "mean_usage_system": 6.486111111111111,
+      "mean_usage_user": 50.7
+    },
+    {
+      "hostname": "host_2",
+      "hour": "2016-01-01T07:00:00Z",
+      "mean_usage_idle": 16.802777777777777,
+      "mean_usage_iowait": 57.016666666666666,
+      "mean_usage_nice": 68.95277777777778,
+      "mean_usage_system": 67.90277777777777,
+      "mean_usage_user": 4.441666666666666
+    },
+    {
+      "hostname": "host_3",
+      "hour": "2016-01-01T07:00:00Z",
+      "mean_usage_idle": 51.84166666666667,
+      "mean_usage_iowait": 50.730555555555554,
+      "mean_usage_nice": 92.64444444444445,
+      "mean_usage_system": 89.50277777777778,
+      "mean_usage_user": 32.30833333333333
+    },
+    {
+      "hostname": "host_4",
+      "hour": "2016-01-01T07:00:00Z",
+      "mean_usage_idle": 41.59166666666667,
+      "mean_usage_iowait": 26.094444444444445,
+      "mean_usage_nice": 36.05277777777778,
+      "mean_usage_system": 92.61944444444444,
+      "mean_usage_user": 58.99166666666667
+    },
+    {
+      "hostname": "host_5",
+      "hour": "2016-01-01T07:00:00Z",
+      "mean_usage_idle": 15.627777777777778,
+      "mean_usage_iowait": 42.013888888888886,
+      "mean_usage_nice": 7.058333333333334,
+      "mean_usage_system": 10.938888888888888,
+      "mean_usage_user": 54.06388888888889
+    },
+    {
+      "hostname": "host_6",
+      "hour": "2016-01-01T07:00:00Z",
+      "mean_usage_idle": 15.816666666666666,
+      "mean_usage_iowait": 47.91388888888889,
+      "mean_usage_nice": 15.897222222222222,
+      "mean_usage_system": 88.90833333333333,
+      "mean_usage_user": 85.00277777777778
+    },
+    {
+      "hostname": "host_7",
+      "hour": "2016-01-01T07:00:00Z",
+      "mean_usage_idle": 88.09444444444445,
+      "mean_usage_iowait": 30.45277777777778,
+      "mean_usage_nice": 10.35,
+      "mean_usage_system": 6.905555555555556,
+      "mean_usage_user": 92.92222222222222
+    },
+    {
+      "hostname": "host_8",
+      "hour": "2016-01-01T07:00:00Z",
+      "mean_usage_idle": 91.64166666666667,
+      "mean_usage_iowait": 53.263888888888886,
+      "mean_usage_nice": 91.41111111111111,
+      "mean_usage_system": 59.397222222222226,
+      "mean_usage_user": 88.78888888888889
+    },
+    {
+      "hostname": "host_9",
+      "hour": "2016-01-01T07:00:00Z",
+      "mean_usage_idle": 40.84722222222222,
+      "mean_usage_iowait": 60.44722222222222,
+      "mean_usage_nice": 17.705555555555556,
+      "mean_usage_system": 9.308333333333334,
+      "mean_usage_user": 23.538888888888888
+    },
+    {
+      "hostname": "host_0",
+      "hour": "2016-01-01T08:00:00Z",
+      "mean_usage_idle": 52.73888888888889,
+      "mean_usage_iowait": 47.15555555555556,
+      "mean_usage_nice": 11.63888888888889,
+      "mean_usage_system": 23.766666666666666,
+      "mean_usage_user": 66.56111111111112
+    },
+    {
+      "hostname": "host_1",
+      "hour": "2016-01-01T08:00:00Z",
+      "mean_usage_idle": 51.733333333333334,
+      "mean_usage_iowait": 33.544444444444444,
+      "mean_usage_nice": 59.69722222222222,
+      "mean_usage_system": 3.433333333333333,
+      "mean_usage_user": 62.06944444444444
+    },
+    {
+      "hostname": "host_2",
+      "hour": "2016-01-01T08:00:00Z",
+      "mean_usage_idle": 4.85,
+      "mean_usage_iowait": 45.925,
+      "mean_usage_nice": 41.80555555555556,
+      "mean_usage_system": 81.31666666666666,
+      "mean_usage_user": 3.9277777777777776
+    },
+    {
+      "hostname": "host_3",
+      "hour": "2016-01-01T08:00:00Z",
+      "mean_usage_idle": 48.49722222222222,
+      "mean_usage_iowait": 92.34166666666667,
+      "mean_usage_nice": 81.38333333333334,
+      "mean_usage_system": 79.47222222222223,
+      "mean_usage_user": 46.36944444444445
+    },
+    {
+      "hostname": "host_4",
+      "hour": "2016-01-01T08:00:00Z",
+      "mean_usage_idle": 47.31944444444444,
+      "mean_usage_iowait": 5.322222222222222,
+      "mean_usage_nice": 55.544444444444444,
+      "mean_usage_system": 84.55833333333334,
+      "mean_usage_user": 68.11666666666666
+    },
+    {
+      "hostname": "host_5",
+      "hour": "2016-01-01T08:00:00Z",
+      "mean_usage_idle": 27.2,
+      "mean_usage_iowait": 43.13611111111111,
+      "mean_usage_nice": 21.7,
+      "mean_usage_system": 20.63888888888889,
+      "mean_usage_user": 42.68333333333333
+    },
+    {
+      "hostname": "host_6",
+      "hour": "2016-01-01T08:00:00Z",
+      "mean_usage_idle": 7.916666666666667,
+      "mean_usage_iowait": 46.05277777777778,
+      "mean_usage_nice": 28.25,
+      "mean_usage_system": 92.78611111111111,
+      "mean_usage_user": 84.425
+    },
+    {
+      "hostname": "host_7",
+      "hour": "2016-01-01T08:00:00Z",
+      "mean_usage_idle": 81.31111111111112,
+      "mean_usage_iowait": 17.625,
+      "mean_usage_nice": 14.958333333333334,
+      "mean_usage_system": 21.975,
+      "mean_usage_user": 95.4
+    },
+    {
+      "hostname": "host_8",
+      "hour": "2016-01-01T08:00:00Z",
+      "mean_usage_idle": 90.33888888888889,
+      "mean_usage_iowait": 69.62222222222222,
+      "mean_usage_nice": 92.54722222222222,
+      "mean_usage_system": 51.09166666666667,
+      "mean_usage_user": 65.31666666666666
+    },
+    {
+      "hostname": "host_9",
+      "hour": "2016-01-01T08:00:00Z",
+      "mean_usage_idle": 35.297222222222224,
+      "mean_usage_iowait": 81.28611111111111,
+      "mean_usage_nice": 19.083333333333332,
+      "mean_usage_system": 17.65,
+      "mean_usage_user": 45.980555555555554
+    },
+    {
+      "hostname": "host_0",
+      "hour": "2016-01-01T09:00:00Z",
+      "mean_usage_idle": 68.50833333333334,
+      "mean_usage_iowait": 46.1,
+      "mean_usage_nice": 15.713888888888889,
+      "mean_usage_system": 17.45277777777778,
+      "mean_usage_user": 41.94166666666667
+    },
+    {
+      "hostname": "host_1",
+      "hour": "2016-01-01T09:00:00Z",
+      "mean_usage_idle": 49.08888888888889,
+      "mean_usage_iowait": 42.297222222222224,
+      "mean_usage_nice": 74.7,
+      "mean_usage_system": 23.533333333333335,
+      "mean_usage_user": 82.53611111111111
+    },
+    {
+      "hostname": "host_2",
+      "hour": "2016-01-01T09:00:00Z",
+      "mean_usage_idle": 16.258333333333333,
+      "mean_usage_iowait": 37.044444444444444,
+      "mean_usage_nice": 58.294444444444444,
+      "mean_usage_system": 92.36666666666666,
+      "mean_usage_user": 13.691666666666666
+    },
+    {
+      "hostname": "host_3",
+      "hour": "2016-01-01T09:00:00Z",
+      "mean_usage_idle": 42.43888888888889,
+      "mean_usage_iowait": 71.08611111111111,
+      "mean_usage_nice": 42.4,
+      "mean_usage_system": 92.42222222222222,
+      "mean_usage_user": 61.608333333333334
+    },
+    {
+      "hostname": "host_4",
+      "hour": "2016-01-01T09:00:00Z",
+      "mean_usage_idle": 78.46666666666667,
+      "mean_usage_iowait": 13.811111111111112,
+      "mean_usage_nice": 63.62777777777778,
+      "mean_usage_system": 77.7388888888889,
+      "mean_usage_user": 70.8861111111111
+    },
+    {
+      "hostname": "host_5",
+      "hour": "2016-01-01T09:00:00Z",
+      "mean_usage_idle": 26.091666666666665,
+      "mean_usage_iowait": 52.16111111111111,
+      "mean_usage_nice": 29.969444444444445,
+      "mean_usage_system": 60.358333333333334,
+      "mean_usage_user": 48.00555555555555
+    },
+    {
+      "hostname": "host_6",
+      "hour": "2016-01-01T09:00:00Z",
+      "mean_usage_idle": 13.241666666666667,
+      "mean_usage_iowait": 65.64722222222223,
+      "mean_usage_nice": 53.55833333333333,
+      "mean_usage_system": 79.45,
+      "mean_usage_user": 83.35833333333333
+    },
+    {
+      "hostname": "host_7",
+      "hour": "2016-01-01T09:00:00Z",
+      "mean_usage_idle": 93.21666666666667,
+      "mean_usage_iowait": 19.641666666666666,
+      "mean_usage_nice": 14.730555555555556,
+      "mean_usage_system": 49.09166666666667,
+      "mean_usage_user": 78.42777777777778
+    },
+    {
+      "hostname": "host_8",
+      "hour": "2016-01-01T09:00:00Z",
+      "mean_usage_idle": 83.89166666666667,
+      "mean_usage_iowait": 79.19722222222222,
+      "mean_usage_nice": 91.07222222222222,
+      "mean_usage_system": 20.85,
+      "mean_usage_user": 27.969444444444445
+    },
+    {
+      "hostname": "host_9",
+      "hour": "2016-01-01T09:00:00Z",
+      "mean_usage_idle": 42.28611111111111,
+      "mean_usage_iowait": 69.93333333333334,
+      "mean_usage_nice": 20.46388888888889,
+      "mean_usage_system": 21.79722222222222,
+      "mean_usage_user": 42.23888888888889
+    },
+    {
+      "hostname": "host_0",
+      "hour": "2016-01-01T10:00:00Z",
+      "mean_usage_idle": 87.79722222222222,
+      "mean_usage_iowait": 22.855555555555554,
+      "mean_usage_nice": 28.083333333333332,
+      "mean_usage_system": 31.43888888888889,
+      "mean_usage_user": 53.675
+    },
+    {
+      "hostname": "host_1",
+      "hour": "2016-01-01T10:00:00Z",
+      "mean_usage_idle": 68.325,
+      "mean_usage_iowait": 51.80555555555556,
+      "mean_usage_nice": 70.20277777777778,
+      "mean_usage_system": 24.941666666666666,
+      "mean_usage_user": 66.90555555555555
+    },
+    {
+      "hostname": "host_2",
+      "hour": "2016-01-01T10:00:00Z",
+      "mean_usage_idle": 23.302777777777777,
+      "mean_usage_iowait": 46.86944444444445,
+      "mean_usage_nice": 61.38055555555555,
+      "mean_usage_system": 95.14722222222223,
+      "mean_usage_user": 21.1
+    },
+    {
+      "hostname": "host_3",
+      "hour": "2016-01-01T10:00:00Z",
+      "mean_usage_idle": 16.794444444444444,
+      "mean_usage_iowait": 42.78611111111111,
+      "mean_usage_nice": 40.65833333333333,
+      "mean_usage_system": 94.24444444444444,
+      "mean_usage_user": 56.87222222222222
+    },
+    {
+      "hostname": "host_4",
+      "hour": "2016-01-01T10:00:00Z",
+      "mean_usage_idle": 82.93611111111112,
+      "mean_usage_iowait": 10.491666666666667,
+      "mean_usage_nice": 79.20833333333333,
+      "mean_usage_system": 72.525,
+      "mean_usage_user": 78.81666666666666
+    },
+    {
+      "hostname": "host_5",
+      "hour": "2016-01-01T10:00:00Z",
+      "mean_usage_idle": 29.119444444444444,
+      "mean_usage_iowait": 55.175,
+      "mean_usage_nice": 29.475,
+      "mean_usage_system": 51.825,
+      "mean_usage_user": 60.43055555555556
+    },
+    {
+      "hostname": "host_6",
+      "hour": "2016-01-01T10:00:00Z",
+      "mean_usage_idle": 10.394444444444444,
+      "mean_usage_iowait": 62.38333333333333,
+      "mean_usage_nice": 60.82222222222222,
+      "mean_usage_system": 75.24722222222222,
+      "mean_usage_user": 93.25833333333334
+    },
+    {
+      "hostname": "host_7",
+      "hour": "2016-01-01T10:00:00Z",
+      "mean_usage_idle": 74.79722222222222,
+      "mean_usage_iowait": 23.163888888888888,
+      "mean_usage_nice": 42.83611111111111,
+      "mean_usage_system": 51.21111111111111,
+      "mean_usage_user": 82.12777777777778
+    },
+    {
+      "hostname": "host_8",
+      "hour": "2016-01-01T10:00:00Z",
+      "mean_usage_idle": 69.02777777777777,
+      "mean_usage_iowait": 74.40833333333333,
+      "mean_usage_nice": 76.04444444444445,
+      "mean_usage_system": 30.133333333333333,
+      "mean_usage_user": 25.252777777777776
+    },
+    {
+      "hostname": "host_9",
+      "hour": "2016-01-01T10:00:00Z",
+      "mean_usage_idle": 36.99444444444445,
+      "mean_usage_iowait": 77.18611111111112,
+      "mean_usage_nice": 36.50277777777778,
+      "mean_usage_system": 22.169444444444444,
+      "mean_usage_user": 39.041666666666664
+    },
+    {
+      "hostname": "host_0",
+      "hour": "2016-01-01T11:00:00Z",
+      "mean_usage_idle": 73.65,
+      "mean_usage_iowait": 10.866666666666667,
+      "mean_usage_nice": 29.980555555555554,
+      "mean_usage_system": 49.419444444444444,
+      "mean_usage_user": 42.31944444444444
+    },
+    {
+      "hostname": "host_1",
+      "hour": "2016-01-01T11:00:00Z",
+      "mean_usage_idle": 81.20277777777778,
+      "mean_usage_iowait": 67.68611111111112,
+      "mean_usage_nice": 79.35555555555555,
+      "mean_usage_system": 16.363888888888887,
+      "mean_usage_user": 76.55277777777778
+    },
+    {
+      "hostname": "host_2",
+      "hour": "2016-01-01T11:00:00Z",
+      "mean_usage_idle": 27.572222222222223,
+      "mean_usage_iowait": 44.53611111111111,
+      "mean_usage_nice": 60.68333333333333,
+      "mean_usage_system": 83.41944444444445,
+      "mean_usage_user": 21.96388888888889
+    },
+    {
+      "hostname": "host_3",
+      "hour": "2016-01-01T11:00:00Z",
+      "mean_usage_idle": 20.925,
+      "mean_usage_iowait": 27.883333333333333,
+      "mean_usage_nice": 47.52777777777778,
+      "mean_usage_system": 89.03611111111111,
+      "mean_usage_user": 54.830555555555556
+    },
+    {
+      "hostname": "host_4",
+      "hour": "2016-01-01T11:00:00Z",
+      "mean_usage_idle": 48.78055555555556,
+      "mean_usage_iowait": 15.75,
+      "mean_usage_nice": 84.04722222222222,
+      "mean_usage_system": 79.80833333333334,
+      "mean_usage_user": 83.66111111111111
+    },
+    {
+      "hostname": "host_5",
+      "hour": "2016-01-01T11:00:00Z",
+      "mean_usage_idle": 24.36111111111111,
+      "mean_usage_iowait": 32.03055555555556,
+      "mean_usage_nice": 32.05,
+      "mean_usage_system": 47.76111111111111,
+      "mean_usage_user": 50.425
+    },
+    {
+      "hostname": "host_6",
+      "hour": "2016-01-01T11:00:00Z",
+      "mean_usage_idle": 33.297222222222224,
+      "mean_usage_iowait": 53.888888888888886,
+      "mean_usage_nice": 61.833333333333336,
+      "mean_usage_system": 46.580555555555556,
+      "mean_usage_user": 64.24722222222222
+    },
+    {
+      "hostname": "host_7",
+      "hour": "2016-01-01T11:00:00Z",
+      "mean_usage_idle": 61.78333333333333,
+      "mean_usage_iowait": 29.788888888888888,
+      "mean_usage_nice": 34.62777777777778,
+      "mean_usage_system": 52.141666666666666,
+      "mean_usage_user": 90.625
+    },
+    {
+      "hostname": "host_8",
+      "hour": "2016-01-01T11:00:00Z",
+      "mean_usage_idle": 65.96666666666667,
+      "mean_usage_iowait": 53.50833333333333,
+      "mean_usage_nice": 67.96388888888889,
+      "mean_usage_system": 45.925,
+      "mean_usage_user": 29.136111111111113
+    },
+    {
+      "hostname": "host_9",
+      "hour": "2016-01-01T11:00:00Z",
+      "mean_usage_idle": 19.844444444444445,
+      "mean_usage_iowait": 62.17777777777778,
+      "mean_usage_nice": 43.891666666666666,
+      "mean_usage_system": 17.41111111111111,
+      "mean_usage_user": 32.46944444444444
+    },
+    {
+      "hostname": "host_0",
+      "hour": "2016-01-01T12:00:00Z",
+      "mean_usage_idle": 70.49722222222222,
+      "mean_usage_iowait": 26.841666666666665,
+      "mean_usage_nice": 47.86388888888889,
+      "mean_usage_system": 47.49722222222222,
+      "mean_usage_user": 30.375
+    },
+    {
+      "hostname": "host_1",
+      "hour": "2016-01-01T12:00:00Z",
+      "mean_usage_idle": 77.44722222222222,
+      "mean_usage_iowait": 55.09722222222222,
+      "mean_usage_nice": 87.01388888888889,
+      "mean_usage_system": 27.322222222222223,
+      "mean_usage_user": 81.325
+    },
+    {
+      "hostname": "host_2",
+      "hour": "2016-01-01T12:00:00Z",
+      "mean_usage_idle": 32.111111111111114,
+      "mean_usage_iowait": 41.325,
+      "mean_usage_nice": 89.45277777777778,
+      "mean_usage_system": 87.89444444444445,
+      "mean_usage_user": 15.563888888888888
+    },
+    {
+      "hostname": "host_3",
+      "hour": "2016-01-01T12:00:00Z",
+      "mean_usage_idle": 13.686111111111112,
+      "mean_usage_iowait": 40.08611111111111,
+      "mean_usage_nice": 58.86944444444445,
+      "mean_usage_system": 91.94166666666666,
+      "mean_usage_user": 39.65833333333333
+    },
+    {
+      "hostname": "host_4",
+      "hour": "2016-01-01T12:00:00Z",
+      "mean_usage_idle": 27.727777777777778,
+      "mean_usage_iowait": 5.144444444444445,
+      "mean_usage_nice": 90.17777777777778,
+      "mean_usage_system": 83.6361111111111,
+      "mean_usage_user": 73.20833333333333
+    },
+    {
+      "hostname": "host_5",
+      "hour": "2016-01-01T12:00:00Z",
+      "mean_usage_idle": 39.13611111111111,
+      "mean_usage_iowait": 25.36111111111111,
+      "mean_usage_nice": 22.444444444444443,
+      "mean_usage_system": 46.65277777777778,
+      "mean_usage_user": 45.92777777777778
+    },
+    {
+      "hostname": "host_6",
+      "hour": "2016-01-01T12:00:00Z",
+      "mean_usage_idle": 13.338888888888889,
+      "mean_usage_iowait": 43.41388888888889,
+      "mean_usage_nice": 71.78611111111111,
+      "mean_usage_system": 51.86388888888889,
+      "mean_usage_user": 50.352777777777774
+    },
+    {
+      "hostname": "host_7",
+      "hour": "2016-01-01T12:00:00Z",
+      "mean_usage_idle": 52.22222222222222,
+      "mean_usage_iowait": 36.63055555555555,
+      "mean_usage_nice": 21.433333333333334,
+      "mean_usage_system": 40.87777777777778,
+      "mean_usage_user": 73.35
+    },
+    {
+      "hostname": "host_8",
+      "hour": "2016-01-01T12:00:00Z",
+      "mean_usage_idle": 87.47222222222223,
+      "mean_usage_iowait": 19.93888888888889,
+      "mean_usage_nice": 68.0111111111111,
+      "mean_usage_system": 54.66388888888889,
+      "mean_usage_user": 22.552777777777777
+    },
+    {
+      "hostname": "host_9",
+      "hour": "2016-01-01T12:00:00Z",
+      "mean_usage_idle": 29.075,
+      "mean_usage_iowait": 50.06388888888889,
+      "mean_usage_nice": 41.36388888888889,
+      "mean_usage_system": 8.08611111111111,
+      "mean_usage_user": 39.705555555555556
+    },
+    {
+      "hostname": "host_0",
+      "hour": "2016-01-01T13:00:00Z",
+      "mean_usage_idle": 74.31666666666666,
+      "mean_usage_iowait": 32.611111111111114,
+      "mean_usage_nice": 37.333333333333336,
+      "mean_usage_system": 72.89722222222223,
+      "mean_usage_user": 21.005555555555556
+    },
+    {
+      "hostname": "host_1",
+      "hour": "2016-01-01T13:00:00Z",
+      "mean_usage_idle": 71.99444444444444,
+      "mean_usage_iowait": 41.28611111111111,
+      "mean_usage_nice": 82.61111111111111,
+      "mean_usage_system": 20.56111111111111,
+      "mean_usage_user": 72.51388888888889
+    },
+    {
+      "hostname": "host_2",
+      "hour": "2016-01-01T13:00:00Z",
+      "mean_usage_idle": 9.3,
+      "mean_usage_iowait": 37.49444444444445,
+      "mean_usage_nice": 84.71944444444445,
+      "mean_usage_system": 91.48333333333333,
+      "mean_usage_user": 19.9
+    },
+    {
+      "hostname": "host_3",
+      "hour": "2016-01-01T13:00:00Z",
+      "mean_usage_idle": 28.794444444444444,
+      "mean_usage_iowait": 59.86666666666667,
+      "mean_usage_nice": 48.297222222222224,
+      "mean_usage_system": 68.04166666666667,
+      "mean_usage_user": 17.275
+    },
+    {
+      "hostname": "host_4",
+      "hour": "2016-01-01T13:00:00Z",
+      "mean_usage_idle": 17.241666666666667,
+      "mean_usage_iowait": 22.408333333333335,
+      "mean_usage_nice": 86.66944444444445,
+      "mean_usage_system": 90.66388888888889,
+      "mean_usage_user": 73.1361111111111
+    },
+    {
+      "hostname": "host_5",
+      "hour": "2016-01-01T13:00:00Z",
+      "mean_usage_idle": 46.15555555555556,
+      "mean_usage_iowait": 25.225,
+      "mean_usage_nice": 30.805555555555557,
+      "mean_usage_system": 59.025,
+      "mean_usage_user": 16.008333333333333
+    },
+    {
+      "hostname": "host_6",
+      "hour": "2016-01-01T13:00:00Z",
+      "mean_usage_idle": 4.008333333333334,
+      "mean_usage_iowait": 38.15,
+      "mean_usage_nice": 78.8,
+      "mean_usage_system": 69.07777777777778,
+      "mean_usage_user": 26.483333333333334
+    },
+    {
+      "hostname": "host_7",
+      "hour": "2016-01-01T13:00:00Z",
+      "mean_usage_idle": 41.041666666666664,
+      "mean_usage_iowait": 29.983333333333334,
+      "mean_usage_nice": 5.902777777777778,
+      "mean_usage_system": 37.419444444444444,
+      "mean_usage_user": 90.66111111111111
+    },
+    {
+      "hostname": "host_8",
+      "hour": "2016-01-01T13:00:00Z",
+      "mean_usage_idle": 81.85833333333333,
+      "mean_usage_iowait": 11.8,
+      "mean_usage_nice": 73.03888888888889,
+      "mean_usage_system": 58.7,
+      "mean_usage_user": 7.455555555555556
+    },
+    {
+      "hostname": "host_9",
+      "hour": "2016-01-01T13:00:00Z",
+      "mean_usage_idle": 41.672222222222224,
+      "mean_usage_iowait": 38.983333333333334,
+      "mean_usage_nice": 34.78611111111111,
+      "mean_usage_system": 10.133333333333333,
+      "mean_usage_user": 42.12222222222222
+    },
+    {
+      "hostname": "host_0",
+      "hour": "2016-01-01T14:00:00Z",
+      "mean_usage_idle": 59.62222222222222,
+      "mean_usage_iowait": 42.44444444444444,
+      "mean_usage_nice": 23.502777777777776,
+      "mean_usage_system": 94.6361111111111,
+      "mean_usage_user": 5.475
+    },
+    {
+      "hostname": "host_1",
+      "hour": "2016-01-01T14:00:00Z",
+      "mean_usage_idle": 71.56944444444444,
+      "mean_usage_iowait": 52.56944444444444,
+      "mean_usage_nice": 62.15,
+      "mean_usage_system": 14.113888888888889,
+      "mean_usage_user": 54.62222222222222
+    },
+    {
+      "hostname": "host_2",
+      "hour": "2016-01-01T14:00:00Z",
+      "mean_usage_idle": 8.791666666666666,
+      "mean_usage_iowait": 19.022222222222222,
+      "mean_usage_nice": 69.17222222222222,
+      "mean_usage_system": 83.48333333333333,
+      "mean_usage_user": 35.44722222222222
+    },
+    {
+      "hostname": "host_3",
+      "hour": "2016-01-01T14:00:00Z",
+      "mean_usage_idle": 45.18333333333333,
+      "mean_usage_iowait": 83.46944444444445,
+      "mean_usage_nice": 49.41111111111111,
+      "mean_usage_system": 80.325,
+      "mean_usage_user": 8.036111111111111
+    },
+    {
+      "hostname": "host_4",
+      "hour": "2016-01-01T14:00:00Z",
+      "mean_usage_idle": 41.74444444444445,
+      "mean_usage_iowait": 36.77777777777778,
+      "mean_usage_nice": 64.15,
+      "mean_usage_system": 69.26388888888889,
+      "mean_usage_user": 61.458333333333336
+    },
+    {
+      "hostname": "host_5",
+      "hour": "2016-01-01T14:00:00Z",
+      "mean_usage_idle": 67.64166666666667,
+      "mean_usage_iowait": 14.713888888888889,
+      "mean_usage_nice": 24.719444444444445,
+      "mean_usage_system": 37.330555555555556,
+      "mean_usage_user": 18.127777777777776
+    },
+    {
+      "hostname": "host_6",
+      "hour": "2016-01-01T14:00:00Z",
+      "mean_usage_idle": 7.075,
+      "mean_usage_iowait": 17.580555555555556,
+      "mean_usage_nice": 89.58333333333333,
+      "mean_usage_system": 66.35,
+      "mean_usage_user": 25.591666666666665
+    },
+    {
+      "hostname": "host_7",
+      "hour": "2016-01-01T14:00:00Z",
+      "mean_usage_idle": 63.833333333333336,
+      "mean_usage_iowait": 14.044444444444444,
+      "mean_usage_nice": 15.33611111111111,
+      "mean_usage_system": 47.93888888888889,
+      "mean_usage_user": 91
+    },
+    {
+      "hostname": "host_8",
+      "hour": "2016-01-01T14:00:00Z",
+      "mean_usage_idle": 93.55833333333334,
+      "mean_usage_iowait": 20.675,
+      "mean_usage_nice": 71.88333333333334,
+      "mean_usage_system": 52.797222222222224,
+      "mean_usage_user": 3.6055555555555556
+    },
+    {
+      "hostname": "host_9",
+      "hour": "2016-01-01T14:00:00Z",
+      "mean_usage_idle": 16.90277777777778,
+      "mean_usage_iowait": 51.794444444444444,
+      "mean_usage_nice": 38.12777777777778,
+      "mean_usage_system": 18.552777777777777,
+      "mean_usage_user": 47.83611111111111
+    },
+    {
+      "hostname": "host_0",
+      "hour": "2016-01-01T15:00:00Z",
+      "mean_usage_idle": 66.8861111111111,
+      "mean_usage_iowait": 57.608333333333334,
+      "mean_usage_nice": 18.51388888888889,
+      "mean_usage_system": 90.14166666666667,
+      "mean_usage_user": 13.708333333333334
+    },
+    {
+      "hostname": "host_1",
+      "hour": "2016-01-01T15:00:00Z",
+      "mean_usage_idle": 84.39722222222223,
+      "mean_usage_iowait": 17.380555555555556,
+      "mean_usage_nice": 66.84444444444445,
+      "mean_usage_system": 31.719444444444445,
+      "mean_usage_user": 61.605555555555554
+    },
+    {
+      "hostname": "host_2",
+      "hour": "2016-01-01T15:00:00Z",
+      "mean_usage_idle": 29.227777777777778,
+      "mean_usage_iowait": 4.694444444444445,
+      "mean_usage_nice": 46.69444444444444,
+      "mean_usage_system": 72.125,
+      "mean_usage_user": 34.45
+    },
+    {
+      "hostname": "host_3",
+      "hour": "2016-01-01T15:00:00Z",
+      "mean_usage_idle": 47.87777777777778,
+      "mean_usage_iowait": 62.17777777777778,
+      "mean_usage_nice": 71.60833333333333,
+      "mean_usage_system": 79.90833333333333,
+      "mean_usage_user": 9.08611111111111
+    },
+    {
+      "hostname": "host_4",
+      "hour": "2016-01-01T15:00:00Z",
+      "mean_usage_idle": 53.85,
+      "mean_usage_iowait": 43.2,
+      "mean_usage_nice": 69.88888888888889,
+      "mean_usage_system": 70.65277777777777,
+      "mean_usage_user": 52.88333333333333
+    },
+    {
+      "hostname": "host_5",
+      "hour": "2016-01-01T15:00:00Z",
+      "mean_usage_idle": 63.78333333333333,
+      "mean_usage_iowait": 19.716666666666665,
+      "mean_usage_nice": 33.175,
+      "mean_usage_system": 62.272222222222226,
+      "mean_usage_user": 13
+    },
+    {
+      "hostname": "host_6",
+      "hour": "2016-01-01T15:00:00Z",
+      "mean_usage_idle": 24.77777777777778,
+      "mean_usage_iowait": 13.258333333333333,
+      "mean_usage_nice": 78.43055555555556,
+      "mean_usage_system": 77.6,
+      "mean_usage_user": 43.03888888888889
+    },
+    {
+      "hostname": "host_7",
+      "hour": "2016-01-01T15:00:00Z",
+      "mean_usage_idle": 90.46666666666667,
+      "mean_usage_iowait": 35.95,
+      "mean_usage_nice": 12.355555555555556,
+      "mean_usage_system": 39.861111111111114,
+      "mean_usage_user": 93.28888888888889
+    },
+    {
+      "hostname": "host_8",
+      "hour": "2016-01-01T15:00:00Z",
+      "mean_usage_idle": 75.4,
+      "mean_usage_iowait": 38.916666666666664,
+      "mean_usage_nice": 33.83611111111111,
+      "mean_usage_system": 36.45,
+      "mean_usage_user": 1.6027777777777779
+    },
+    {
+      "hostname": "host_9",
+      "hour": "2016-01-01T15:00:00Z",
+      "mean_usage_idle": 10.61111111111111,
+      "mean_usage_iowait": 39.05555555555556,
+      "mean_usage_nice": 49.791666666666664,
+      "mean_usage_system": 28.072222222222223,
+      "mean_usage_user": 40.44722222222222
+    },
+    {
+      "hostname": "host_0",
+      "hour": "2016-01-01T16:00:00Z",
+      "mean_usage_idle": 76.3,
+      "mean_usage_iowait": 44.669444444444444,
+      "mean_usage_nice": 29.791666666666668,
+      "mean_usage_system": 89.50277777777778,
+      "mean_usage_user": 6.536111111111111
+    },
+    {
+      "hostname": "host_1",
+      "hour": "2016-01-01T16:00:00Z",
+      "mean_usage_idle": 92.14444444444445,
+      "mean_usage_iowait": 4.572222222222222,
+      "mean_usage_nice": 64.28888888888889,
+      "mean_usage_system": 17.97222222222222,
+      "mean_usage_user": 56.147222222222226
+    },
+    {
+      "hostname": "host_2",
+      "hour": "2016-01-01T16:00:00Z",
+      "mean_usage_idle": 27.852777777777778,
+      "mean_usage_iowait": 22.291666666666668,
+      "mean_usage_nice": 27.552777777777777,
+      "mean_usage_system": 63.105555555555554,
+      "mean_usage_user": 23.863888888888887
+    },
+    {
+      "hostname": "host_3",
+      "hour": "2016-01-01T16:00:00Z",
+      "mean_usage_idle": 53.952777777777776,
+      "mean_usage_iowait": 42.2,
+      "mean_usage_nice": 67.01388888888889,
+      "mean_usage_system": 91.4888888888889,
+      "mean_usage_user": 12.430555555555555
+    },
+    {
+      "hostname": "host_4",
+      "hour": "2016-01-01T16:00:00Z",
+      "mean_usage_idle": 52.12777777777778,
+      "mean_usage_iowait": 33.922222222222224,
+      "mean_usage_nice": 85.23611111111111,
+      "mean_usage_system": 92.33611111111111,
+      "mean_usage_user": 39.52777777777778
+    },
+    {
+      "hostname": "host_5",
+      "hour": "2016-01-01T16:00:00Z",
+      "mean_usage_idle": 62.291666666666664,
+      "mean_usage_iowait": 24.408333333333335,
+      "mean_usage_nice": 40.30555555555556,
+      "mean_usage_system": 35.986111111111114,
+      "mean_usage_user": 21.455555555555556
+    },
+    {
+      "hostname": "host_6",
+      "hour": "2016-01-01T16:00:00Z",
+      "mean_usage_idle": 34.955555555555556,
+      "mean_usage_iowait": 15.208333333333334,
+      "mean_usage_nice": 85.97777777777777,
+      "mean_usage_system": 70.08888888888889,
+      "mean_usage_user": 48.044444444444444
+    },
+    {
+      "hostname": "host_7",
+      "hour": "2016-01-01T16:00:00Z",
+      "mean_usage_idle": 94.41388888888889,
+      "mean_usage_iowait": 41.25833333333333,
+      "mean_usage_nice": 27.09722222222222,
+      "mean_usage_system": 23.727777777777778,
+      "mean_usage_user": 95.27777777777777
+    },
+    {
+      "hostname": "host_8",
+      "hour": "2016-01-01T16:00:00Z",
+      "mean_usage_idle": 82.875,
+      "mean_usage_iowait": 61.00833333333333,
+      "mean_usage_nice": 28.77777777777778,
+      "mean_usage_system": 16.633333333333333,
+      "mean_usage_user": 9.113888888888889
+    },
+    {
+      "hostname": "host_9",
+      "hour": "2016-01-01T16:00:00Z",
+      "mean_usage_idle": 11.172222222222222,
+      "mean_usage_iowait": 46.86666666666667,
+      "mean_usage_nice": 69.97222222222223,
+      "mean_usage_system": 51.41388888888889,
+      "mean_usage_user": 26.158333333333335
+    },
+    {
+      "hostname": "host_0",
+      "hour": "2016-01-01T17:00:00Z",
+      "mean_usage_idle": 82.64444444444445,
+      "mean_usage_iowait": 80.31111111111112,
+      "mean_usage_nice": 21.494444444444444,
+      "mean_usage_system": 80.70833333333333,
+      "mean_usage_user": 3.236111111111111
+    },
+    {
+      "hostname": "host_1",
+      "hour": "2016-01-01T17:00:00Z",
+      "mean_usage_idle": 93.4888888888889,
+      "mean_usage_iowait": 1.8472222222222223,
+      "mean_usage_nice": 61.75555555555555,
+      "mean_usage_system": 38.34722222222222,
+      "mean_usage_user": 70.31111111111112
+    },
+    {
+      "hostname": "host_2",
+      "hour": "2016-01-01T17:00:00Z",
+      "mean_usage_idle": 24.825,
+      "mean_usage_iowait": 14.180555555555555,
+      "mean_usage_nice": 36.53888888888889,
+      "mean_usage_system": 65.14166666666667,
+      "mean_usage_user": 19.211111111111112
+    },
+    {
+      "hostname": "host_3",
+      "hour": "2016-01-01T17:00:00Z",
+      "mean_usage_idle": 52.71388888888889,
+      "mean_usage_iowait": 20.43611111111111,
+      "mean_usage_nice": 72.4888888888889,
+      "mean_usage_system": 80.44722222222222,
+      "mean_usage_user": 8.255555555555556
+    },
+    {
+      "hostname": "host_4",
+      "hour": "2016-01-01T17:00:00Z",
+      "mean_usage_idle": 43.141666666666666,
+      "mean_usage_iowait": 9.936111111111112,
+      "mean_usage_nice": 77.35277777777777,
+      "mean_usage_system": 73.53611111111111,
+      "mean_usage_user": 46.40833333333333
+    },
+    {
+      "hostname": "host_5",
+      "hour": "2016-01-01T17:00:00Z",
+      "mean_usage_idle": 51.147222222222226,
+      "mean_usage_iowait": 15.136111111111111,
+      "mean_usage_nice": 47.980555555555554,
+      "mean_usage_system": 11.277777777777779,
+      "mean_usage_user": 18.583333333333332
+    },
+    {
+      "hostname": "host_6",
+      "hour": "2016-01-01T17:00:00Z",
+      "mean_usage_idle": 52.53611111111111,
+      "mean_usage_iowait": 12.508333333333333,
+      "mean_usage_nice": 68.06944444444444,
+      "mean_usage_system": 88.23611111111111,
+      "mean_usage_user": 31.43888888888889
+    },
+    {
+      "hostname": "host_7",
+      "hour": "2016-01-01T17:00:00Z",
+      "mean_usage_idle": 80.95277777777778,
+      "mean_usage_iowait": 41.263888888888886,
+      "mean_usage_nice": 29.43611111111111,
+      "mean_usage_system": 20.755555555555556,
+      "mean_usage_user": 93.46666666666667
+    },
+    {
+      "hostname": "host_8",
+      "hour": "2016-01-01T17:00:00Z",
+      "mean_usage_idle": 77.55,
+      "mean_usage_iowait": 66.16944444444445,
+      "mean_usage_nice": 38.275,
+      "mean_usage_system": 29.869444444444444,
+      "mean_usage_user": 3.2916666666666665
+    },
+    {
+      "hostname": "host_9",
+      "hour": "2016-01-01T17:00:00Z",
+      "mean_usage_idle": 8.352777777777778,
+      "mean_usage_iowait": 71.88333333333334,
+      "mean_usage_nice": 70.71388888888889,
+      "mean_usage_system": 73.03055555555555,
+      "mean_usage_user": 26.42222222222222
+    },
+    {
+      "hostname": "host_0",
+      "hour": "2016-01-01T18:00:00Z",
+      "mean_usage_idle": 65.8989898989899,
+      "mean_usage_iowait": 82.26262626262626,
+      "mean_usage_nice": 21.171717171717173,
+      "mean_usage_system": 65.97979797979798,
+      "mean_usage_user": 1.595959595959596
+    },
+    {
+      "hostname": "host_1",
+      "hour": "2016-01-01T18:00:00Z",
+      "mean_usage_idle": 92.83838383838383,
+      "mean_usage_iowait": 12.121212121212121,
+      "mean_usage_nice": 44.464646464646464,
+      "mean_usage_system": 29.575757575757574,
+      "mean_usage_user": 46.464646464646464
+    },
+    {
+      "hostname": "host_2",
+      "hour": "2016-01-01T18:00:00Z",
+      "mean_usage_idle": 17.737373737373737,
+      "mean_usage_iowait": 10.444444444444445,
+      "mean_usage_nice": 41.43434343434343,
+      "mean_usage_system": 51.07070707070707,
+      "mean_usage_user": 18.747474747474747
+    },
+    {
+      "hostname": "host_3",
+      "hour": "2016-01-01T18:00:00Z",
+      "mean_usage_idle": 62.08080808080808,
+      "mean_usage_iowait": 5.101010101010101,
+      "mean_usage_nice": 71.1010101010101,
+      "mean_usage_system": 85.31313131313131,
+      "mean_usage_user": 7.232323232323233
+    },
+    {
+      "hostname": "host_4",
+      "hour": "2016-01-01T18:00:00Z",
+      "mean_usage_idle": 55.494949494949495,
+      "mean_usage_iowait": 1.4242424242424243,
+      "mean_usage_nice": 79.43434343434343,
+      "mean_usage_system": 63.42424242424242,
+      "mean_usage_user": 40.04040404040404
+    },
+    {
+      "hostname": "host_5",
+      "hour": "2016-01-01T18:00:00Z",
+      "mean_usage_idle": 44.82828282828283,
+      "mean_usage_iowait": 17,
+      "mean_usage_nice": 44.878787878787875,
+      "mean_usage_system": 4.222222222222222,
+      "mean_usage_user": 26.505050505050505
+    },
+    {
+      "hostname": "host_6",
+      "hour": "2016-01-01T18:00:00Z",
+      "mean_usage_idle": 49.27272727272727,
+      "mean_usage_iowait": 25.12121212121212,
+      "mean_usage_nice": 60.91919191919192,
+      "mean_usage_system": 93.28282828282828,
+      "mean_usage_user": 44.898989898989896
+    },
+    {
+      "hostname": "host_7",
+      "hour": "2016-01-01T18:00:00Z",
+      "mean_usage_idle": 90.17171717171718,
+      "mean_usage_iowait": 23.303030303030305,
+      "mean_usage_nice": 26.151515151515152,
+      "mean_usage_system": 25.80808080808081,
+      "mean_usage_user": 94.45454545454545
+    },
+    {
+      "hostname": "host_8",
+      "hour": "2016-01-01T18:00:00Z",
+      "mean_usage_idle": 79.1919191919192,
+      "mean_usage_iowait": 81.27272727272727,
+      "mean_usage_nice": 27.09090909090909,
+      "mean_usage_system": 27.757575757575758,
+      "mean_usage_user": 1.7272727272727273
+    },
+    {
+      "hostname": "host_9",
+      "hour": "2016-01-01T18:00:00Z",
+      "mean_usage_idle": 11.323232323232324,
+      "mean_usage_iowait": 94.58585858585859,
+      "mean_usage_nice": 75.23232323232324,
+      "mean_usage_system": 73.05050505050505,
+      "mean_usage_user": 22.96969696969697
+    }
+  ]
+}
+
+Run complete after 1 queries with 1 workers (Overall query rate 23.81 queries/sec):
+TimescaleDB mean of 5 metrics, all hosts, random 12h0m0s by 1h:
+min:    41.70ms, med:    41.70ms, mean:    41.70ms, max:   41.70ms, stddev:     0.00ms, sum:   0.0sec, count: 1
+all queries                                                   :
+min:    41.70ms, med:    41.70ms, mean:    41.70ms, max:   41.70ms, stddev:     0.00ms, sum:   0.0sec, count: 1
+wall clock time: 0.052295sec

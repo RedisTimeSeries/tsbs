@@ -1,0 +1,280 @@
+Issuing command (TS.MRANGE 1451679382646 1451682982646 AGGREGATION MAX 60000 FILTER measurement=cpu fieldname=usage_user hostname=host_9)
+{
+  "query 1": {
+    "client_side_work": false,
+    "query": "TS.MRANGE 1451679382646 1451682982646 AGGREGATION MAX 60000 FILTER measurement=cpu fieldname=usage_user hostname=host_9",
+    "results": [
+      {
+        "cpu_usage_user{1451654927}": {
+          "datapoints": [
+            {
+              "Timestamp": 1451679360000,
+              "Value": 20
+            },
+            {
+              "Timestamp": 1451679420000,
+              "Value": 22
+            },
+            {
+              "Timestamp": 1451679480000,
+              "Value": 21
+            },
+            {
+              "Timestamp": 1451679540000,
+              "Value": 24
+            },
+            {
+              "Timestamp": 1451679600000,
+              "Value": 25
+            },
+            {
+              "Timestamp": 1451679660000,
+              "Value": 24
+            },
+            {
+              "Timestamp": 1451679720000,
+              "Value": 27
+            },
+            {
+              "Timestamp": 1451679780000,
+              "Value": 27
+            },
+            {
+              "Timestamp": 1451679840000,
+              "Value": 29
+            },
+            {
+              "Timestamp": 1451679900000,
+              "Value": 30
+            },
+            {
+              "Timestamp": 1451679960000,
+              "Value": 29
+            },
+            {
+              "Timestamp": 1451680020000,
+              "Value": 29
+            },
+            {
+              "Timestamp": 1451680080000,
+              "Value": 29
+            },
+            {
+              "Timestamp": 1451680140000,
+              "Value": 29
+            },
+            {
+              "Timestamp": 1451680200000,
+              "Value": 29
+            },
+            {
+              "Timestamp": 1451680260000,
+              "Value": 30
+            },
+            {
+              "Timestamp": 1451680320000,
+              "Value": 28
+            },
+            {
+              "Timestamp": 1451680380000,
+              "Value": 29
+            },
+            {
+              "Timestamp": 1451680440000,
+              "Value": 30
+            },
+            {
+              "Timestamp": 1451680500000,
+              "Value": 34
+            },
+            {
+              "Timestamp": 1451680560000,
+              "Value": 35
+            },
+            {
+              "Timestamp": 1451680620000,
+              "Value": 37
+            },
+            {
+              "Timestamp": 1451680680000,
+              "Value": 37
+            },
+            {
+              "Timestamp": 1451680740000,
+              "Value": 34
+            },
+            {
+              "Timestamp": 1451680800000,
+              "Value": 34
+            },
+            {
+              "Timestamp": 1451680860000,
+              "Value": 32
+            },
+            {
+              "Timestamp": 1451680920000,
+              "Value": 31
+            },
+            {
+              "Timestamp": 1451680980000,
+              "Value": 33
+            },
+            {
+              "Timestamp": 1451681040000,
+              "Value": 34
+            },
+            {
+              "Timestamp": 1451681100000,
+              "Value": 33
+            },
+            {
+              "Timestamp": 1451681160000,
+              "Value": 30
+            },
+            {
+              "Timestamp": 1451681220000,
+              "Value": 29
+            },
+            {
+              "Timestamp": 1451681280000,
+              "Value": 30
+            },
+            {
+              "Timestamp": 1451681340000,
+              "Value": 29
+            },
+            {
+              "Timestamp": 1451681400000,
+              "Value": 27
+            },
+            {
+              "Timestamp": 1451681460000,
+              "Value": 29
+            },
+            {
+              "Timestamp": 1451681520000,
+              "Value": 33
+            },
+            {
+              "Timestamp": 1451681580000,
+              "Value": 33
+            },
+            {
+              "Timestamp": 1451681640000,
+              "Value": 35
+            },
+            {
+              "Timestamp": 1451681700000,
+              "Value": 32
+            },
+            {
+              "Timestamp": 1451681760000,
+              "Value": 38
+            },
+            {
+              "Timestamp": 1451681820000,
+              "Value": 38
+            },
+            {
+              "Timestamp": 1451681880000,
+              "Value": 38
+            },
+            {
+              "Timestamp": 1451681940000,
+              "Value": 36
+            },
+            {
+              "Timestamp": 1451682000000,
+              "Value": 34
+            },
+            {
+              "Timestamp": 1451682060000,
+              "Value": 35
+            },
+            {
+              "Timestamp": 1451682120000,
+              "Value": 34
+            },
+            {
+              "Timestamp": 1451682180000,
+              "Value": 32
+            },
+            {
+              "Timestamp": 1451682240000,
+              "Value": 32
+            },
+            {
+              "Timestamp": 1451682300000,
+              "Value": 33
+            },
+            {
+              "Timestamp": 1451682360000,
+              "Value": 32
+            },
+            {
+              "Timestamp": 1451682420000,
+              "Value": 36
+            },
+            {
+              "Timestamp": 1451682480000,
+              "Value": 37
+            },
+            {
+              "Timestamp": 1451682540000,
+              "Value": 38
+            },
+            {
+              "Timestamp": 1451682600000,
+              "Value": 37
+            },
+            {
+              "Timestamp": 1451682660000,
+              "Value": 38
+            },
+            {
+              "Timestamp": 1451682720000,
+              "Value": 40
+            },
+            {
+              "Timestamp": 1451682780000,
+              "Value": 35
+            },
+            {
+              "Timestamp": 1451682840000,
+              "Value": 37
+            },
+            {
+              "Timestamp": 1451682900000,
+              "Value": 37
+            },
+            {
+              "Timestamp": 1451682960000,
+              "Value": 35
+            }
+          ],
+          "labels": {
+            "arch": "x86",
+            "datacenter": "ap-southeast-2a",
+            "fieldname": "usage_user",
+            "hostname": "host_9",
+            "measurement": "cpu",
+            "os": "Ubuntu16.04LTS",
+            "rack": "0",
+            "region": "ap-southeast-2",
+            "service": "18",
+            "service_environment": "production",
+            "service_version": "0",
+            "team": "CHI"
+          }
+        }
+      }
+    ]
+  }
+}
+
+Run complete after 1 queries with 1 workers (Overall query rate 145.07 queries/sec):
+RedisTimeSeries MAX of 1 metrics,random    1 hosts, random � by 1m:
+min:     0.67ms, med:     0.67ms, mean:     0.67ms, max:    0.67ms, stddev:     0.00ms, sum:   0.0sec, count: 1
+all queries                                                         :
+min:     0.67ms, med:     0.67ms, mean:     0.67ms, max:    0.67ms, stddev:     0.00ms, sum:   0.0sec, count: 1
+wall clock time: 0.008412sec

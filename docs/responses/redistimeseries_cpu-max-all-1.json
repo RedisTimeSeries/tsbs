@@ -1,0 +1,318 @@
+Issuing command (TS.MRANGE 1451614582646 1451643382646 AGGREGATION MAX 3600000 FILTER measurement=cpu hostname=host_9)
+Applying functor github.com/timescale/tsbs/query.SingleGroupByTime on RedisTimeSeries max of all CPU metrics, random    1 hosts, random 8h0m0s by 1h
+Applying functor reflect_SingleGroupByTime github.com/timescale/tsbs/query.SingleGroupByTime
+{
+  "query 1": {
+    "client_side_work": true,
+    "query": "TS.MRANGE 1451614582646 1451643382646 AGGREGATION MAX 3600000 FILTER measurement=cpu hostname=host_9",
+    "results": {
+      "datapoints": [
+        {
+          "Timestamp": 1451613600000,
+          "HumanReadbleTime": "2016-01-01T02:00:00Z",
+          "Values": [
+            52,
+            38,
+            55,
+            46,
+            25,
+            17,
+            33,
+            44,
+            11,
+            48
+          ]
+        },
+        {
+          "Timestamp": 1451617200000,
+          "HumanReadbleTime": "2016-01-01T03:00:00Z",
+          "Values": [
+            59,
+            40,
+            84,
+            52,
+            35,
+            27,
+            33,
+            85,
+            9,
+            27
+          ]
+        },
+        {
+          "Timestamp": 1451620800000,
+          "HumanReadbleTime": "2016-01-01T04:00:00Z",
+          "Values": [
+            68,
+            33,
+            74,
+            83,
+            31,
+            29,
+            20,
+            99,
+            12,
+            19
+          ]
+        },
+        {
+          "Timestamp": 1451624400000,
+          "HumanReadbleTime": "2016-01-01T05:00:00Z",
+          "Values": [
+            81,
+            27,
+            86,
+            71,
+            11,
+            12,
+            31,
+            100,
+            19,
+            24
+          ]
+        },
+        {
+          "Timestamp": 1451628000000,
+          "HumanReadbleTime": "2016-01-01T06:00:00Z",
+          "Values": [
+            84,
+            26,
+            58,
+            63,
+            13,
+            26,
+            53,
+            100,
+            36,
+            37
+          ]
+        },
+        {
+          "Timestamp": 1451631600000,
+          "HumanReadbleTime": "2016-01-01T07:00:00Z",
+          "Values": [
+            87,
+            24,
+            60,
+            79,
+            16,
+            25,
+            47,
+            84,
+            27,
+            41
+          ]
+        },
+        {
+          "Timestamp": 1451635200000,
+          "HumanReadbleTime": "2016-01-01T08:00:00Z",
+          "Values": [
+            91,
+            35,
+            59,
+            95,
+            36,
+            31,
+            39,
+            91,
+            27,
+            62
+          ]
+        },
+        {
+          "Timestamp": 1451638800000,
+          "HumanReadbleTime": "2016-01-01T09:00:00Z",
+          "Values": [
+            89,
+            48,
+            54,
+            84,
+            32,
+            43,
+            31,
+            100,
+            35,
+            57
+          ]
+        },
+        {
+          "Timestamp": 1451642400000,
+          "HumanReadbleTime": "2016-01-01T10:00:00Z",
+          "Values": [
+            84,
+            59,
+            51,
+            81,
+            18,
+            46,
+            26,
+            100,
+            36,
+            42
+          ]
+        }
+      ],
+      "labels": [
+        {
+          "arch": "x86",
+          "datacenter": "ap-southeast-2a",
+          "fieldname": "usage_guest_nice",
+          "hostname": "host_9",
+          "measurement": "cpu",
+          "os": "Ubuntu16.04LTS",
+          "rack": "0",
+          "region": "ap-southeast-2",
+          "service": "18",
+          "service_environment": "production",
+          "service_version": "0",
+          "team": "CHI"
+        },
+        {
+          "arch": "x86",
+          "datacenter": "ap-southeast-2a",
+          "fieldname": "usage_guest",
+          "hostname": "host_9",
+          "measurement": "cpu",
+          "os": "Ubuntu16.04LTS",
+          "rack": "0",
+          "region": "ap-southeast-2",
+          "service": "18",
+          "service_environment": "production",
+          "service_version": "0",
+          "team": "CHI"
+        },
+        {
+          "arch": "x86",
+          "datacenter": "ap-southeast-2a",
+          "fieldname": "usage_idle",
+          "hostname": "host_9",
+          "measurement": "cpu",
+          "os": "Ubuntu16.04LTS",
+          "rack": "0",
+          "region": "ap-southeast-2",
+          "service": "18",
+          "service_environment": "production",
+          "service_version": "0",
+          "team": "CHI"
+        },
+        {
+          "arch": "x86",
+          "datacenter": "ap-southeast-2a",
+          "fieldname": "usage_iowait",
+          "hostname": "host_9",
+          "measurement": "cpu",
+          "os": "Ubuntu16.04LTS",
+          "rack": "0",
+          "region": "ap-southeast-2",
+          "service": "18",
+          "service_environment": "production",
+          "service_version": "0",
+          "team": "CHI"
+        },
+        {
+          "arch": "x86",
+          "datacenter": "ap-southeast-2a",
+          "fieldname": "usage_irq",
+          "hostname": "host_9",
+          "measurement": "cpu",
+          "os": "Ubuntu16.04LTS",
+          "rack": "0",
+          "region": "ap-southeast-2",
+          "service": "18",
+          "service_environment": "production",
+          "service_version": "0",
+          "team": "CHI"
+        },
+        {
+          "arch": "x86",
+          "datacenter": "ap-southeast-2a",
+          "fieldname": "usage_nice",
+          "hostname": "host_9",
+          "measurement": "cpu",
+          "os": "Ubuntu16.04LTS",
+          "rack": "0",
+          "region": "ap-southeast-2",
+          "service": "18",
+          "service_environment": "production",
+          "service_version": "0",
+          "team": "CHI"
+        },
+        {
+          "arch": "x86",
+          "datacenter": "ap-southeast-2a",
+          "fieldname": "usage_softirq",
+          "hostname": "host_9",
+          "measurement": "cpu",
+          "os": "Ubuntu16.04LTS",
+          "rack": "0",
+          "region": "ap-southeast-2",
+          "service": "18",
+          "service_environment": "production",
+          "service_version": "0",
+          "team": "CHI"
+        },
+        {
+          "arch": "x86",
+          "datacenter": "ap-southeast-2a",
+          "fieldname": "usage_steal",
+          "hostname": "host_9",
+          "measurement": "cpu",
+          "os": "Ubuntu16.04LTS",
+          "rack": "0",
+          "region": "ap-southeast-2",
+          "service": "18",
+          "service_environment": "production",
+          "service_version": "0",
+          "team": "CHI"
+        },
+        {
+          "arch": "x86",
+          "datacenter": "ap-southeast-2a",
+          "fieldname": "usage_system",
+          "hostname": "host_9",
+          "measurement": "cpu",
+          "os": "Ubuntu16.04LTS",
+          "rack": "0",
+          "region": "ap-southeast-2",
+          "service": "18",
+          "service_environment": "production",
+          "service_version": "0",
+          "team": "CHI"
+        },
+        {
+          "arch": "x86",
+          "datacenter": "ap-southeast-2a",
+          "fieldname": "usage_user",
+          "hostname": "host_9",
+          "measurement": "cpu",
+          "os": "Ubuntu16.04LTS",
+          "rack": "0",
+          "region": "ap-southeast-2",
+          "service": "18",
+          "service_environment": "production",
+          "service_version": "0",
+          "team": "CHI"
+        }
+      ],
+      "names": [
+        "cpu_usage_guest_nice{1451654927}",
+        "cpu_usage_guest{1451654927}",
+        "cpu_usage_idle{1451654927}",
+        "cpu_usage_iowait{1451654927}",
+        "cpu_usage_irq{1451654927}",
+        "cpu_usage_nice{1451654927}",
+        "cpu_usage_softirq{1451654927}",
+        "cpu_usage_steal{1451654927}",
+        "cpu_usage_system{1451654927}",
+        "cpu_usage_user{1451654927}"
+      ]
+    }
+  }
+}
+
+Run complete after 1 queries with 1 workers (Overall query rate 243.88 queries/sec):
+RedisTimeSeries max of all CPU metrics, random    1 hosts, random 8h0m0s by 1h:
+min:     1.14ms, med:     1.14ms, mean:     1.14ms, max:    1.14ms, stddev:     0.00ms, sum:   0.0sec, count: 1
+all queries                                                                   :
+min:     1.14ms, med:     1.14ms, mean:     1.14ms, max:    1.14ms, stddev:     0.00ms, sum:   0.0sec, count: 1
+wall clock time: 0.005042sec

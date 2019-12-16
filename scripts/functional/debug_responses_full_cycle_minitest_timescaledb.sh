@@ -11,7 +11,7 @@ FORMAT="timescaledb"
 
 mkdir -p /tmp/bulk_data
 rm /tmp/bulk_data/${FORMAT}_*
-rm ${FORMAT}_*
+rm docs/responses/${FORMAT}_*
 
 # generate data
 $GOPATH/bin/tsbs_generate_data --format ${FORMAT} --use-case cpu-only --scale=${SCALE} --seed=${SEED} --file /tmp/bulk_data/${FORMAT}_data

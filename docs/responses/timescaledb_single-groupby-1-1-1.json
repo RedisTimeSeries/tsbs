@@ -1,0 +1,256 @@
+{
+  "query": "SELECT time_bucket('60 seconds', time) AS minute,\n        max(usage_user) as max_usage_user\n        FROM cpu\n        WHERE tags_id IN (SELECT id FROM tags WHERE hostname IN ('host_9')) AND time \u003e= '2016-01-01 20:16:22.646325 +0000' AND time \u003c '2016-01-01 21:16:22.646325 +0000'\n        GROUP BY minute ORDER BY minute ASC",
+  "results": [
+    {
+      "max_usage_user": 20,
+      "minute": "2016-01-01T20:16:00Z"
+    },
+    {
+      "max_usage_user": 22,
+      "minute": "2016-01-01T20:17:00Z"
+    },
+    {
+      "max_usage_user": 21,
+      "minute": "2016-01-01T20:18:00Z"
+    },
+    {
+      "max_usage_user": 24,
+      "minute": "2016-01-01T20:19:00Z"
+    },
+    {
+      "max_usage_user": 25,
+      "minute": "2016-01-01T20:20:00Z"
+    },
+    {
+      "max_usage_user": 24,
+      "minute": "2016-01-01T20:21:00Z"
+    },
+    {
+      "max_usage_user": 27,
+      "minute": "2016-01-01T20:22:00Z"
+    },
+    {
+      "max_usage_user": 27,
+      "minute": "2016-01-01T20:23:00Z"
+    },
+    {
+      "max_usage_user": 29,
+      "minute": "2016-01-01T20:24:00Z"
+    },
+    {
+      "max_usage_user": 30,
+      "minute": "2016-01-01T20:25:00Z"
+    },
+    {
+      "max_usage_user": 29,
+      "minute": "2016-01-01T20:26:00Z"
+    },
+    {
+      "max_usage_user": 29,
+      "minute": "2016-01-01T20:27:00Z"
+    },
+    {
+      "max_usage_user": 29,
+      "minute": "2016-01-01T20:28:00Z"
+    },
+    {
+      "max_usage_user": 29,
+      "minute": "2016-01-01T20:29:00Z"
+    },
+    {
+      "max_usage_user": 29,
+      "minute": "2016-01-01T20:30:00Z"
+    },
+    {
+      "max_usage_user": 30,
+      "minute": "2016-01-01T20:31:00Z"
+    },
+    {
+      "max_usage_user": 28,
+      "minute": "2016-01-01T20:32:00Z"
+    },
+    {
+      "max_usage_user": 29,
+      "minute": "2016-01-01T20:33:00Z"
+    },
+    {
+      "max_usage_user": 30,
+      "minute": "2016-01-01T20:34:00Z"
+    },
+    {
+      "max_usage_user": 34,
+      "minute": "2016-01-01T20:35:00Z"
+    },
+    {
+      "max_usage_user": 35,
+      "minute": "2016-01-01T20:36:00Z"
+    },
+    {
+      "max_usage_user": 37,
+      "minute": "2016-01-01T20:37:00Z"
+    },
+    {
+      "max_usage_user": 37,
+      "minute": "2016-01-01T20:38:00Z"
+    },
+    {
+      "max_usage_user": 34,
+      "minute": "2016-01-01T20:39:00Z"
+    },
+    {
+      "max_usage_user": 34,
+      "minute": "2016-01-01T20:40:00Z"
+    },
+    {
+      "max_usage_user": 32,
+      "minute": "2016-01-01T20:41:00Z"
+    },
+    {
+      "max_usage_user": 31,
+      "minute": "2016-01-01T20:42:00Z"
+    },
+    {
+      "max_usage_user": 33,
+      "minute": "2016-01-01T20:43:00Z"
+    },
+    {
+      "max_usage_user": 34,
+      "minute": "2016-01-01T20:44:00Z"
+    },
+    {
+      "max_usage_user": 33,
+      "minute": "2016-01-01T20:45:00Z"
+    },
+    {
+      "max_usage_user": 30,
+      "minute": "2016-01-01T20:46:00Z"
+    },
+    {
+      "max_usage_user": 29,
+      "minute": "2016-01-01T20:47:00Z"
+    },
+    {
+      "max_usage_user": 30,
+      "minute": "2016-01-01T20:48:00Z"
+    },
+    {
+      "max_usage_user": 29,
+      "minute": "2016-01-01T20:49:00Z"
+    },
+    {
+      "max_usage_user": 27,
+      "minute": "2016-01-01T20:50:00Z"
+    },
+    {
+      "max_usage_user": 29,
+      "minute": "2016-01-01T20:51:00Z"
+    },
+    {
+      "max_usage_user": 33,
+      "minute": "2016-01-01T20:52:00Z"
+    },
+    {
+      "max_usage_user": 33,
+      "minute": "2016-01-01T20:53:00Z"
+    },
+    {
+      "max_usage_user": 35,
+      "minute": "2016-01-01T20:54:00Z"
+    },
+    {
+      "max_usage_user": 32,
+      "minute": "2016-01-01T20:55:00Z"
+    },
+    {
+      "max_usage_user": 38,
+      "minute": "2016-01-01T20:56:00Z"
+    },
+    {
+      "max_usage_user": 38,
+      "minute": "2016-01-01T20:57:00Z"
+    },
+    {
+      "max_usage_user": 38,
+      "minute": "2016-01-01T20:58:00Z"
+    },
+    {
+      "max_usage_user": 36,
+      "minute": "2016-01-01T20:59:00Z"
+    },
+    {
+      "max_usage_user": 34,
+      "minute": "2016-01-01T21:00:00Z"
+    },
+    {
+      "max_usage_user": 35,
+      "minute": "2016-01-01T21:01:00Z"
+    },
+    {
+      "max_usage_user": 34,
+      "minute": "2016-01-01T21:02:00Z"
+    },
+    {
+      "max_usage_user": 32,
+      "minute": "2016-01-01T21:03:00Z"
+    },
+    {
+      "max_usage_user": 32,
+      "minute": "2016-01-01T21:04:00Z"
+    },
+    {
+      "max_usage_user": 33,
+      "minute": "2016-01-01T21:05:00Z"
+    },
+    {
+      "max_usage_user": 32,
+      "minute": "2016-01-01T21:06:00Z"
+    },
+    {
+      "max_usage_user": 36,
+      "minute": "2016-01-01T21:07:00Z"
+    },
+    {
+      "max_usage_user": 37,
+      "minute": "2016-01-01T21:08:00Z"
+    },
+    {
+      "max_usage_user": 38,
+      "minute": "2016-01-01T21:09:00Z"
+    },
+    {
+      "max_usage_user": 37,
+      "minute": "2016-01-01T21:10:00Z"
+    },
+    {
+      "max_usage_user": 38,
+      "minute": "2016-01-01T21:11:00Z"
+    },
+    {
+      "max_usage_user": 40,
+      "minute": "2016-01-01T21:12:00Z"
+    },
+    {
+      "max_usage_user": 35,
+      "minute": "2016-01-01T21:13:00Z"
+    },
+    {
+      "max_usage_user": 37,
+      "minute": "2016-01-01T21:14:00Z"
+    },
+    {
+      "max_usage_user": 37,
+      "minute": "2016-01-01T21:15:00Z"
+    },
+    {
+      "max_usage_user": 35,
+      "minute": "2016-01-01T21:16:00Z"
+    }
+  ]
+}
+
+Run complete after 1 queries with 1 workers (Overall query rate 83.12 queries/sec):
+TimescaleDB 1 cpu metric(s), random    1 hosts, random 1h0m0s by 1m:
+min:    11.36ms, med:    11.36ms, mean:    11.36ms, max:   11.36ms, stddev:     0.00ms, sum:   0.0sec, count: 1
+all queries                                                        :
+min:    11.36ms, med:    11.36ms, mean:    11.36ms, max:   11.36ms, stddev:     0.00ms, sum:   0.0sec, count: 1
+wall clock time: 0.015119sec
