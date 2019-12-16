@@ -40,9 +40,9 @@
   }
 }
 
-Run complete after 1 queries with 1 workers (Overall query rate 21.43 queries/sec):
+Run complete after 1 queries with 1 workers (Overall query rate 34.06 queries/sec):
 Influx max cpu over last 5 min-intervals (random end):
-min:    46.20ms, med:    46.20ms, mean:    46.20ms, max:   46.20ms, stddev:     0.00ms, sum:   0.0sec, count: 1
+min:    28.72ms, med:    28.72ms, mean:    28.72ms, max:   28.72ms, stddev:     0.00ms, sum:   0.0sec, count: 1
 all queries                                          :
-min:    46.20ms, med:    46.20ms, mean:    46.20ms, max:   46.20ms, stddev:     0.00ms, sum:   0.0sec, count: 1
-wall clock time: 0.057255sec
+min:    28.72ms, med:    28.72ms, mean:    28.72ms, max:   28.72ms, stddev:     0.00ms, sum:   0.0sec, count: 1
+wall clock time: 0.041150sec

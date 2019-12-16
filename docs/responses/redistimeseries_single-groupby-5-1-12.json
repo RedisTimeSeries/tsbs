@@ -8022,9 +8022,9 @@ Applying functor reflect_SingleGroupByTime github.com/timescale/tsbs/query.Singl
   }
 }
 
-Run complete after 1 queries with 1 workers (Overall query rate 89.75 queries/sec):
+Run complete after 1 queries with 1 workers (Overall query rate 95.21 queries/sec):
 RedisTimeSeries MAX of 5 metrics,random    1 hosts, random � by 1m:
-min:     5.88ms, med:     5.88ms, mean:     5.88ms, max:    5.88ms, stddev:     0.00ms, sum:   0.0sec, count: 1
+min:     4.96ms, med:     4.96ms, mean:     4.96ms, max:    4.96ms, stddev:     0.00ms, sum:   0.0sec, count: 1
 all queries                                                         :
-min:     5.88ms, med:     5.88ms, mean:     5.88ms, max:    5.88ms, stddev:     0.00ms, sum:   0.0sec, count: 1
-wall clock time: 0.013277sec
+min:     4.96ms, med:     4.96ms, mean:     4.96ms, max:    4.96ms, stddev:     0.00ms, sum:   0.0sec, count: 1
+wall clock time: 0.012704sec

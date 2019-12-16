@@ -248,9 +248,9 @@ Issuing command (TS.MREVRANGE 1451682982646 - COUNT 5 AGGREGATION MAX 60000 FILT
   }
 }
 
-Run complete after 1 queries with 1 workers (Overall query rate 374.87 queries/sec):
+Run complete after 1 queries with 1 workers (Overall query rate 319.45 queries/sec):
 RedisTimeSeries max cpu over last 5 min-intervals (random end):
-min:     0.40ms, med:     0.40ms, mean:     0.40ms, max:    0.40ms, stddev:     0.00ms, sum:   0.0sec, count: 1
+min:     0.43ms, med:     0.43ms, mean:     0.43ms, max:    0.43ms, stddev:     0.00ms, sum:   0.0sec, count: 1
 all queries                                                   :
-min:     0.40ms, med:     0.40ms, mean:     0.40ms, max:    0.40ms, stddev:     0.00ms, sum:   0.0sec, count: 1
-wall clock time: 0.003233sec
+min:     0.43ms, med:     0.43ms, mean:     0.43ms, max:    0.43ms, stddev:     0.00ms, sum:   0.0sec, count: 1
+wall clock time: 0.003735sec

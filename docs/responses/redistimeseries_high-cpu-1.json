@@ -9,9 +9,9 @@ Applying functor reflect_HighCpu github.com/timescale/tsbs/query.HighCpu
   }
 }
 
-Run complete after 1 queries with 1 workers (Overall query rate 27.56 queries/sec):
+Run complete after 1 queries with 1 workers (Overall query rate 26.66 queries/sec):
 RedisTimeSeries CPU over threshold, 1 host(s):
-min:    34.06ms, med:    34.06ms, mean:    34.06ms, max:   34.06ms, stddev:     0.00ms, sum:   0.0sec, count: 1
+min:    35.43ms, med:    35.43ms, mean:    35.43ms, max:   35.43ms, stddev:     0.00ms, sum:   0.0sec, count: 1
 all queries                                  :
-min:    34.06ms, med:    34.06ms, mean:    34.06ms, max:   34.06ms, stddev:     0.00ms, sum:   0.0sec, count: 1
-wall clock time: 0.045259sec
+min:    35.43ms, med:    35.43ms, mean:    35.43ms, max:   35.43ms, stddev:     0.00ms, sum:   0.0sec, count: 1
+wall clock time: 0.046678sec

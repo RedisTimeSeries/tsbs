@@ -5792,9 +5792,9 @@
   }
 }
 
-Run complete after 1 queries with 1 workers (Overall query rate 32.28 queries/sec):
+Run complete after 1 queries with 1 workers (Overall query rate 35.70 queries/sec):
 Influx 5 cpu metric(s), random    1 hosts, random 12h0m0s by 1m:
-min:    28.03ms, med:    28.03ms, mean:    28.03ms, max:   28.03ms, stddev:     0.00ms, sum:   0.0sec, count: 1
+min:    24.62ms, med:    24.62ms, mean:    24.62ms, max:   24.62ms, stddev:     0.00ms, sum:   0.0sec, count: 1
 all queries                                                    :
-min:    28.03ms, med:    28.03ms, mean:    28.03ms, max:   28.03ms, stddev:     0.00ms, sum:   0.0sec, count: 1
-wall clock time: 0.040237sec
+min:    24.62ms, med:    24.62ms, mean:    24.62ms, max:   24.62ms, stddev:     0.00ms, sum:   0.0sec, count: 1
+wall clock time: 0.035220sec

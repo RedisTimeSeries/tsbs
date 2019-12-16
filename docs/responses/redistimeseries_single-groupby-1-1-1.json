@@ -272,9 +272,9 @@ Issuing command (TS.MRANGE 1451679382646 1451682982646 AGGREGATION MAX 60000 FIL
   }
 }
 
-Run complete after 1 queries with 1 workers (Overall query rate 145.07 queries/sec):
+Run complete after 1 queries with 1 workers (Overall query rate 190.55 queries/sec):
 RedisTimeSeries MAX of 1 metrics,random    1 hosts, random � by 1m:
-min:     0.67ms, med:     0.67ms, mean:     0.67ms, max:    0.67ms, stddev:     0.00ms, sum:   0.0sec, count: 1
+min:     0.45ms, med:     0.45ms, mean:     0.45ms, max:    0.45ms, stddev:     0.00ms, sum:   0.0sec, count: 1
 all queries                                                         :
-min:     0.67ms, med:     0.67ms, mean:     0.67ms, max:    0.67ms, stddev:     0.00ms, sum:   0.0sec, count: 1
-wall clock time: 0.008412sec
+min:     0.45ms, med:     0.45ms, mean:     0.45ms, max:    0.45ms, stddev:     0.00ms, sum:   0.0sec, count: 1
+wall clock time: 0.006476sec

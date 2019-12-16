@@ -258,9 +258,9 @@ Applying functor reflect_GroupByTimeAndMax github.com/timescale/tsbs/query.Group
   }
 }
 
-Run complete after 1 queries with 1 workers (Overall query rate 235.38 queries/sec):
+Run complete after 1 queries with 1 workers (Overall query rate 176.39 queries/sec):
 RedisTimeSeries MAX of 1 metrics,random    8 hosts, random � by 1m:
-min:     1.24ms, med:     1.24ms, mean:     1.24ms, max:    1.24ms, stddev:     0.00ms, sum:   0.0sec, count: 1
+min:     1.50ms, med:     1.50ms, mean:     1.50ms, max:    1.50ms, stddev:     0.00ms, sum:   0.0sec, count: 1
 all queries                                                         :
-min:     1.24ms, med:     1.24ms, mean:     1.24ms, max:    1.24ms, stddev:     0.00ms, sum:   0.0sec, count: 1
-wall clock time: 0.005143sec
+min:     1.50ms, med:     1.50ms, mean:     1.50ms, max:    1.50ms, stddev:     0.00ms, sum:   0.0sec, count: 1
+wall clock time: 0.006338sec

@@ -14,13 +14,13 @@ Applying functor reflect_GroupByTimeAndTagMax github.com/timescale/tsbs/query.Gr
             100,
             99,
             100,
+            93,
             100,
+            93,
             92,
             100,
             100,
-            93,
-            100,
-            93
+            100
           ]
         },
         {
@@ -31,12 +31,12 @@ Applying functor reflect_GroupByTimeAndTagMax github.com/timescale/tsbs/query.Gr
             100,
             100,
             100,
-            90,
-            97,
             100,
             99,
+            90,
             100,
-            100
+            100,
+            97
           ]
         },
         {
@@ -47,10 +47,10 @@ Applying functor reflect_GroupByTimeAndTagMax github.com/timescale/tsbs/query.Gr
             95,
             100,
             100,
-            99,
-            100,
             100,
             97,
+            99,
+            100,
             100,
             100
           ]
@@ -62,13 +62,13 @@ Applying functor reflect_GroupByTimeAndTagMax github.com/timescale/tsbs/query.Gr
             100,
             100,
             100,
+            97,
             100,
             100,
-            93,
             100,
             100,
             100,
-            97
+            93
           ]
         },
         {
@@ -80,11 +80,11 @@ Applying functor reflect_GroupByTimeAndTagMax github.com/timescale/tsbs/query.Gr
             100,
             100,
             100,
-            72,
             100,
             100,
             100,
-            100
+            100,
+            72
           ]
         },
         {
@@ -96,11 +96,11 @@ Applying functor reflect_GroupByTimeAndTagMax github.com/timescale/tsbs/query.Gr
             100,
             100,
             100,
-            79,
             100,
             100,
             100,
-            100
+            100,
+            79
           ]
         },
         {
@@ -112,9 +112,9 @@ Applying functor reflect_GroupByTimeAndTagMax github.com/timescale/tsbs/query.Gr
             100,
             100,
             100,
-            100,
-            100,
             91,
+            100,
+            100,
             100,
             100
           ]
@@ -127,10 +127,10 @@ Applying functor reflect_GroupByTimeAndTagMax github.com/timescale/tsbs/query.Gr
             79,
             100,
             100,
-            93,
-            100,
             100,
             99,
+            93,
+            100,
             100,
             100
           ]
@@ -139,16 +139,16 @@ Applying functor reflect_GroupByTimeAndTagMax github.com/timescale/tsbs/query.Gr
           "Timestamp": 1451642400000,
           "HumanReadbleTime": "2016-01-01T10:00:00Z",
           "Values": [
-            82,
+            100,
             85,
+            100,
             100,
             91,
+            100,
             85,
-            81,
+            82,
             100,
-            100,
-            100,
-            100
+            81
           ]
         }
       ],
@@ -165,24 +165,24 @@ Applying functor reflect_GroupByTimeAndTagMax github.com/timescale/tsbs/query.Gr
         null
       ],
       "names": [
-        "max reduction over cpu_usage_nice{1245923230} cpu_usage_nice{1451654927} cpu_usage_nice{147337842} cpu_usage_nice{1578048592} cpu_usage_nice{2157791835} cpu_usage_nice{831020642} cpu_usage_nice{911640529} cpu_usage_nice{948008140}",
+        "max reduction over cpu_usage_irq{1245923230} cpu_usage_irq{1451654927} cpu_usage_irq{147337842} cpu_usage_irq{1578048592} cpu_usage_irq{2157791835} cpu_usage_irq{831020642} cpu_usage_irq{911640529} cpu_usage_irq{948008140}",
         "max reduction over cpu_usage_softirq{1245923230} cpu_usage_softirq{1451654927} cpu_usage_softirq{147337842} cpu_usage_softirq{1578048592} cpu_usage_softirq{2157791835} cpu_usage_softirq{831020642} cpu_usage_softirq{911640529} cpu_usage_softirq{948008140}",
         "max reduction over cpu_usage_steal{1245923230} cpu_usage_steal{1451654927} cpu_usage_steal{147337842} cpu_usage_steal{1578048592} cpu_usage_steal{2157791835} cpu_usage_steal{831020642} cpu_usage_steal{911640529} cpu_usage_steal{948008140}",
+        "max reduction over cpu_usage_system{1245923230} cpu_usage_system{1451654927} cpu_usage_system{147337842} cpu_usage_system{1578048592} cpu_usage_system{2157791835} cpu_usage_system{831020642} cpu_usage_system{911640529} cpu_usage_system{948008140}",
         "max reduction over cpu_usage_user{1245923230} cpu_usage_user{1451654927} cpu_usage_user{147337842} cpu_usage_user{1578048592} cpu_usage_user{2157791835} cpu_usage_user{831020642} cpu_usage_user{911640529} cpu_usage_user{948008140}",
-        "max reduction over cpu_usage_guest{1245923230} cpu_usage_guest{1451654927} cpu_usage_guest{147337842} cpu_usage_guest{1578048592} cpu_usage_guest{2157791835} cpu_usage_guest{831020642} cpu_usage_guest{911640529} cpu_usage_guest{948008140}",
-        "max reduction over cpu_usage_iowait{1245923230} cpu_usage_iowait{1451654927} cpu_usage_iowait{147337842} cpu_usage_iowait{1578048592} cpu_usage_iowait{2157791835} cpu_usage_iowait{831020642} cpu_usage_iowait{911640529} cpu_usage_iowait{948008140}",
-        "max reduction over cpu_usage_irq{1245923230} cpu_usage_irq{1451654927} cpu_usage_irq{147337842} cpu_usage_irq{1578048592} cpu_usage_irq{2157791835} cpu_usage_irq{831020642} cpu_usage_irq{911640529} cpu_usage_irq{948008140}",
         "max reduction over cpu_usage_guest_nice{1245923230} cpu_usage_guest_nice{1451654927} cpu_usage_guest_nice{147337842} cpu_usage_guest_nice{1578048592} cpu_usage_guest_nice{2157791835} cpu_usage_guest_nice{831020642} cpu_usage_guest_nice{911640529} cpu_usage_guest_nice{948008140}",
+        "max reduction over cpu_usage_guest{1245923230} cpu_usage_guest{1451654927} cpu_usage_guest{147337842} cpu_usage_guest{1578048592} cpu_usage_guest{2157791835} cpu_usage_guest{831020642} cpu_usage_guest{911640529} cpu_usage_guest{948008140}",
+        "max reduction over cpu_usage_nice{1245923230} cpu_usage_nice{1451654927} cpu_usage_nice{147337842} cpu_usage_nice{1578048592} cpu_usage_nice{2157791835} cpu_usage_nice{831020642} cpu_usage_nice{911640529} cpu_usage_nice{948008140}",
         "max reduction over cpu_usage_idle{1245923230} cpu_usage_idle{1451654927} cpu_usage_idle{147337842} cpu_usage_idle{1578048592} cpu_usage_idle{2157791835} cpu_usage_idle{831020642} cpu_usage_idle{911640529} cpu_usage_idle{948008140}",
-        "max reduction over cpu_usage_system{1245923230} cpu_usage_system{1451654927} cpu_usage_system{147337842} cpu_usage_system{1578048592} cpu_usage_system{2157791835} cpu_usage_system{831020642} cpu_usage_system{911640529} cpu_usage_system{948008140}"
+        "max reduction over cpu_usage_iowait{1245923230} cpu_usage_iowait{1451654927} cpu_usage_iowait{147337842} cpu_usage_iowait{1578048592} cpu_usage_iowait{2157791835} cpu_usage_iowait{831020642} cpu_usage_iowait{911640529} cpu_usage_iowait{948008140}"
       ]
     }
   }
 }
 
-Run complete after 1 queries with 1 workers (Overall query rate 94.79 queries/sec):
+Run complete after 1 queries with 1 workers (Overall query rate 88.84 queries/sec):
 RedisTimeSeries max of all CPU metrics, random    8 hosts, random 8h0m0s by 1h:
-min:     8.02ms, med:     8.02ms, mean:     8.02ms, max:    8.02ms, stddev:     0.00ms, sum:   0.0sec, count: 1
+min:     8.51ms, med:     8.51ms, mean:     8.51ms, max:    8.51ms, stddev:     0.00ms, sum:   0.0sec, count: 1
 all queries                                                                   :
-min:     8.02ms, med:     8.02ms, mean:     8.02ms, max:    8.02ms, stddev:     0.00ms, sum:   0.0sec, count: 1
-wall clock time: 0.013308sec
+min:     8.51ms, med:     8.51ms, mean:     8.51ms, max:    8.51ms, stddev:     0.00ms, sum:   0.0sec, count: 1
+wall clock time: 0.014056sec

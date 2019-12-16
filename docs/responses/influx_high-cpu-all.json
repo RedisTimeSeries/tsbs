@@ -83184,9 +83184,9 @@
   }
 }
 
-Run complete after 1 queries with 1 workers (Overall query rate 7.47 queries/sec):
+Run complete after 1 queries with 1 workers (Overall query rate 7.32 queries/sec):
 Influx CPU over threshold, all hosts:
-min:   100.28ms, med:   100.28ms, mean:   100.28ms, max:  100.28ms, stddev:     0.00ms, sum:   0.1sec, count: 1
+min:   101.56ms, med:   101.56ms, mean:   101.56ms, max:  101.56ms, stddev:     0.00ms, sum:   0.1sec, count: 1
 all queries                         :
-min:   100.28ms, med:   100.28ms, mean:   100.28ms, max:  100.28ms, stddev:     0.00ms, sum:   0.1sec, count: 1
-wall clock time: 0.149174sec
+min:   101.56ms, med:   101.56ms, mean:   101.56ms, max:  101.56ms, stddev:     0.00ms, sum:   0.1sec, count: 1
+wall clock time: 0.151689sec

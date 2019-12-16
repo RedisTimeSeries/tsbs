@@ -11,132 +11,132 @@ Applying functor reflect_GroupByTimeAndTagMax github.com/timescale/tsbs/query.Gr
           "Timestamp": 1451679360000,
           "HumanReadbleTime": "2016-01-01T20:16:00Z",
           "Values": [
+            85,
+            87,
             87,
             72,
-            71,
-            85,
-            87
+            71
           ]
         },
         {
           "Timestamp": 1451679420000,
           "HumanReadbleTime": "2016-01-01T20:17:00Z",
           "Values": [
+            84,
+            87,
             91,
             70,
-            72,
-            84,
-            87
+            72
           ]
         },
         {
           "Timestamp": 1451679480000,
           "HumanReadbleTime": "2016-01-01T20:18:00Z",
           "Values": [
+            82,
+            87,
             91,
             72,
-            71,
-            82,
-            87
+            71
           ]
         },
         {
           "Timestamp": 1451679540000,
           "HumanReadbleTime": "2016-01-01T20:19:00Z",
           "Values": [
+            82,
+            93,
             90,
             74,
-            71,
-            82,
-            93
+            71
           ]
         },
         {
           "Timestamp": 1451679600000,
           "HumanReadbleTime": "2016-01-01T20:20:00Z",
           "Values": [
+            82,
+            91,
             91,
             72,
-            72,
-            82,
-            91
+            72
           ]
         },
         {
           "Timestamp": 1451679660000,
           "HumanReadbleTime": "2016-01-01T20:21:00Z",
           "Values": [
+            82,
+            92,
             89,
             67,
-            74,
-            82,
-            92
+            74
           ]
         },
         {
           "Timestamp": 1451679720000,
           "HumanReadbleTime": "2016-01-01T20:22:00Z",
           "Values": [
+            80,
+            93,
             93,
             66,
-            77,
-            80,
-            93
+            77
           ]
         },
         {
           "Timestamp": 1451679780000,
           "HumanReadbleTime": "2016-01-01T20:23:00Z",
           "Values": [
+            77,
+            92,
             91,
             65,
-            76,
-            77,
-            92
+            76
           ]
         },
         {
           "Timestamp": 1451679840000,
           "HumanReadbleTime": "2016-01-01T20:24:00Z",
           "Values": [
+            80,
+            96,
             88,
             64,
-            76,
-            80,
-            96
+            76
           ]
         },
         {
           "Timestamp": 1451679900000,
           "HumanReadbleTime": "2016-01-01T20:25:00Z",
           "Values": [
+            78,
+            96,
             82,
             64,
-            75,
-            78,
-            96
+            75
           ]
         },
         {
           "Timestamp": 1451679960000,
           "HumanReadbleTime": "2016-01-01T20:26:00Z",
           "Values": [
+            76,
+            96,
             82,
             65,
-            77,
-            76,
-            96
+            77
           ]
         },
         {
           "Timestamp": 1451680020000,
           "HumanReadbleTime": "2016-01-01T20:27:00Z",
           "Values": [
+            75,
+            97,
             78,
             64,
-            79,
-            75,
-            97
+            79
           ]
         },
         {
@@ -144,538 +144,538 @@ Applying functor reflect_GroupByTimeAndTagMax github.com/timescale/tsbs/query.Gr
           "HumanReadbleTime": "2016-01-01T20:28:00Z",
           "Values": [
             77,
-            66,
-            78,
+            96,
             77,
-            96
+            66,
+            78
           ]
         },
         {
           "Timestamp": 1451680140000,
           "HumanReadbleTime": "2016-01-01T20:29:00Z",
           "Values": [
+            78,
+            96,
             77,
             68,
-            74,
-            78,
-            96
+            74
           ]
         },
         {
           "Timestamp": 1451680200000,
           "HumanReadbleTime": "2016-01-01T20:30:00Z",
           "Values": [
+            75,
+            98,
             79,
             68,
-            75,
-            75,
-            98
+            75
           ]
         },
         {
           "Timestamp": 1451680260000,
           "HumanReadbleTime": "2016-01-01T20:31:00Z",
           "Values": [
+            72,
+            96,
             82,
             71,
-            73,
-            72,
-            96
+            73
           ]
         },
         {
           "Timestamp": 1451680320000,
           "HumanReadbleTime": "2016-01-01T20:32:00Z",
           "Values": [
+            70,
+            96,
             84,
             71,
-            75,
-            70,
-            96
+            75
           ]
         },
         {
           "Timestamp": 1451680380000,
           "HumanReadbleTime": "2016-01-01T20:33:00Z",
           "Values": [
+            68,
+            95,
             83,
             69,
-            76,
-            68,
-            95
+            76
           ]
         },
         {
           "Timestamp": 1451680440000,
           "HumanReadbleTime": "2016-01-01T20:34:00Z",
           "Values": [
+            69,
+            97,
             84,
             69,
-            78,
-            69,
-            97
+            78
           ]
         },
         {
           "Timestamp": 1451680500000,
           "HumanReadbleTime": "2016-01-01T20:35:00Z",
           "Values": [
+            69,
+            97,
             87,
             67,
-            80,
-            69,
-            97
+            80
           ]
         },
         {
           "Timestamp": 1451680560000,
           "HumanReadbleTime": "2016-01-01T20:36:00Z",
           "Values": [
+            67,
+            95,
             86,
             69,
-            80,
-            67,
-            95
+            80
           ]
         },
         {
           "Timestamp": 1451680620000,
           "HumanReadbleTime": "2016-01-01T20:37:00Z",
           "Values": [
+            68,
+            94,
             87,
             69,
-            84,
-            68,
-            94
+            84
           ]
         },
         {
           "Timestamp": 1451680680000,
           "HumanReadbleTime": "2016-01-01T20:38:00Z",
           "Values": [
+            67,
+            93,
             88,
             65,
-            86,
-            67,
-            93
+            86
           ]
         },
         {
           "Timestamp": 1451680740000,
           "HumanReadbleTime": "2016-01-01T20:39:00Z",
           "Values": [
+            64,
+            92,
             89,
             67,
-            87,
-            64,
-            92
+            87
           ]
         },
         {
           "Timestamp": 1451680800000,
           "HumanReadbleTime": "2016-01-01T20:40:00Z",
           "Values": [
+            63,
+            93,
             90,
             69,
-            86,
-            63,
-            93
+            86
           ]
         },
         {
           "Timestamp": 1451680860000,
           "HumanReadbleTime": "2016-01-01T20:41:00Z",
           "Values": [
+            66,
+            94,
             92,
             69,
-            85,
-            66,
-            94
+            85
           ]
         },
         {
           "Timestamp": 1451680920000,
           "HumanReadbleTime": "2016-01-01T20:42:00Z",
           "Values": [
+            69,
+            98,
             92,
             68,
-            87,
-            69,
-            98
+            87
           ]
         },
         {
           "Timestamp": 1451680980000,
           "HumanReadbleTime": "2016-01-01T20:43:00Z",
           "Values": [
+            68,
+            98,
             92,
             66,
-            88,
-            68,
-            98
+            88
           ]
         },
         {
           "Timestamp": 1451681040000,
           "HumanReadbleTime": "2016-01-01T20:44:00Z",
           "Values": [
+            69,
+            97,
             93,
             63,
-            88,
-            69,
-            97
+            88
           ]
         },
         {
           "Timestamp": 1451681100000,
           "HumanReadbleTime": "2016-01-01T20:45:00Z",
           "Values": [
+            68,
+            100,
             94,
             65,
-            90,
-            68,
-            100
+            90
           ]
         },
         {
           "Timestamp": 1451681160000,
           "HumanReadbleTime": "2016-01-01T20:46:00Z",
           "Values": [
+            68,
+            100,
             97,
             65,
-            88,
-            68,
-            100
+            88
           ]
         },
         {
           "Timestamp": 1451681220000,
           "HumanReadbleTime": "2016-01-01T20:47:00Z",
           "Values": [
+            67,
+            100,
             94,
             63,
-            88,
-            67,
-            100
+            88
           ]
         },
         {
           "Timestamp": 1451681280000,
           "HumanReadbleTime": "2016-01-01T20:48:00Z",
           "Values": [
+            66,
+            100,
             93,
             60,
-            87,
-            66,
-            100
+            87
           ]
         },
         {
           "Timestamp": 1451681340000,
           "HumanReadbleTime": "2016-01-01T20:49:00Z",
           "Values": [
+            62,
+            100,
             91,
             59,
-            89,
-            62,
-            100
+            89
           ]
         },
         {
           "Timestamp": 1451681400000,
           "HumanReadbleTime": "2016-01-01T20:50:00Z",
           "Values": [
+            61,
+            100,
             92,
             62,
-            90,
-            61,
-            100
+            90
           ]
         },
         {
           "Timestamp": 1451681460000,
           "HumanReadbleTime": "2016-01-01T20:51:00Z",
           "Values": [
+            60,
+            99,
             93,
             67,
-            89,
-            60,
-            99
+            89
           ]
         },
         {
           "Timestamp": 1451681520000,
           "HumanReadbleTime": "2016-01-01T20:52:00Z",
           "Values": [
+            58,
+            98,
             95,
             68,
-            87,
-            58,
-            98
+            87
           ]
         },
         {
           "Timestamp": 1451681580000,
           "HumanReadbleTime": "2016-01-01T20:53:00Z",
           "Values": [
+            59,
+            95,
             95,
             67,
-            86,
-            59,
-            95
+            86
           ]
         },
         {
           "Timestamp": 1451681640000,
           "HumanReadbleTime": "2016-01-01T20:54:00Z",
           "Values": [
+            61,
+            97,
             100,
             67,
-            88,
-            61,
-            97
+            88
           ]
         },
         {
           "Timestamp": 1451681700000,
           "HumanReadbleTime": "2016-01-01T20:55:00Z",
           "Values": [
+            62,
+            100,
             100,
             64,
-            89,
-            62,
-            100
+            89
           ]
         },
         {
           "Timestamp": 1451681760000,
           "HumanReadbleTime": "2016-01-01T20:56:00Z",
           "Values": [
+            61,
+            99,
             99,
             66,
-            89,
-            61,
-            99
+            89
           ]
         },
         {
           "Timestamp": 1451681820000,
           "HumanReadbleTime": "2016-01-01T20:57:00Z",
           "Values": [
+            60,
+            98,
             96,
             63,
-            93,
-            60,
-            98
+            93
           ]
         },
         {
           "Timestamp": 1451681880000,
           "HumanReadbleTime": "2016-01-01T20:58:00Z",
           "Values": [
+            61,
+            100,
             96,
             64,
-            94,
-            61,
-            100
+            94
           ]
         },
         {
           "Timestamp": 1451681940000,
           "HumanReadbleTime": "2016-01-01T20:59:00Z",
           "Values": [
+            64,
+            100,
             100,
             66,
-            95,
-            64,
-            100
+            95
           ]
         },
         {
           "Timestamp": 1451682000000,
           "HumanReadbleTime": "2016-01-01T21:00:00Z",
           "Values": [
+            65,
+            100,
             97,
             67,
-            93,
-            65,
-            100
+            93
           ]
         },
         {
           "Timestamp": 1451682060000,
           "HumanReadbleTime": "2016-01-01T21:01:00Z",
           "Values": [
+            68,
+            100,
             97,
             72,
-            96,
-            68,
-            100
+            96
           ]
         },
         {
           "Timestamp": 1451682120000,
           "HumanReadbleTime": "2016-01-01T21:02:00Z",
           "Values": [
+            67,
+            100,
             99,
             74,
-            96,
-            67,
-            100
+            96
           ]
         },
         {
           "Timestamp": 1451682180000,
           "HumanReadbleTime": "2016-01-01T21:03:00Z",
           "Values": [
+            68,
+            98,
             98,
             76,
-            95,
-            68,
-            98
+            95
           ]
         },
         {
           "Timestamp": 1451682240000,
           "HumanReadbleTime": "2016-01-01T21:04:00Z",
           "Values": [
+            67,
+            98,
             100,
             75,
-            92,
-            67,
-            98
+            92
           ]
         },
         {
           "Timestamp": 1451682300000,
           "HumanReadbleTime": "2016-01-01T21:05:00Z",
           "Values": [
+            66,
+            99,
             100,
             75,
-            92,
-            66,
-            99
+            92
           ]
         },
         {
           "Timestamp": 1451682360000,
           "HumanReadbleTime": "2016-01-01T21:06:00Z",
           "Values": [
+            66,
+            99,
             100,
             72,
-            92,
-            66,
-            99
+            92
           ]
         },
         {
           "Timestamp": 1451682420000,
           "HumanReadbleTime": "2016-01-01T21:07:00Z",
           "Values": [
+            67,
+            99,
             100,
             72,
-            91,
-            67,
-            99
+            91
           ]
         },
         {
           "Timestamp": 1451682480000,
           "HumanReadbleTime": "2016-01-01T21:08:00Z",
           "Values": [
+            65,
+            100,
             100,
             70,
-            92,
-            65,
-            100
+            92
           ]
         },
         {
           "Timestamp": 1451682540000,
           "HumanReadbleTime": "2016-01-01T21:09:00Z",
           "Values": [
+            66,
+            99,
             99,
             70,
-            92,
-            66,
-            99
+            92
           ]
         },
         {
           "Timestamp": 1451682600000,
           "HumanReadbleTime": "2016-01-01T21:10:00Z",
           "Values": [
+            68,
+            96,
             100,
             68,
-            92,
-            68,
-            96
+            92
           ]
         },
         {
           "Timestamp": 1451682660000,
           "HumanReadbleTime": "2016-01-01T21:11:00Z",
           "Values": [
+            70,
+            95,
             100,
             68,
-            92,
-            70,
-            95
+            92
           ]
         },
         {
           "Timestamp": 1451682720000,
           "HumanReadbleTime": "2016-01-01T21:12:00Z",
           "Values": [
+            72,
+            94,
             99,
             67,
-            92,
-            72,
-            94
+            92
           ]
         },
         {
           "Timestamp": 1451682780000,
           "HumanReadbleTime": "2016-01-01T21:13:00Z",
           "Values": [
+            70,
+            94,
             100,
             70,
-            91,
-            70,
-            94
+            91
           ]
         },
         {
           "Timestamp": 1451682840000,
           "HumanReadbleTime": "2016-01-01T21:14:00Z",
           "Values": [
+            69,
+            96,
             100,
             71,
-            92,
-            69,
-            96
+            92
           ]
         },
         {
           "Timestamp": 1451682900000,
           "HumanReadbleTime": "2016-01-01T21:15:00Z",
           "Values": [
+            67,
+            96,
             98,
             71,
-            91,
-            67,
-            96
+            91
           ]
         },
         {
           "Timestamp": 1451682960000,
           "HumanReadbleTime": "2016-01-01T21:16:00Z",
           "Values": [
+            66,
+            96,
             100,
             72,
-            91,
-            66,
-            96
+            91
           ]
         }
       ],
@@ -687,19 +687,19 @@ Applying functor reflect_GroupByTimeAndTagMax github.com/timescale/tsbs/query.Gr
         null
       ],
       "names": [
+        "max reduction over cpu_usage_iowait{1245923230} cpu_usage_iowait{1451654927} cpu_usage_iowait{147337842} cpu_usage_iowait{1578048592} cpu_usage_iowait{2157791835} cpu_usage_iowait{831020642} cpu_usage_iowait{911640529} cpu_usage_iowait{948008140}",
+        "max reduction over cpu_usage_nice{1245923230} cpu_usage_nice{1451654927} cpu_usage_nice{147337842} cpu_usage_nice{1578048592} cpu_usage_nice{2157791835} cpu_usage_nice{831020642} cpu_usage_nice{911640529} cpu_usage_nice{948008140}",
         "max reduction over cpu_usage_system{1245923230} cpu_usage_system{1451654927} cpu_usage_system{147337842} cpu_usage_system{1578048592} cpu_usage_system{2157791835} cpu_usage_system{831020642} cpu_usage_system{911640529} cpu_usage_system{948008140}",
         "max reduction over cpu_usage_user{1245923230} cpu_usage_user{1451654927} cpu_usage_user{147337842} cpu_usage_user{1578048592} cpu_usage_user{2157791835} cpu_usage_user{831020642} cpu_usage_user{911640529} cpu_usage_user{948008140}",
-        "max reduction over cpu_usage_idle{1245923230} cpu_usage_idle{1451654927} cpu_usage_idle{147337842} cpu_usage_idle{1578048592} cpu_usage_idle{2157791835} cpu_usage_idle{831020642} cpu_usage_idle{911640529} cpu_usage_idle{948008140}",
-        "max reduction over cpu_usage_iowait{1245923230} cpu_usage_iowait{1451654927} cpu_usage_iowait{147337842} cpu_usage_iowait{1578048592} cpu_usage_iowait{2157791835} cpu_usage_iowait{831020642} cpu_usage_iowait{911640529} cpu_usage_iowait{948008140}",
-        "max reduction over cpu_usage_nice{1245923230} cpu_usage_nice{1451654927} cpu_usage_nice{147337842} cpu_usage_nice{1578048592} cpu_usage_nice{2157791835} cpu_usage_nice{831020642} cpu_usage_nice{911640529} cpu_usage_nice{948008140}"
+        "max reduction over cpu_usage_idle{1245923230} cpu_usage_idle{1451654927} cpu_usage_idle{147337842} cpu_usage_idle{1578048592} cpu_usage_idle{2157791835} cpu_usage_idle{831020642} cpu_usage_idle{911640529} cpu_usage_idle{948008140}"
       ]
     }
   }
 }
 
-Run complete after 1 queries with 1 workers (Overall query rate 138.69 queries/sec):
+Run complete after 1 queries with 1 workers (Overall query rate 128.97 queries/sec):
 RedisTimeSeries MAX of 5 metrics,random    8 hosts, random � by 1m:
-min:     4.60ms, med:     4.60ms, mean:     4.60ms, max:    4.60ms, stddev:     0.00ms, sum:   0.0sec, count: 1
+min:     4.62ms, med:     4.62ms, mean:     4.62ms, max:    4.62ms, stddev:     0.00ms, sum:   0.0sec, count: 1
 all queries                                                         :
-min:     4.60ms, med:     4.60ms, mean:     4.60ms, max:    4.60ms, stddev:     0.00ms, sum:   0.0sec, count: 1
-wall clock time: 0.008959sec
+min:     4.62ms, med:     4.62ms, mean:     4.62ms, max:    4.62ms, stddev:     0.00ms, sum:   0.0sec, count: 1
+wall clock time: 0.009978sec
