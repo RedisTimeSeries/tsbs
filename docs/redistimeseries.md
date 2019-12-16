@@ -208,7 +208,7 @@ Aggregation over time on multiple time-series datapoints with the same timestamp
 ###### Code: [github.com/timescale/tsbs/query.SingleGroupByTime](./../query/redistimeseries_functors.go#L33)
 
 ######  Sample Responses:
-- [InfluxDB](./responses/influx_cpu-max-all-1.json)
+- [InfluxDB](./responses/influx_cpu-max-all-1.json) *this query is being generated with the wrong parameters for InfluxDB ( will create issue upwards )*
 - [TimescaleDB](./responses/timescaledb_cpu-max-all-1.json)
 - [RedistimeSeries](./responses/redistimeseries_cpu-max-all-1.json)
 
