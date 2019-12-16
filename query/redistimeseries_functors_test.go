@@ -3,6 +3,7 @@ package query
 import (
 	redistimeseries "github.com/RedisTimeSeries/redistimeseries-go"
 	"reflect"
+	"sort"
 	"testing"
 )
 
@@ -195,6 +196,8 @@ func TestGetUniqueLabelValue(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			gotResult, err := GetUniqueLabelValue(tt.args.series, tt.args.label)
+			sort.Strings(gotResult)
+			sort.Strings(tt.wantResult)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("GetUniqueLabelValue() error = %v, wantErr %v", err, tt.wantErr)
 				return

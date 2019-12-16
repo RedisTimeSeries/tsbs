@@ -17,7 +17,6 @@ func panicIfErr(err error) {
 
 const (
 	oneMinuteMillis  = 60 * 1000
-	fiveMinuteMillis = 5 * oneMinuteMillis
 	oneHourMillis    = oneMinuteMillis * 60
 )
 
@@ -144,10 +143,8 @@ func (d *Devops) GroupByTimeAndPrimaryTag(qi query.Query, numMetrics int) {
 	humanDesc := fmt.Sprintf("%s: %s", humanLabel, interval.StartString())
 	d.fillInQueryStrings(qi, humanLabel, humanDesc)
 	d.AddQuery(qi, redisQuery, []byte("TS.MRANGE"))
-	//if numMetrics > 1 {
 	functorName := query.GetFunctionName(query.GroupByTimeAndTagHostname)
 	d.SetApplyFunctor(qi, true, functorName)
-	//}
 }
 
 // MaxAllCPU fetches the aggregate across all CPU metrics per hour over 1 hour for a single host.
@@ -251,12 +248,6 @@ func (d *Devops) HighCPUForHosts(qi query.Query, nHosts int) {
 	d.AddQuery(qi, redisQuery, []byte("TS.MRANGE"))
 	functorName := query.GetFunctionName(query.HighCpu)
 	d.SetApplyFunctor(qi, true, functorName)
-	//if nHosts == 1 {
-	//
-	//} else {
-	//	//functorName := query.GetFunctionName(query.GroupByTimeAndTagMax)
-	//	//d.SetApplyFunctor(qi, true, functorName )
-	//}
 }
 
 // GroupByOrderByLimit populates a query.Query that has a time WHERE clause, that groups by a truncated date, orders by that date, and takes a limit:
