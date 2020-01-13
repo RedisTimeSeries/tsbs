@@ -7,6 +7,8 @@ if [[ -z "${EXE_FILE_NAME}" ]]; then
     exit 1
 fi
 
+set -x
+
 # Data folder
 BULK_DATA_DIR=${BULK_DATA_DIR:-"/tmp/bulk_data"}
 

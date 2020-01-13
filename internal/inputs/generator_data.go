@@ -14,6 +14,7 @@ import (
 	"github.com/timescale/tsbs/cmd/tsbs_generate_data/devops"
 	"github.com/timescale/tsbs/cmd/tsbs_generate_data/iot"
 	"github.com/timescale/tsbs/cmd/tsbs_generate_data/serialize"
+	"github.com/cheggaaa/pb/v3"
 )
 
 // Error messages when using a DataGenerator
@@ -155,6 +156,11 @@ func (g *DataGenerator) runSimulator(sim common.Simulator, serializer serialize.
 
 	currGroupID := uint(0)
 	point := serialize.NewPoint()
+
+	count := int(sim.MaxPoints())
+
+	bar := pb.Full.Start(count)
+
 	for !sim.Finished() {
 		write := sim.Next(point)
 		if !write {
@@ -170,8 +176,13 @@ func (g *DataGenerator) runSimulator(sim common.Simulator, serializer serialize.
 			}
 		}
 		point.Reset()
-
+		bar.Increment()
 		currGroupID = (currGroupID + 1) % dgc.InterleavedNumGroups
+
+	}
+	bar.Finish()
+	if g.config.PrintSummary {
+		fmt.Fprint(os.Stderr,fmt.Sprintf( "%s\n", sim.GetSummary()))
 	}
 	return nil
 }

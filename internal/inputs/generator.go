@@ -42,6 +42,8 @@ type BaseConfig struct {
 	Seed  int64  `mapstructure:"seed"`
 	Debug int    `mapstructure:"debug"`
 	File  string `mapstructure:"file"`
+	PrintSummary       bool `mapstructure:"print-summary"`
+
 }
 
 func (c *BaseConfig) AddToFlagSet(fs *pflag.FlagSet) {
@@ -55,6 +57,7 @@ func (c *BaseConfig) AddToFlagSet(fs *pflag.FlagSet) {
 
 	fs.Int64("seed", 0, "PRNG seed (default: 0, which uses the current timestamp)")
 	fs.Int("debug", 0, "Control level of debug output")
+	fs.Bool("print-summary", true, "Print summary at generation end")
 	fs.String("file", "", "Write the output to this path")
 }
 

@@ -27,9 +27,18 @@ func (d *decoder) Decode(_ *bufio.Reader) *load.Point {
 	return load.NewPoint(d.scanner.Text())
 }
 
-func sendRedisCommand(line string, conn redis.Conn) {
+func sendRedisCommand(line string, conn redis.Conn, forceUncompressed bool ) {
 	t := strings.Split(line, " ")
-	s := redis.Args{}.AddFlat(t[1:])
+	s := redis.Args{}
+	if t[0] == "TS.CREATE" && forceUncompressed {
+			t= append(t,"UNCOMPRESSED" )
+		s = s.Add(t[1])
+		s = s.Add("UNCOMPRESSED")
+		s = s.AddFlat(t[2:])
+	}else{
+		s = s.AddFlat(t[1:])
+	}
+
 	err := conn.Send(t[0], s...)
 	if err != nil {
 		log.Fatalf("sendRedisCommand %s failed: %s\n", t[0], err)

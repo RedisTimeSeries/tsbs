@@ -1,6 +1,7 @@
 package devops
 
 import (
+	"fmt"
 	"time"
 
 	"github.com/timescale/tsbs/cmd/tsbs_generate_data/common"
@@ -16,7 +17,7 @@ type DevopsSimulator struct {
 
 // Next advances a Point to the next state in the generator.
 func (d *DevopsSimulator) Next(p *serialize.Point) bool {
-	// switch to the next metric if needed
+	// switch to the next metric if neededF
 	if d.hostIndex == uint64(len(d.hosts)) {
 		d.hostIndex = 0
 		d.simulatedMeasurementIndex++
@@ -33,6 +34,18 @@ func (d *DevopsSimulator) Next(p *serialize.Point) bool {
 	}
 
 	return d.populatePoint(p, d.simulatedMeasurementIndex)
+}
+
+
+// GetSummary returns a summary string after data has been generated.
+func (s *DevopsSimulator) GetSummary() string {
+	return fmt.Sprintf("Generated a total of points.", )
+}
+
+
+
+func (s *DevopsSimulator) MaxPoints() uint64 {
+	return s.maxPoints
 }
 
 // DevopsSimulatorConfig is used to create a DevopsSimulator.

@@ -26,6 +26,7 @@ var (
 	checkChunks uint64
 	singleQueue bool
 	dataModel   string
+	compressionEnabled bool
 )
 
 // Global vars
@@ -47,6 +48,7 @@ func init() {
 	pflag.Uint64Var(&connections, "connections", 10, "The number of connections per worker")
 	pflag.Uint64Var(&pipeline, "pipeline", 50, "The pipeline's size")
 	pflag.BoolVar(&singleQueue, "single-queue", true, "Whether to use a single queue")
+	pflag.BoolVar(&compressionEnabled, "compression-enabled", true, "Whether to use compressed time series")
 	pflag.Uint64Var(&checkChunks, "check-chunks", 0, "Whether to perform post ingestion chunck count")
 	pflag.StringVar(&dataModel, "data-model", "redistimeseries", "Data model (redistimeseries, rediszsetdevice, rediszsetmetric, redisstream)")
 	pflag.Parse()
@@ -121,7 +123,7 @@ func connectionProcessor(wg *sync.WaitGroup, rows chan string, metrics chan uint
 			metrics <- cnt
 			curPipe = 0
 		}
-		sendRedisCommand(row, conn)
+		sendRedisCommand(row, conn, compressionEnabled == false )
 		curPipe++
 	}
 	if curPipe > 0 {
@@ -154,7 +156,6 @@ func (p *processor) ProcessBatch(b load.Batch, doLoad bool) (uint64, uint64) {
 			p.wg.Add(1)
 			go connectionProcessor(p.wg, p.rows[i], p.metrics, conn, i)
 		}
-
 		for _, row := range events.rows {
 			key := strings.Split(row, " ")[1]
 			start := strings.Index(key, "{")

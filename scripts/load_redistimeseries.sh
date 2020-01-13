@@ -17,6 +17,7 @@ DIR=$(dirname "${DATA_FILE_NAME}")
 NO_EXT_DATA_FILE_NAME="${DATA_FILE_NAME%.*}"
 OUT_FULL_FILE_NAME="${DIR}/load_result_${NO_EXT_DATA_FILE_NAME}.out"
 EXE_DIR=${EXE_DIR:-$(dirname $0)}
+COMPRESSION_ENABLED=${COMPRESSION_ENABLED:-true}
 
 # Load parameters - common
 source ${EXE_DIR}/load_common.sh
@@ -33,6 +34,7 @@ cat ${DATA_FILE} | gunzip | $EXE_FILE_NAME \
   --batch-size=${BATCH_SIZE} \
   --reporting-period=${REPORTING_PERIOD} \
   --host=${DATABASE_HOST}:${DATABASE_PORT} \
+  --compression-enabled=${COMPRESSION_ENABLED} \
   --connections=${CONNECTIONS} --pipeline=${PIPELINE} |
     tee $OUT_FULL_FILE_NAME
 

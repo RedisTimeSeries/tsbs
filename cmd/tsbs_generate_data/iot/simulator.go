@@ -1,6 +1,7 @@
 package iot
 
 import (
+	"fmt"
 	"reflect"
 	"time"
 
@@ -36,6 +37,15 @@ func (sc *SimulatorConfig) NewSimulator(interval time.Duration, limit uint64) co
 		configGenerator: newBatchConfig,
 		maxFieldCount:   maxFieldCount,
 	}
+}
+
+// GetSummary returns a summary string after data has been generated.
+func (s *Simulator) GetSummary() string {
+	return fmt.Sprintf("%s.", s.base.GetSummary() )
+}
+
+func (s *Simulator) MaxPoints() uint64 {
+	return s.MaxPoints()
 }
 
 // Simulator is responsible for simulating entries for the IoT use case.
