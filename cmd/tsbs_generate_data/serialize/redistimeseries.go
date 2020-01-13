@@ -42,51 +42,44 @@ func (s *RedisTimeSeriesSerializer) Serialize(p *Point, w io.Writer) (err error)
 		hashSoFar[p.tagValues[0]] = labelBytes
 	}
 
-	// Write new line for each fieldKey in the form of: measurementName_fieldName{md5 of labels} timestamp fieldValue LABELS ....
-	buf := make([]byte, 0, 256)
-	buf = append(buf, []byte("TS.MADD ")...)
-
 	for fieldID := 0; fieldID < len(p.fieldKeys); fieldID++ {
-
 		fieldName := p.fieldKeys[fieldID]
-		fieldValue := p.fieldValues[fieldID]
-
 		keyName := fmt.Sprintf("%s_%s%s", p.measurementName, fieldName, labelBytes)
 
 		// if this key was already inserted and created, we don't to specify the labels again
 		if keysSoFar[keyName] == false {
-			lbuf := make([]byte, 0, 256)
-			lbuf = append(lbuf, []byte("TS.CREATE ")...)
-			lbuf = appendKeyName(lbuf, p, fieldName, labelBytes)
-			lbuf = append(lbuf, []byte("LABELS")...)
+			w.Write([]byte("TS.CREATE "))
+			writeKeyName(w, p, fieldName, labelBytes)
+			w.Write([]byte("LABELS"))
 			for i, v := range p.tagValues {
-				lbuf = append(lbuf, ' ')
-				lbuf = append(lbuf, p.tagKeys[i]...)
-				lbuf = append(lbuf, ' ')
-				lbuf = fastFormatAppend(v, lbuf)
+				w.Write([]byte(" "))
+				w.Write(p.tagKeys[i])
+				w.Write([]byte(" "))
+				w.Write(fastFormatAppend(v, []byte{}))
 			}
-
+			w.Write([]byte(" measurement "))
 			// add measurement name as additional label to be used in queries
-			lbuf = append(lbuf, []byte(" measurement ")...)
-			lbuf = append(lbuf, p.measurementName...)
+			w.Write(p.measurementName)
+
 			// additional label of fieldname
-			lbuf = append(lbuf, []byte(" fieldname ")...)
-			lbuf = fastFormatAppend(fieldName, lbuf)
-			lbuf = append(lbuf, '\n')
-			_, err = w.Write(lbuf)
-			w.Write()
+			w.Write([]byte(" fieldname "))
+			w.Write(fieldName)
+			w.Write([]byte("\n"))
 			keysSoFar[keyName] = true
 		}
-
-		buf = appendKeyName(buf, p, fieldName, labelBytes)
-		buf = appendTS_and_Value(buf, p, fieldValue)
-		buf = append(buf, ' ')
-
 	}
-	if buf[len(buf)-1] == ' ' {
-		buf[len(buf)-1] = '\n'
+	w.Write([]byte("TS.MADD "))
+
+	for fieldID := 0; fieldID < len(p.fieldKeys); fieldID++ {
+		fieldName := p.fieldKeys[fieldID]
+		fieldValue := p.fieldValues[fieldID]
+		writeKeyName(w, p, fieldName, labelBytes)
+		writeTS_and_Value(w, p, fieldValue)
+		if (fieldID < len(p.fieldKeys)-1){
+			w.Write([]byte(" "))
+		}
 	}
-	_, err = w.Write(buf)
+	w.Write([]byte("\n"))
 
 	return err
 }
@@ -100,6 +93,15 @@ func appendTS_and_Value(lbuf []byte, p *Point, fieldValue interface{}) []byte {
 	return lbuf
 }
 
+func writeTS_and_Value(w io.Writer, p *Point, fieldValue interface{}) (err error) {
+	// write timestamp in ms
+	w.Write(fastFormatAppend(p.timestamp.UTC().Unix()*1000, []byte{}))
+	w.Write([]byte(" "))
+	// write value
+	_, err = w.Write(fastFormatAppend(fieldValue, []byte{}))
+	return
+}
+
 func appendKeyName(lbuf []byte, p *Point, fieldName []byte, labelBytes []byte) []byte {
 	lbuf = append(lbuf, p.measurementName..., )
 	lbuf = append(lbuf, '_')
@@ -109,4 +111,14 @@ func appendKeyName(lbuf []byte, p *Point, fieldName []byte, labelBytes []byte) [
 	lbuf = append(lbuf, labelBytes...)
 	lbuf = append(lbuf, '}', ' ')
 	return lbuf
+}
+
+func writeKeyName(w io.Writer, p *Point, fieldName []byte, labelBytes []byte) (err error) {
+	w.Write(p.measurementName)
+	w.Write([]byte("_"))
+	w.Write(fieldName)
+	w.Write([]byte("{"))
+	w.Write(labelBytes)
+	_, err = w.Write([]byte("} "))
+	return
 }

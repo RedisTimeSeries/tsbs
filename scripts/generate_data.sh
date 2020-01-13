@@ -72,8 +72,8 @@ for FORMAT in ${FORMATS}; do
             --seed=${SEED} \
             --log-interval=${LOG_INTERVAL} \
             --interleaved-generation-groups=${INTERLEAVED_GENERATION_GROUPS} \
-            --max-data-points=${MAX_DATA_POINTS} \
-        | gzip > ${DATA_FILE_NAME}
+            --max-data-points=${MAX_DATA_POINTS} > ${DATA_FILE_NAME}
+#        | gzip > ${DATA_FILE_NAME}
 
         trap - EXIT
         # Make short symlink for convenience
