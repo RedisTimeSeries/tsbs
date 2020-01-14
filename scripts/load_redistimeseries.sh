@@ -30,10 +30,12 @@ redis-cli -h ${DATABASE_HOST} -p ${DATABASE_PORT} flushall
 # Retrieve command stats output
 redis-cli -h ${DATABASE_HOST} -p ${DATABASE_PORT} config resetstat
 
+echo "Using only 1 worker"
 echo "Saving results to $OUT_FULL_FILE_NAME"
+
 # Load new data
 cat ${DATA_FILE} | $EXE_FILE_NAME \
-  --workers=${NUM_WORKERS} \
+  --workers=1 \
   --batch-size=${BATCH_SIZE} \
   --reporting-period=${REPORTING_PERIOD} \
   --host=${DATABASE_HOST}:${DATABASE_PORT} \
