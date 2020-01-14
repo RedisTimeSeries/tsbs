@@ -114,13 +114,12 @@ type processor struct {
 
 func connectionProcessor(wg *sync.WaitGroup, rows chan string, metrics chan uint64, conn redis.Conn, id uint64) {
 	curPipe := uint64(0)
+	//fmt.Println(fmt.Sprintf("wg started for id %d\n",id))
+
 	for row := range rows {
 		cmdname, s := buildCommand(row, compressionEnabled == false)
 		var err error
-		if cmdname == "TS.CREATE" {
-			_, err = conn.Do(cmdname, s...)
-			metrics <- 1
-		} else {
+
 			if curPipe == pipeline {
 				cnt, err := sendRedisFlush(curPipe, conn)
 				if err != nil {
@@ -130,11 +129,10 @@ func connectionProcessor(wg *sync.WaitGroup, rows chan string, metrics chan uint
 				curPipe = 0
 			}
 			err = sendRedisCommand(conn, cmdname, s)
+			if err != nil {
+				log.Fatalf("sendRedisCommand failed with %v", err)
+			}
 			curPipe++
-		}
-		if err != nil {
-			log.Fatalf("Flush failed with %v", err)
-		}
 
 	}
 	if curPipe > 0 {
@@ -145,6 +143,7 @@ func connectionProcessor(wg *sync.WaitGroup, rows chan string, metrics chan uint
 		metrics <- cnt
 	}
 	wg.Done()
+	//fmt.Println(fmt.Sprintf("wg done for id %d\n",id))
 }
 
 func (p *processor) Init(_ int, _ bool) {}
@@ -181,6 +180,7 @@ func (p *processor) ProcessBatch(b load.Batch, doLoad bool) (uint64, uint64) {
 		}
 		p.wg.Wait()
 		close(p.metrics)
+		//fmt.Println("out\n")
 
 		for val := range p.metrics {
 			metricCnt += val

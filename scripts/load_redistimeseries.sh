@@ -15,7 +15,9 @@ PIPELINE=${PIPELINE:-100}
 EXTENSION="${DATA_FILE_NAME##*.}"
 DIR=$(dirname "${DATA_FILE_NAME}")
 NO_EXT_DATA_FILE_NAME="${DATA_FILE_NAME%.*}"
-OUT_FULL_FILE_NAME="${DIR}/load_result_${NO_EXT_DATA_FILE_NAME}.out"
+PREFIX=${PREFIX:-""}
+
+OUT_FULL_FILE_NAME="${DIR}/${PREFIX}_load_result_${NO_EXT_DATA_FILE_NAME}.out"
 EXE_DIR=${EXE_DIR:-$(dirname $0)}
 COMPRESSION_ENABLED=${COMPRESSION_ENABLED:-true}
 
@@ -28,6 +30,7 @@ redis-cli -h ${DATABASE_HOST} -p ${DATABASE_PORT} flushall
 # Retrieve command stats output
 redis-cli -h ${DATABASE_HOST} -p ${DATABASE_PORT} config resetstat
 
+echo "Saving results to $OUT_FULL_FILE_NAME"
 # Load new data
 cat ${DATA_FILE} | $EXE_FILE_NAME \
   --workers=${NUM_WORKERS} \
@@ -40,4 +43,5 @@ cat ${DATA_FILE} | $EXE_FILE_NAME \
 
 # Retrieve command stats output
 redis-cli -h ${DATABASE_HOST} -p ${DATABASE_PORT} info commandstats >> $OUT_FULL_FILE_NAME
+redis-cli -h ${DATABASE_HOST} -p ${DATABASE_PORT} info >> $OUT_FULL_FILE_NAME
 redis-cli -h ${DATABASE_HOST} -p ${DATABASE_PORT} info commandstats

@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	//"fmt"
 	"log"
 	"strings"
 	"sync"
@@ -27,7 +28,7 @@ func (d *decoder) Decode(_ *bufio.Reader) *load.Point {
 	return load.NewPoint(d.scanner.Text())
 }
 
-func sendRedisCommand(conn redis.Conn, cmdName string, s redis.Args  ) (err error) {
+func sendRedisCommand(conn redis.Conn, cmdName string, s redis.Args) (err error) {
 	err = conn.Send(cmdName, s...)
 	if err != nil {
 		log.Fatalf("sendRedisCommand %s failed: %s\n", cmdName, err)
@@ -35,7 +36,7 @@ func sendRedisCommand(conn redis.Conn, cmdName string, s redis.Args  ) (err erro
 	return
 }
 
-func buildCommand(line string, forceUncompressed bool)( cmdname string, s redis.Args ) {
+func buildCommand(line string, forceUncompressed bool) (cmdname string, s redis.Args) {
 	t := strings.Split(line, " ")
 	cmdname = t[0]
 	if cmdname == "TS.CREATE" && forceUncompressed {
@@ -56,17 +57,12 @@ func sendRedisFlush(count uint64, conn redis.Conn) (metrics uint64, err error) {
 		return
 	}
 	for i := uint64(0); i < count; i++ {
-		rep, err := conn.Receive()
+		_, err := conn.Receive()
+		//fmt.Println(r)
 		if err != nil {
-			return 0, err
-		}
-		arr, err := redis.Values(rep, nil)
-		if err != nil {
-			if err != nil {
-				log.Fatalf("redis.Values failed with %v ( %v )", err, rep )
-			}
+			log.Fatalf("Flush failed with %v", err)
 		} else {
-			metrics += uint64(len(arr)) // ts.madd
+			metrics += 10 // ts.madd
 		}
 	}
 	return metrics, err

@@ -11,7 +11,7 @@ import (
 type RedisTimeSeriesSerializer struct{}
 
 var keysSoFar map[string]bool
-var hashSoFar map[interface{}][]byte
+var hashSoFar map[string][]byte
 
 // Serialize writes Point data to the given writer, in a format that will be easy to create a redis-timeseries command
 // from.
@@ -27,24 +27,23 @@ func (s *RedisTimeSeriesSerializer) Serialize(p *Point, w io.Writer) (err error)
 	}
 
 	if hashSoFar == nil {
-		hashSoFar = make(map[interface{}][]byte)
+		hashSoFar = make(map[string][]byte)
 	}
 
 	var labelBytes []byte
-	var hashExists bool
-
-	//
-	if labelBytes, hashExists = hashSoFar[p.tagValues[0]]; hashExists == false {
-		//do something here
-		bb := fastFormatAppend(p.tagValues[0], []byte{})
-		labelsHash := md5.Sum([]byte(bb))
-		labelBytes = fastFormatAppend(int(binary.BigEndian.Uint32(labelsHash[:])), []byte{})
-		hashSoFar[p.tagValues[0]] = labelBytes
-	}
+	//var hashExists bool
+	hostname := p.tagValues[0]
 
 	for fieldID := 0; fieldID < len(p.fieldKeys); fieldID++ {
 		fieldName := p.fieldKeys[fieldID]
-		keyName := fmt.Sprintf("%s_%s%s", p.measurementName, fieldName, labelBytes)
+		keyName := fmt.Sprintf("%s%s", hostname, fieldName)
+		//fmt.Errorf("%s\n",fieldName)
+		//if labelBytes, hashExists = hashSoFar[keyName]; hashExists == false {
+		//do something here
+		labelsHash := md5.Sum([]byte(keyName))
+		labelBytes = fastFormatAppend(int(binary.BigEndian.Uint32(labelsHash[:])), []byte{})
+		//hashSoFar[keyName] = labelBytes
+		//}
 
 		// if this key was already inserted and created, we don't to specify the labels again
 		if keysSoFar[keyName] == false {
@@ -72,10 +71,17 @@ func (s *RedisTimeSeriesSerializer) Serialize(p *Point, w io.Writer) (err error)
 
 	for fieldID := 0; fieldID < len(p.fieldKeys); fieldID++ {
 		fieldName := p.fieldKeys[fieldID]
+
+		keyName := fmt.Sprintf("%s%s", hostname, fieldName)
+		//fmt.Fprint(os.Stderr, fmt.Sprintf("%s\n", keyName))
+
+		labelsHash := md5.Sum([]byte(keyName))
+		labelBytes = fastFormatAppend(int(binary.BigEndian.Uint32(labelsHash[:])), []byte{})
+
 		fieldValue := p.fieldValues[fieldID]
 		writeKeyName(w, p, fieldName, labelBytes)
 		writeTS_and_Value(w, p, fieldValue)
-		if (fieldID < len(p.fieldKeys)-1){
+		if fieldID < len(p.fieldKeys)-1 {
 			w.Write([]byte(" "))
 		}
 	}
