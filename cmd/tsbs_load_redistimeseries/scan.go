@@ -27,22 +27,26 @@ func (d *decoder) Decode(_ *bufio.Reader) *load.Point {
 	return load.NewPoint(d.scanner.Text())
 }
 
-func sendRedisCommand(line string, conn redis.Conn, forceUncompressed bool ) {
+func sendRedisCommand(conn redis.Conn, cmdName string, s redis.Args  ) (err error) {
+	err = conn.Send(cmdName, s...)
+	if err != nil {
+		log.Fatalf("sendRedisCommand %s failed: %s\n", cmdName, err)
+	}
+	return
+}
+
+func buildCommand(line string, forceUncompressed bool)( cmdname string, s redis.Args ) {
 	t := strings.Split(line, " ")
-	s := redis.Args{}
-	if t[0] == "TS.CREATE" && forceUncompressed {
-			t= append(t,"UNCOMPRESSED" )
+	cmdname = t[0]
+	if cmdname == "TS.CREATE" && forceUncompressed {
+		t = append(t, "UNCOMPRESSED")
 		s = s.Add(t[1])
 		s = s.Add("UNCOMPRESSED")
 		s = s.AddFlat(t[2:])
-	}else{
+	} else {
 		s = s.AddFlat(t[1:])
 	}
-
-	err := conn.Send(t[0], s...)
-	if err != nil {
-		log.Fatalf("sendRedisCommand %s failed: %s\n", t[0], err)
-	}
+	return
 }
 
 func sendRedisFlush(count uint64, conn redis.Conn) (metrics uint64, err error) {
@@ -58,20 +62,14 @@ func sendRedisFlush(count uint64, conn redis.Conn) (metrics uint64, err error) {
 		}
 		arr, err := redis.Values(rep, nil)
 		if err != nil {
-			if err == redis.ErrNil {
-				log.Print("Unexpected nil from Receive()")
-			}
-			// Values failed, so this is a single timeseries metric or zadd metric, or xadd
-			if dataModel == "redistimeseries" || dataModel == "rediszsetmetric" {
-				metrics++
-			} else {
-				metrics += 10 // zsetdevice/stream has 10 metrics
+			if err != nil {
+				log.Fatalf("redis.Values failed with %v ( %v )", err, rep )
 			}
 		} else {
 			metrics += uint64(len(arr)) // ts.madd
 		}
 	}
-	return metrics, nil
+	return metrics, err
 }
 
 type eventsBatch struct {

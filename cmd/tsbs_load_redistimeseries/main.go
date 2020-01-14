@@ -115,16 +115,27 @@ type processor struct {
 func connectionProcessor(wg *sync.WaitGroup, rows chan string, metrics chan uint64, conn redis.Conn, id uint64) {
 	curPipe := uint64(0)
 	for row := range rows {
-		if curPipe == pipeline {
-			cnt, err := sendRedisFlush(curPipe, conn)
-			if err != nil {
-				log.Fatalf("Flush failed with %v", err)
+		cmdname, s := buildCommand(row, compressionEnabled == false)
+		var err error
+		if cmdname == "TS.CREATE" {
+			_, err = conn.Do(cmdname, s...)
+			metrics <- 1
+		} else {
+			if curPipe == pipeline {
+				cnt, err := sendRedisFlush(curPipe, conn)
+				if err != nil {
+					log.Fatalf("Flush failed with %v", err)
+				}
+				metrics <- cnt
+				curPipe = 0
 			}
-			metrics <- cnt
-			curPipe = 0
+			err = sendRedisCommand(conn, cmdname, s)
+			curPipe++
 		}
-		sendRedisCommand(row, conn, compressionEnabled == false )
-		curPipe++
+		if err != nil {
+			log.Fatalf("Flush failed with %v", err)
+		}
+
 	}
 	if curPipe > 0 {
 		cnt, err := sendRedisFlush(curPipe, conn)
