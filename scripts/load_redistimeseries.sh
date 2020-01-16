@@ -11,6 +11,7 @@ FORMAT="redistimeseries"
 DATA_FILE_NAME=${DATA_FILE_NAME:-${FORMAT}-data.gz}
 DATABASE_PORT=${DATABASE_PORT:-6379}
 CONNECTIONS=${CONNECTIONS:-10}
+REPETITIONS=${REPETITIONS:-3}
 PIPELINE=${PIPELINE:-100}
 EXTENSION="${DATA_FILE_NAME##*.}"
 DIR=$(dirname "${DATA_FILE_NAME}")
@@ -24,26 +25,31 @@ COMPRESSION_ENABLED=${COMPRESSION_ENABLED:-true}
 # Load parameters - common
 source ${EXE_DIR}/load_common.sh
 
+for run in seq $REPETITIONS; do
+    echo "Running RUN $run"
+
 # Remove previous database
-redis-cli -h ${DATABASE_HOST} -p ${DATABASE_PORT} flushall
+  redis-cli -h ${DATABASE_HOST} -p ${DATABASE_PORT} flushall
 
 # Retrieve command stats output
-redis-cli -h ${DATABASE_HOST} -p ${DATABASE_PORT} config resetstat
+  redis-cli -h ${DATABASE_HOST} -p ${DATABASE_PORT} config resetstat
 
-echo "Using only 1 worker"
-echo "Saving results to $OUT_FULL_FILE_NAME"
+  echo "Using only 1 worker"
+  echo "Saving results to ${OUT_FULL_FILE_NAME}_run${run}"
 
-# Load new data
-cat ${DATA_FILE} | $EXE_FILE_NAME \
-  --workers=1 \
-  --batch-size=${BATCH_SIZE} \
-  --reporting-period=${REPORTING_PERIOD} \
-  --host=${DATABASE_HOST}:${DATABASE_PORT} \
-  --compression-enabled=${COMPRESSION_ENABLED} \
-  --connections=${CONNECTIONS} --pipeline=${PIPELINE} |
-    tee $OUT_FULL_FILE_NAME
+  # Load new data
+  cat ${DATA_FILE} | $EXE_FILE_NAME \
+    --workers=1 \
+    --batch-size=${BATCH_SIZE} \
+    --reporting-period=${REPORTING_PERIOD} \
+    --host=${DATABASE_HOST}:${DATABASE_PORT} \
+    --compression-enabled=${COMPRESSION_ENABLED} \
+    --connections=${CONNECTIONS} --pipeline=${PIPELINE} |
+      tee ${OUT_FULL_FILE_NAME}_run${run}
 
-# Retrieve command stats output
-redis-cli -h ${DATABASE_HOST} -p ${DATABASE_PORT} info commandstats >> $OUT_FULL_FILE_NAME
-redis-cli -h ${DATABASE_HOST} -p ${DATABASE_PORT} info >> $OUT_FULL_FILE_NAME
-redis-cli -h ${DATABASE_HOST} -p ${DATABASE_PORT} info commandstats
+  # Retrieve command stats output
+  redis-cli -h ${DATABASE_HOST} -p ${DATABASE_PORT} info commandstats >> ${OUT_FULL_FILE_NAME}_run${run}
+  redis-cli -h ${DATABASE_HOST} -p ${DATABASE_PORT} info >> ${OUT_FULL_FILE_NAME}_run${run}
+  redis-cli -h ${DATABASE_HOST} -p ${DATABASE_PORT} info commandstats
+
+done
