@@ -30,7 +30,7 @@ func (s *RedisTimeSeriesSerializer) Serialize(p *Point, w io.Writer) (err error)
 		hashSoFar = make(map[string][]byte)
 	}
 
-	var labelBytes []byte
+	var hashBytes []byte
 	//var hashExists bool
 	hostname := p.tagValues[0]
 
@@ -38,17 +38,17 @@ func (s *RedisTimeSeriesSerializer) Serialize(p *Point, w io.Writer) (err error)
 		fieldName := p.fieldKeys[fieldID]
 		keyName := fmt.Sprintf("%s%s", hostname, fieldName)
 		//fmt.Errorf("%s\n",fieldName)
-		//if labelBytes, hashExists = hashSoFar[keyName]; hashExists == false {
+		//if hashBytes, hashExists = hashSoFar[keyName]; hashExists == false {
 		//do something here
-		labelsHash := md5.Sum([]byte(keyName))
-		labelBytes = fastFormatAppend(int(binary.BigEndian.Uint32(labelsHash[:])), []byte{})
-		//hashSoFar[keyName] = labelBytes
+		labelsHash := md5.Sum([]byte(fmt.Sprintf("%s", hostname)))
+		hashBytes = fastFormatAppend(int(binary.BigEndian.Uint32(labelsHash[:])), []byte{})
+		//hashSoFar[keyName] = hashBytes
 		//}
 
 		// if this key was already inserted and created, we don't to specify the labels again
 		if keysSoFar[keyName] == false {
 			w.Write([]byte("TS.CREATE "))
-			writeKeyName(w, p, fieldName, labelBytes)
+			writeKeyName(w, p, fieldName, hashBytes)
 			w.Write([]byte("LABELS"))
 			for i, v := range p.tagValues {
 				w.Write([]byte(" "))
@@ -72,14 +72,14 @@ func (s *RedisTimeSeriesSerializer) Serialize(p *Point, w io.Writer) (err error)
 	for fieldID := 0; fieldID < len(p.fieldKeys); fieldID++ {
 		fieldName := p.fieldKeys[fieldID]
 
-		keyName := fmt.Sprintf("%s%s", hostname, fieldName)
+		//keyName := fmt.Sprintf("%s%s", hostname, fieldName)
 		//fmt.Fprint(os.Stderr, fmt.Sprintf("%s\n", keyName))
 
-		labelsHash := md5.Sum([]byte(keyName))
-		labelBytes = fastFormatAppend(int(binary.BigEndian.Uint32(labelsHash[:])), []byte{})
+		labelsHash := md5.Sum([]byte(fmt.Sprintf("%s", hostname)))
+		hashBytes = fastFormatAppend(int(binary.BigEndian.Uint32(labelsHash[:])), []byte{})
 
 		fieldValue := p.fieldValues[fieldID]
-		writeKeyName(w, p, fieldName, labelBytes)
+		writeKeyName(w, p, fieldName, hashBytes)
 		writeTS_and_Value(w, p, fieldValue)
 		if fieldID < len(p.fieldKeys)-1 {
 			w.Write([]byte(" "))
@@ -108,23 +108,23 @@ func writeTS_and_Value(w io.Writer, p *Point, fieldValue interface{}) (err error
 	return
 }
 
-func appendKeyName(lbuf []byte, p *Point, fieldName []byte, labelBytes []byte) []byte {
+func appendKeyName(lbuf []byte, p *Point, fieldName []byte, hashBytes []byte) []byte {
 	lbuf = append(lbuf, p.measurementName..., )
 	lbuf = append(lbuf, '_')
 	lbuf = append(lbuf, fieldName...)
 
 	lbuf = append(lbuf, '{')
-	lbuf = append(lbuf, labelBytes...)
+	lbuf = append(lbuf, hashBytes...)
 	lbuf = append(lbuf, '}', ' ')
 	return lbuf
 }
 
-func writeKeyName(w io.Writer, p *Point, fieldName []byte, labelBytes []byte) (err error) {
+func writeKeyName(w io.Writer, p *Point, fieldName []byte, hashBytes []byte) (err error) {
 	w.Write(p.measurementName)
 	w.Write([]byte("_"))
 	w.Write(fieldName)
 	w.Write([]byte("{"))
-	w.Write(labelBytes)
+	w.Write(hashBytes)
 	_, err = w.Write([]byte("} "))
 	return
 }
