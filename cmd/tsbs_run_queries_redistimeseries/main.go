@@ -10,6 +10,8 @@ import (
 	"encoding/json"
 	"fmt"
 	redistimeseries "github.com/RedisTimeSeries/redistimeseries-go"
+	"github.com/gomodule/redigo/redis"
+
 	_ "github.com/lib/pq"
 	"github.com/pkg/errors"
 	"github.com/spf13/pflag"
@@ -70,6 +72,22 @@ func init() {
 		host, runner.DatabaseName(), nil)
 }
 
+func newPool() *redis.Pool {
+	return &redis.Pool{
+		MaxIdle: 80,
+		MaxActive: 12000, // max number of connections
+		Dial: func() (redis.Conn, error) {
+			c, err := redis.Dial("tcp", host)
+			if err != nil {
+				panic(err.Error())
+			}
+			return c, err
+		},
+	}
+
+}
+
+
 func main() {
 	runner.Run(&query.RedisTimeSeriesPool, newProcessor)
 }
@@ -82,9 +100,14 @@ type queryExecutorOptions struct {
 
 type processor struct {
 	opts *queryExecutorOptions
+	Pool *redis.Pool
 }
 
-func newProcessor() query.Processor { return &processor{} }
+func newProcessor() query.Processor {
+	p := newPool()
+	defer p.Close()
+	return &processor{ Pool: p, }
+}
 
 func (p *processor) Init(numWorker int) {
 	p.opts = &queryExecutorOptions{
@@ -231,15 +254,19 @@ func (p *processor) ProcessQuery(q query.Query, isWarm bool) (queryStats []*quer
 	for _, qry := range tq.RedisQueries {
 		cmds = append(cmds, ByteArrayToInterfaceArray(qry))
 	}
-	conn := redisConnector.Pool.Get()
+
+	if p.Pool == nil {
+		p.Pool = newPool()
+	}
+	conn := p.Pool.Get()
 	defer conn.Close()
 
 	start := time.Now()
 	for idx, commandArgs := range cmds {
 		var result interface{}
-		if conn == nil {
-			conn = redisConnector.Pool.Get()
-		}
+		//if conn == nil {
+		//	conn = redisConnector.Pool.Get()
+		//}
 		if p.opts.debug {
 			fmt.Println(fmt.Sprintf("Issuing command (%s %s)", string(tq.CommandNames[idx]), strings.Join(ByteArrayToStringArray(tq.RedisQueries[idx]), " ")))
 		}
