@@ -263,9 +263,10 @@ func (p *processor) ProcessQuery(q query.Query, isWarm bool) (queryStats []*quer
 	start := time.Now()
 	for idx, commandArgs := range cmds {
 		var result interface{}
-		//if conn == nil {
-		//	conn = redisConnector.Pool.Get()
-		//}
+		redis.Conn()
+		if conn == nil {
+			conn = redisConnector.Pool.Get()
+		}
 		if p.opts.debug {
 			fmt.Println(fmt.Sprintf("Issuing command (%s %s)", string(tq.CommandNames[idx]), strings.Join(ByteArrayToStringArray(tq.RedisQueries[idx]), " ")))
 		}
