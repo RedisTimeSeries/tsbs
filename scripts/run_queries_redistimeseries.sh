@@ -21,6 +21,7 @@ QUERIES_PRINT_INTERVAL=${QUERIES_PRINT_INTERVAL:-"0"}
 # How many queries would be run
 MAX_QUERIES=${MAX_QUERIES:-"0"}
 REPETITIONS=${REPETITIONS:-3}
+PREFIX=${PREFIX:-""}
 
 # How many queries would be run
 SLEEP_BETWEEN_RUNS=${SLEEP_BETWEEN_RUNS:-"60"}
@@ -42,8 +43,8 @@ for run in $(seq ${REPETITIONS}); do
     EXTENSION="${DATA_FILE_NAME##*.}"
     NO_EXT_DATA_FILE_NAME="${DATA_FILE_NAME%.*}"
 
-    OUT_FULL_FILE_NAME="${RESULTS_DIR}/result_${NO_EXT_DATA_FILE_NAME}_${run}.out"
-    HDR_FULL_FILE_NAME="${RESULTS_DIR}/HDR_TXT_result_${NO_EXT_DATA_FILE_NAME}_${run}.out"
+    OUT_FULL_FILE_NAME="${RESULTS_DIR}/${PREFIX}_result_${NO_EXT_DATA_FILE_NAME}_${run}.out"
+    HDR_FULL_FILE_NAME="${RESULTS_DIR}/${PREFIX}_HDR_TXT_result_${NO_EXT_DATA_FILE_NAME}_${run}.out"
 
     if [ "${EXTENSION}" == "gz" ]; then
       GUNZIP="gunzip"
