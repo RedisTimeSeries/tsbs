@@ -203,6 +203,21 @@ func prettyPrintResponseRange(responses []interface{}, q *query.RedisTimeSeries)
 	fmt.Println(string(line) + "\n")
 }
 
+//func newPool() *redis.Pool {
+//	return &redis.Pool{
+//		MaxIdle: 80,
+//		MaxActive: 12000, // max number of connections
+//		Dial: func() (Conn, error) {
+//			c, err := Dial("tcp", ":6379")
+//			if err != nil {
+//				panic(err.Error())
+//			}
+//			return c, err
+//		},
+//	}
+//
+//}
+
 func (p *processor) ProcessQuery(q query.Query, isWarm bool) (queryStats []*query.Stat, err error) {
 
 	// No need to run again for EXPLAIN
@@ -217,10 +232,14 @@ func (p *processor) ProcessQuery(q query.Query, isWarm bool) (queryStats []*quer
 		cmds = append(cmds, ByteArrayToInterfaceArray(qry))
 	}
 	conn := redisConnector.Pool.Get()
+	defer conn.Close()
 
 	start := time.Now()
 	for idx, commandArgs := range cmds {
 		var result interface{}
+		if conn == nil {
+			conn = redisConnector.Pool.Get()
+		}
 		if p.opts.debug {
 			fmt.Println(fmt.Sprintf("Issuing command (%s %s)", string(tq.CommandNames[idx]), strings.Join(ByteArrayToStringArray(tq.RedisQueries[idx]), " ")))
 		}
@@ -236,60 +255,60 @@ func (p *processor) ProcessQuery(q query.Query, isWarm bool) (queryStats []*quer
 			if err != nil {
 				return nil, err
 			}
-			if tq.ApplyFunctor {
-				if p.opts.debug {
-					fmt.Println(fmt.Sprintf("Applying functor %s on %s", tq.Functor,tq.HumanLabel ))
-				}
-				switch tq.Functor {
-				case reflect_SingleGroupByTime:
-					if p.opts.debug {
-						fmt.Println(fmt.Sprintf("Applying functor reflect_SingleGroupByTime %s", reflect_SingleGroupByTime ))
-					}
-					result, err = query.SingleGroupByTime(res)
-					if err != nil {
-						return nil, err
-					}
-				case reflect_GroupByTimeAndMax:
-					if p.opts.debug {
-						fmt.Println(fmt.Sprintf("Applying functor reflect_GroupByTimeAndMax %s", reflect_GroupByTimeAndMax ))
-					}
-					result, err = query.GroupByTimeAndMax(res)
-					if err != nil {
-						return nil, err
-					}
-				case reflect_GroupByTimeAndTagMax:
-					if p.opts.debug {
-						fmt.Println(fmt.Sprintf("Applying functor reflect_GroupByTimeAndTagMax %s", reflect_GroupByTimeAndTagMax))
-					}
-					result, err = query.GroupByTimeAndTagMax(res)
-					if err != nil {
-						return nil, err
-					}
-				case reflect_GroupByTimeAndTagHostname:
-					if p.opts.debug {
-						fmt.Println(fmt.Sprintf("Applying functor reflect_GroupByTimeAndTagHostname %s", reflect_GroupByTimeAndTagHostname))
-					}
-					result, err = query.GroupByTimeAndTagHostname(res)
-					if err != nil {
-						return nil, err
-					}
-				case reflect_HighCpu:
-					if p.opts.debug {
-						fmt.Println(fmt.Sprintf("Applying functor reflect_HighCpu %s", reflect_HighCpu ))
-					}
-					result, err = query.HighCpu(res)
-					if err != nil {
-						return nil, err
-					}
-				default:
-					errors.Errorf("The selected functor %s is not known!\n", tq.Functor)
-				}
-			} else {
+			//if tq.ApplyFunctor {
+			//	if p.opts.debug {
+			//		fmt.Println(fmt.Sprintf("Applying functor %s on %s", tq.Functor,tq.HumanLabel ))
+			//	}
+			//	switch tq.Functor {
+			//	case reflect_SingleGroupByTime:
+			//		if p.opts.debug {
+			//			fmt.Println(fmt.Sprintf("Applying functor reflect_SingleGroupByTime %s", reflect_SingleGroupByTime ))
+			//		}
+			//		result, err = query.SingleGroupByTime(res)
+			//		if err != nil {
+			//			return nil, err
+			//		}
+			//	case reflect_GroupByTimeAndMax:
+			//		if p.opts.debug {
+			//			fmt.Println(fmt.Sprintf("Applying functor reflect_GroupByTimeAndMax %s", reflect_GroupByTimeAndMax ))
+			//		}
+			//		result, err = query.GroupByTimeAndMax(res)
+			//		if err != nil {
+			//			return nil, err
+			//		}
+			//	case reflect_GroupByTimeAndTagMax:
+			//		if p.opts.debug {
+			//			fmt.Println(fmt.Sprintf("Applying functor reflect_GroupByTimeAndTagMax %s", reflect_GroupByTimeAndTagMax))
+			//		}
+			//		result, err = query.GroupByTimeAndTagMax(res)
+			//		if err != nil {
+			//			return nil, err
+			//		}
+			//	case reflect_GroupByTimeAndTagHostname:
+			//		if p.opts.debug {
+			//			fmt.Println(fmt.Sprintf("Applying functor reflect_GroupByTimeAndTagHostname %s", reflect_GroupByTimeAndTagHostname))
+			//		}
+			//		result, err = query.GroupByTimeAndTagHostname(res)
+			//		if err != nil {
+			//			return nil, err
+			//		}
+			//	case reflect_HighCpu:
+			//		if p.opts.debug {
+			//			fmt.Println(fmt.Sprintf("Applying functor reflect_HighCpu %s", reflect_HighCpu ))
+			//		}
+			//		result, err = query.HighCpu(res)
+			//		if err != nil {
+			//			return nil, err
+			//		}
+			//	default:
+			//		errors.Errorf("The selected functor %s is not known!\n", tq.Functor)
+			//	}
+			//} else {
 				result, err = redistimeseries.ParseRanges(res)
 				if err != nil {
 					return nil, err
 				}
-			}
+			//}
 
 		} else if bytes.Compare(tq.CommandNames[idx], cmdQueryIndex) == 0 {
 			var parsedRes = make([]redistimeseries.Range, 0, 0)

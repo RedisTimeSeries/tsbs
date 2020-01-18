@@ -7,6 +7,7 @@ require (
 	github.com/SiriDB/go-siridb-connector v0.0.0-20190110105621-86b34c44c921
 	github.com/StackExchange/wmi v0.0.0-20190523213315-cbe66965904d // indirect
 	github.com/andreyvit/diff v0.0.0-20170406064948-c7f18ee00883
+	github.com/cheggaaa/pb/v3 v3.0.4
 	github.com/filipecosta90/hdrhistogram v0.0.0-20191025144016-6360d1757d33
 	github.com/globalsign/mgo v0.0.0-20181015135952-eeefdecb41b8
 	github.com/go-ole/go-ole v1.2.4 // indirect
