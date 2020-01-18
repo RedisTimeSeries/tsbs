@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"encoding/gob"
 	"fmt"
+	"github.com/cheggaaa/pb/v3"
 
 	"io"
 	"math/rand"
@@ -318,6 +319,10 @@ func (g *QueryGenerator) runQueryGeneration(useGen utils.QueryGenerator, filler 
 		}
 	}
 
+	count := int(c.Limit)
+
+	bar := pb.Full.Start(count)
+
 	for i := 0; i < int(c.Limit); i++ {
 		q := useGen.GenerateEmptyQuery()
 		q = filler.Fill(q)
@@ -351,7 +356,9 @@ func (g *QueryGenerator) runQueryGeneration(useGen utils.QueryGenerator, filler 
 		if currentGroup == c.InterleavedNumGroups {
 			currentGroup = 0
 		}
+		bar.Increment()
 	}
+	bar.Finish()
 
 	// Print stats:
 	keys := []string{}
