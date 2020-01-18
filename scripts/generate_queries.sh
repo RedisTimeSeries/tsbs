@@ -17,7 +17,7 @@ USE_TAGS=${USE_TAGS:-true}
 USE_TIME_BUCKET=${USE_TIME_BUCKET:-true}
 
 # Space-separated list of target DB formats to generate
-FORMATS=${FORMATS:-"timescaledb"}
+FORMATS=${FORMATS:-"redistimeseries"}
 
 # All available for generation query types (sorted alphabetically)
 #QUERY_TYPES_ALL="\
