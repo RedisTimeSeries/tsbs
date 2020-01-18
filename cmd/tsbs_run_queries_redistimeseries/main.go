@@ -105,7 +105,6 @@ type processor struct {
 
 func newProcessor() query.Processor {
 	p := newPool()
-	defer p.Close()
 	return &processor{ Pool: p, }
 }
 
