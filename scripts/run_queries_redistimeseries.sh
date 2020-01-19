@@ -2,6 +2,7 @@
 
 # Exit immediately if a command exits with a non-zero status.
 set -e
+set -x
 
 # Ensure runner is available
 EXE_FILE_NAME=${EXE_FILE_NAME:-$(which tsbs_run_queries_redistimeseries)}
@@ -20,8 +21,17 @@ QUERIES_PRINT_INTERVAL=${QUERIES_PRINT_INTERVAL:-"0"}
 
 # How many queries would be run
 MAX_QUERIES=${MAX_QUERIES:-"0"}
-REPETITIONS=${REPETITIONS:-3}
+MAX_RPS=${MAX_RPS:-"0"}
+
+WITHLABELS=${WITHLABELS:-"false"}
+PIPELINE_WINDOW=${PIPELINE_WINDOW:-"150ms"}
+
+REPETITIONS=${REPETITIONS:-1}
+WORKER_POOL_SIZE=${WORKER_POOL_SIZE:-1}
+
 PREFIX=${PREFIX:-""}
+CONNECTIONS=${CONNECTIONS:-1}
+PIPELINE=${PIPELINE:-1}
 
 # How many queries would be run
 SLEEP_BETWEEN_RUNS=${SLEEP_BETWEEN_RUNS:-"60"}
@@ -63,10 +73,15 @@ for run in $(seq ${REPETITIONS}); do
       $GUNZIP |
       $EXE_FILE_NAME \
         --max-queries=${MAX_QUERIES} \
+        --max-rps=${MAX_RPS} \
         --workers=${NUM_WORKERS} \
         --print-interval=${QUERIES_PRINT_INTERVAL} \
         --debug=${DEBUG} \
         --hdr-latencies=${HDR_FULL_FILE_NAME} \
+        --pipeline-size=${PIPELINE} \
+        --withlabels=${WITHLABELS} \
+        --pipeline-window=${PIPELINE_WINDOW} \
+        --worker-pool-size=${WORKER_POOL_SIZE} \
         --host=${DATABASE_HOST}:${DATABASE_PORT} |
       tee $OUT_FULL_FILE_NAME
 

@@ -1,15 +1,15 @@
-package tsbs_run_queries_redistimeseries
+package main
 
 import (
 	"database/sql"
 	"encoding/json"
+	"fmt"
 	redistimeseries "github.com/RedisTimeSeries/redistimeseries-go"
 	"github.com/pkg/errors"
 	"github.com/timescale/tsbs/query"
 	"sort"
 	"strings"
 	"time"
-	"fmt"
 )
 
 func ByteArrayToInterfaceArray(qry [][]byte) []interface{} {
