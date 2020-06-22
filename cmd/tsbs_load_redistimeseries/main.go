@@ -114,36 +114,32 @@ type processor struct {
 
 func connectionProcessor(wg *sync.WaitGroup, rows chan string, metrics chan uint64, conn redis.Conn, id uint64) {
 	curPipe := uint64(0)
-	//fmt.Println(fmt.Sprintf("wg started for id %d\n",id))
-
+	var err error
 	for row := range rows {
-		cmdname, s := buildCommand(row, compressionEnabled == false)
-		var err error
-
-			if curPipe == pipeline {
-				cnt, err := sendRedisFlush(curPipe, conn)
-				if err != nil {
-					log.Fatalf("Flush failed with %v", err)
-				}
-				metrics <- cnt
-				curPipe = 0
-			}
-			err = sendRedisCommand(conn, cmdname, s)
-			if err != nil {
-				log.Fatalf("sendRedisCommand failed with %v", err)
-			}
-			curPipe++
-
+		cmdname, args := buildCommand(row, compressionEnabled == false)
+		if curPipe == pipeline {
+			metrics = flushAndUpdate(curPipe, conn, metrics)
+			curPipe = 0
+		}
+		err = sendRedisCommand(conn, cmdname, args)
+		if err != nil {
+			log.Fatalf("sendRedisCommand failed with %v", err)
+		}
+		curPipe++
 	}
 	if curPipe > 0 {
-		cnt, err := sendRedisFlush(curPipe, conn)
-		if err != nil {
-			log.Fatalf("Flush failed with %v", err)
-		}
-		metrics <- cnt
+		metrics = flushAndUpdate(curPipe, conn, metrics)
 	}
 	wg.Done()
-	//fmt.Println(fmt.Sprintf("wg done for id %d\n",id))
+}
+
+func flushAndUpdate(curPipe uint64, conn redis.Conn, metrics chan uint64) chan uint64 {
+	cnt, err := sendRedisFlush(curPipe, conn)
+	if err != nil {
+		log.Fatalf("Flush failed with %v", err)
+	}
+	metrics <- cnt
+	return metrics
 }
 
 func (p *processor) Init(_ int, _ bool) {}
@@ -167,7 +163,8 @@ func (p *processor) ProcessBatch(b load.Batch, doLoad bool) (uint64, uint64) {
 			go connectionProcessor(p.wg, p.rows[i], p.metrics, conn, i)
 		}
 		for _, row := range events.rows {
-			key := strings.Split(row, " ")[1]
+			args := strings.Split(row, " ")
+			key := args[1]
 			start := strings.Index(key, "{")
 			end := strings.Index(key, "}")
 			tag, _ := strconv.ParseUint(key[start+1:end], 10, 64)

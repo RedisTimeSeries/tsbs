@@ -16,7 +16,7 @@ BULK_DATA_DIR=${BULK_DATA_DIR:-"/tmp/bulk_data"}
 FORMATS=${FORMATS:-"redistimeseries"}
 
 # Number of hosts to generate data about
-SCALE=${SCALE:-"4000"}
+SCALE=${SCALE:-"100"}
 
 # Rand seed
 SEED=${SEED:-"123"}
@@ -28,7 +28,7 @@ INTERLEAVED_GENERATION_GROUPS=${INTERLEAVED_GENERATION_GROUPS:-"1"}
 
 # Start and stop time for generated timeseries
 TS_START=${TS_START:-"2016-01-01T00:00:00Z"}
-TS_END=${TS_END:-"2016-01-04T00:00:00Z"}
+TS_END=${TS_END:-"2016-01-30T00:00:00Z"}
 
 # What set of data to generate: devops (multiple data), cpu-only (cpu-usage data)
 USE_CASE=${USE_CASE:-"cpu-only"}

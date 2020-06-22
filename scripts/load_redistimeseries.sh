@@ -39,7 +39,7 @@ for run in $(seq ${REPETITIONS}); do
 
   # Load new data
   cat ${DATA_FILE} | $EXE_FILE_NAME \
-    --workers=1 \
+    --workers=${NUM_WORKERS} \
     --batch-size=${BATCH_SIZE} \
     --reporting-period=${REPORTING_PERIOD} \
     --host=${DATABASE_HOST}:${DATABASE_PORT} \
