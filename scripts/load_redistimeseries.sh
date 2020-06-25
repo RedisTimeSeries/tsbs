@@ -44,13 +44,15 @@ for run in $(seq ${REPETITIONS}); do
     --reporting-period=${REPORTING_PERIOD} \
     --host=${DATABASE_HOST}:${DATABASE_PORT} \
     --compression-enabled=${COMPRESSION_ENABLED} \
-    --connections=${CONNECTIONS} --pipeline=${PIPELINE} |
+    --connections=${CONNECTIONS} --pipeline-size=${PIPELINE} |
       tee ${OUT_FULL_FILE_NAME}
 
   # Retrieve command stats output
   redis-cli -h ${DATABASE_HOST} -p ${DATABASE_PORT} info commandstats >> ${OUT_FULL_FILE_NAME}
   redis-cli -h ${DATABASE_HOST} -p ${DATABASE_PORT} info >> ${OUT_FULL_FILE_NAME}
   redis-cli -h ${DATABASE_HOST} -p ${DATABASE_PORT} info commandstats
+  redis-cli -h ${DATABASE_HOST} -p ${DATABASE_PORT} ts.info cpu_usage_softirq{1998426147} >> ${OUT_FULL_FILE_NAME}
+  redis-cli -h ${DATABASE_HOST} -p ${DATABASE_PORT} ts.info cpu_usage_softirq{1998426147}
 
   echo "Sleeping for ${SLEEP_BETWEEN_RUNS} seconds"
   sleep ${SLEEP_BETWEEN_RUNS}
