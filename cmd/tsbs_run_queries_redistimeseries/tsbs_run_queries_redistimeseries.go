@@ -117,7 +117,7 @@ func (p *processor) ProcessQuery(q query.Query, isWarm bool) (queryStats []*quer
 		return nil, nil
 	}
 	tq := q.(*query.RedisTimeSeries)
-	var parsedResponses = make([]interface{}, 0, 0)
+	//var parsedResponses = make([]interface{}, 0, 0)
 
 	var cmds = make([][]string, 0, 0)
 	for idx, qry := range tq.RedisQueries {

@@ -196,8 +196,8 @@ func (d *Devops) MaxAllCPU(qi query.Query, nHosts int) {
 func (d *Devops) LastPointPerHost(qi query.Query) {
 	redisQuery := [][]byte{
 		//[]byte("TS.MREVRANGE"), Just to help understanding
-		[]byte("+"),
 		[]byte("-"),
+		[]byte("+"),
 		[]byte("COUNT"),
 		[]byte("1"),
 		[]byte("FILTER"),
@@ -256,8 +256,8 @@ func (d *Devops) GroupByOrderByLimit(qi query.Query) {
 	interval := d.Interval.MustRandWindow(time.Hour)
 	redisQuery := [][]byte{
 		//[]byte("TS.MREVRANGE"), Just to help understanding
-		[]byte(fmt.Sprintf("%d", interval.EndUnixMillis())),
 		[]byte("-"),
+		[]byte(fmt.Sprintf("%d", interval.EndUnixMillis())),
 		[]byte("COUNT"),
 		[]byte("5"),
 		[]byte("AGGREGATION"),

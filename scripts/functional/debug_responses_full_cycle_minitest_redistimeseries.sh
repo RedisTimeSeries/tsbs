@@ -37,24 +37,24 @@ rm docs/responses/${FORMAT}_*
 redis-cli flushall
 
 # generate data
-$GOPATH/bin/tsbs_generate_data --format ${FORMAT} --use-case cpu-only --scale=${SCALE} --seed=${SEED} --file /tmp/bulk_data/${FORMAT}_data
+tsbs_generate_data --format ${FORMAT} --use-case cpu-only --scale=${SCALE} --seed=${SEED} --file /tmp/bulk_data/${FORMAT}_data
 
 for queryName in $QUERY_TYPES; do
-  $GOPATH/bin/tsbs_generate_queries --format ${FORMAT} --use-case cpu-only --scale=${SCALE} --seed=${SEED} \
+  tsbs_generate_queries --format ${FORMAT} --use-case cpu-only --scale=${SCALE} --seed=${SEED} \
     --queries=1 \
     --query-type $queryName \
     --file /tmp/bulk_data/${FORMAT}_query_$queryName
 done
 
 # insert benchmark
-$GOPATH/bin/tsbs_load_${FORMAT} \
+tsbs_load_${FORMAT} \
   --workers=1 \
   --file=/tmp/bulk_data/${FORMAT}_data
 
 # queries benchmark
 for queryName in $QUERY_TYPES; do
   echo "running query: $queryName"
-  $GOPATH/bin/tsbs_run_queries_${FORMAT} --print-responses \
+  tsbs_run_queries_${FORMAT} --print-responses \
     --workers=1 \
     --debug=3 \
     --file /tmp/bulk_data/${FORMAT}_query_$queryName >docs/responses/${FORMAT}_$queryName.json
