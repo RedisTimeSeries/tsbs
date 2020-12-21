@@ -8,13 +8,17 @@ jobs:
         - 1.14.x
       install: skip
       script:
-        - GO111MODULE=on go test -v -race -coverprofile=coverage.txt -covermode=atomic ./...
+        - |
+        make checkfmt
+        make test
     - stage: test
       name: "Go 1.15"
       go:
         - 1.15.x
       install: skip
       script:
-        - GO111MODULE=on go test -v -race -coverprofile=coverage.txt -covermode=atomic ./...
+        - |
+        make checkfmt
+        make coverage
       after_success:
         - bash <(curl -s https://codecov.io/bash)

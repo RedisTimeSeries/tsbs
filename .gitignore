@@ -4,5 +4,8 @@
 .idea
 .vscode
 
+coverage.txt
+bin/
+
 # High Dynamic Range (HDR) Histogram files
 *.hdr
