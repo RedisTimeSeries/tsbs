@@ -121,7 +121,6 @@ func (g *DataGenerator) runSimulator(sim common.Simulator, serializer serialize.
 			}
 		}
 		point.Reset()
-
 		currGroupID = (currGroupID + 1) % dgc.InterleavedNumGroups
 	}
 	return nil
