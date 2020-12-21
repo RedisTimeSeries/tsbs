@@ -1,5 +1,5 @@
 # Go parameters
-GOCMD=go
+GOCMD=GO111MODULE=on go
 GOBUILD=$(GOCMD) build
 GOINSTALL=$(GOCMD) install
 GOCLEAN=$(GOCMD) clean
@@ -8,38 +8,73 @@ GOGET=$(GOCMD) get
 GOMOD=$(GOCMD) mod
 GOFMT=$(GOCMD) fmt
 
-# DOCKER
-DOCKER_APP_NAME=tsbs
-DOCKER_ORG=redisbench
-DOCKER_REPO:=${DOCKER_ORG}/${DOCKER_APP_NAME}
-DOCKER_IMG:="$(DOCKER_REPO):$(DOCKER_TAG)"
-DOCKER_LATEST:="${DOCKER_REPO}:latest"
+.PHONY: all generators loaders runners lint fmt checkfmt
 
-.PHONY: all generators loaders runners
 all: generators loaders runners
 
-generators: tsbs_generate_data tsbs_generate_queries
+generators: tsbs_generate_data \
+			tsbs_generate_queries
 
-loaders: tsbs_load_redistimeseries tsbs_load_cassandra tsbs_load_clickhouse tsbs_load_influx tsbs_load_mongo tsbs_load_siridb tsbs_load_timescaledb
+loaders: tsbs_load \
+		 tsbs_load_akumuli \
+		 tsbs_load_cassandra \
+		 tsbs_load_clickhouse \
+		 tsbs_load_cratedb \
+		 tsbs_load_influx \
+ 		 tsbs_load_mongo \
+ 		 tsbs_load_prometheus \
+ 		 tsbs_load_siridb \
+ 		 tsbs_load_timescaledb \
+ 		 tsbs_load_victoriametrics
 
-runners: tsbs_run_queries_redistimeseries tsbs_run_queries_cassandra tsbs_run_queries_clickhouse tsbs_run_queries_influx tsbs_run_queries_mongo tsbs_run_queries_siridb tsbs_run_queries_timescaledb
+runners: tsbs_run_queries_akumuli \
+		 tsbs_run_queries_cassandra \
+		 tsbs_run_queries_clickhouse \
+		 tsbs_run_queries_cratedb \
+		 tsbs_run_queries_influx \
+		 tsbs_run_queries_mongo \
+		 tsbs_run_queries_siridb \
+		 tsbs_run_queries_timescaledb \
+		 tsbs_run_queries_timestream \
+		 tsbs_run_queries_victoriametrics
 
 test:
-	GO111MODULE=on $(GOTEST) -v -race -coverprofile=coverage.txt -covermode=atomic ./...
+	$(GOTEST) -v ./...
+
+coverage:
+	$(GOTEST) -race -coverprofile=coverage.txt -covermode=atomic ./...
 
 tsbs_%: $(wildcard ./cmd/$@/*.go)
 	$(GOGET) ./cmd/$@
 	$(GOBUILD) -o bin/$@ ./cmd/$@
 	$(GOINSTALL) ./cmd/$@
 
+checkfmt:
+	@echo 'Checking gofmt';\
+ 	bash -c "diff -u <(echo -n) <(gofmt -d .)";\
+	EXIT_CODE=$$?;\
+	if [ "$$EXIT_CODE"  -ne 0 ]; then \
+		echo '$@: Go files must be formatted with gofmt'; \
+	fi && \
+	exit $$EXIT_CODE
+
+lint:
+	$(GOGET) github.com/golangci/golangci-lint/cmd/golangci-lint
+	golangci-lint run
+
+fmt:
+	$(GOFMT) ./...
+
+
+##################################################################################################
 # DOCKER TASKS
 # Build the container
 docker-build:
-	docker build -t $(DOCKER_APP_NAME):latest -f  docker/Dockerfile .
+	docker build -t $(DOCKER_APP_NAME):latest -f  Dockerfile .
 
 # Build the container without caching
 docker-build-nc:
-	docker build --no-cache -t $(DOCKER_APP_NAME):latest -f docker/Dockerfile .
+	docker build --no-cache -t $(DOCKER_APP_NAME):latest -f Dockerfile .
 
 # Make a release by building and publishing the `{version}` ans `latest` tagged containers to ECR
 docker-release: docker-build-nc docker-publish
