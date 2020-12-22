@@ -10,7 +10,6 @@ FORMAT="redistimeseries"
 
 DATA_FILE_NAME=${DATA_FILE_NAME:-${FORMAT}-data.gz}
 DATABASE_PORT=${DATABASE_PORT:-6379}
-CONNECTIONS=${CONNECTIONS:-10}
 REPETITIONS=${REPETITIONS:-3}
 PIPELINE=${PIPELINE:-100}
 EXTENSION="${DATA_FILE_NAME##*.}"
@@ -38,14 +37,13 @@ for run in $(seq ${REPETITIONS}); do
   redis-cli -h ${DATABASE_HOST} -p ${DATABASE_PORT} config resetstat
 
   # Load new data
-  cat ${DATA_FILE} | $EXE_FILE_NAME \
+  $EXE_FILE_NAME \
     --workers=1 \
-    --batch-size=${BATCH_SIZE} \
+    --file=${DATA_FILE}  \
     --reporting-period=${REPORTING_PERIOD} \
     --host=${DATABASE_HOST}:${DATABASE_PORT} \
     --compression-enabled=${COMPRESSION_ENABLED} \
-    --connections=${CONNECTIONS} --pipeline=${PIPELINE} |
-      tee ${OUT_FULL_FILE_NAME}
+    --pipeline=${PIPELINE}
 
   # Retrieve command stats output
   redis-cli -h ${DATABASE_HOST} -p ${DATABASE_PORT} info commandstats >> ${OUT_FULL_FILE_NAME}

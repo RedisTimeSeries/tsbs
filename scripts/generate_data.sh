@@ -7,8 +7,6 @@ if [[ -z "${EXE_FILE_NAME}" ]]; then
     exit 1
 fi
 
-set -x
-
 # Data folder
 BULK_DATA_DIR=${BULK_DATA_DIR:-"/tmp/bulk_data"}
 
@@ -48,6 +46,8 @@ chmod a+rwx ${BULK_DATA_DIR}
 
 pushd ${BULK_DATA_DIR}
 set -eo pipefail
+
+set -x
 
 # Loop over all requested target formats and generate data
 for FORMAT in ${FORMATS}; do

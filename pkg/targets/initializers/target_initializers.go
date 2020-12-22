@@ -11,6 +11,7 @@ import (
 	"github.com/timescale/tsbs/pkg/targets/influx"
 	"github.com/timescale/tsbs/pkg/targets/mongo"
 	"github.com/timescale/tsbs/pkg/targets/prometheus"
+	"github.com/timescale/tsbs/pkg/targets/redistimeseries"
 	"github.com/timescale/tsbs/pkg/targets/siridb"
 	"github.com/timescale/tsbs/pkg/targets/timescaledb"
 	"github.com/timescale/tsbs/pkg/targets/timestream"
@@ -34,6 +35,8 @@ func GetTarget(format string) targets.ImplementedTarget {
 		return influx.NewTarget()
 	case constants.FormatMongo:
 		return mongo.NewTarget()
+	case constants.FormatRedisTimeSeries:
+		return redistimeseries.NewTarget()
 	case constants.FormatPrometheus:
 		return prometheus.NewTarget()
 	case constants.FormatSiriDB:

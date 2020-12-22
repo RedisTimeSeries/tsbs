@@ -9,6 +9,8 @@ require (
 	github.com/andreyvit/diff v0.0.0-20170406064948-c7f18ee00883
 	github.com/aws/aws-sdk-go v1.35.13
 	github.com/blagojts/viper v1.6.3-0.20200313094124-068f44cf5e69
+	github.com/bmizerany/assert v0.0.0-20160611221934-b7ed37b82869
+	github.com/cheggaaa/pb/v3 v3.0.5
 	github.com/filipecosta90/hdrhistogram v0.0.0-20191025144016-6360d1757d33
 	github.com/globalsign/mgo v0.0.0-20181015135952-eeefdecb41b8
 	github.com/go-ole/go-ole v1.2.4 // indirect
@@ -23,6 +25,7 @@ require (
 	github.com/klauspost/cpuid v0.0.0-20180405133222-e7e905edc00e // indirect
 	github.com/kshvakov/clickhouse v1.3.11
 	github.com/lib/pq v1.3.0
+	github.com/mediocregopher/radix/v3 v3.6.0
 	github.com/pkg/errors v0.9.1
 	github.com/prometheus/common v0.13.0
 	github.com/shirou/gopsutil v2.18.12+incompatible

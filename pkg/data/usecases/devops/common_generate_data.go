@@ -64,6 +64,11 @@ func (s *commonDevopsSimulator) Finished() bool {
 	return s.madePoints >= s.maxPoints
 }
 
+// MaxPoints returns the total expected simulation datapoints
+func (s *commonDevopsSimulator) MaxPoints() uint64 {
+	return s.maxPoints
+}
+
 func (s *commonDevopsSimulator) Fields() map[string][]string {
 	if len(s.hosts) <= 0 {
 		panic("cannot get fields because no hosts added")

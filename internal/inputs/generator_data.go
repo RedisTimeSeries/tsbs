@@ -3,6 +3,7 @@ package inputs
 import (
 	"bufio"
 	"fmt"
+	"github.com/cheggaaa/pb/v3"
 	"io"
 	"math/rand"
 	"os"
@@ -106,6 +107,9 @@ func (g *DataGenerator) runSimulator(sim common.Simulator, serializer serialize.
 
 	currGroupID := uint(0)
 	point := data.NewPoint()
+	// create and start new bar
+	bar := pb.Start64(int64(sim.MaxPoints()))
+
 	for !sim.Finished() {
 		write := sim.Next(point)
 		if !write {
@@ -120,9 +124,11 @@ func (g *DataGenerator) runSimulator(sim common.Simulator, serializer serialize.
 				return fmt.Errorf("can not serialize point: %s", err)
 			}
 		}
+		bar.Increment()
 		point.Reset()
 		currGroupID = (currGroupID + 1) % dgc.InterleavedNumGroups
 	}
+	bar.Finish()
 	return nil
 }
 

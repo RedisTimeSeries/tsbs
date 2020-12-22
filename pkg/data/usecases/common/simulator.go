@@ -73,6 +73,7 @@ type GeneratedDataHeaders struct {
 // Simulator simulates a use case.
 type Simulator interface {
 	Finished() bool
+	MaxPoints() uint64
 	Next(*data.Point) bool
 	Fields() map[string][]string
 	TagKeys() []string

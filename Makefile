@@ -12,6 +12,8 @@ GOFMT=$(GOCMD) fmt
 
 all: generators loaders runners
 
+redistimeseries: generators tsbs_load_redistimeseries
+
 generators: tsbs_generate_data \
 			tsbs_generate_queries
 
@@ -40,6 +42,11 @@ runners: tsbs_run_queries_akumuli \
 
 test:
 	$(GOTEST) -v ./...
+
+rts-test:
+	$(GOTEST) --count=1 -v ./cmd/tsbs_load_redistimeseries/.
+	$(GOTEST) --count=1 -v ./pkg/targets/redistimeseries/.
+
 
 coverage:
 	$(GOTEST) -race -coverprofile=coverage.txt -covermode=atomic ./...

@@ -19,8 +19,8 @@ type redistimeseriesTarget struct {
 func (t *redistimeseriesTarget) TargetSpecificFlags(flagPrefix string, flagSet *pflag.FlagSet) {
 	flagSet.String(flagPrefix+"host", "localhost:6379", "The host:port for Redis connection")
 	pflag.Uint64(flagPrefix+"pipeline", 50, "The pipeline's size")
-	pflag.Bool(flagPrefix+ "compression-enabled", true, "Whether to use compressed time series")
-	pflag.Bool(flagPrefix+ "cluster", false, "Whether to use OSS cluster API")
+	pflag.Bool(flagPrefix+"compression-enabled", true, "Whether to use compressed time series")
+	pflag.Bool(flagPrefix+"cluster", false, "Whether to use OSS cluster API")
 
 }
 

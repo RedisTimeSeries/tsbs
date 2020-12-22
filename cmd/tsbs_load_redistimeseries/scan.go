@@ -2,89 +2,63 @@ package main
 
 import (
 	"bufio"
-	//"fmt"
-	"log"
-	"strings"
-	"sync"
+	"bytes"
+	"github.com/timescale/tsbs/pkg/data"
+	"github.com/timescale/tsbs/pkg/data/usecases/common"
+	"github.com/timescale/tsbs/pkg/targets"
 
-	"github.com/gomodule/redigo/redis"
-	"github.com/timescale/tsbs/load"
+	"strings"
 )
 
-type decoder struct {
+type fileDataSource struct {
 	scanner *bufio.Scanner
 }
 
-// Reads and returns a text line that encodes a data point for a specif field name.
-// Since scanning happens in a single thread, we hold off on transforming it
-// to an INSERT statement until it's being processed concurrently by a worker.
-func (d *decoder) Decode(_ *bufio.Reader) *load.Point {
+const errNotThreeTuplesFmt = "parse error: line does not have 3 tuples, has %d"
+
+var newLine = []byte("\n")
+
+func (d *fileDataSource) NextItem() data.LoadedPoint {
 	ok := d.scanner.Scan()
 	if !ok && d.scanner.Err() == nil { // nothing scanned & no error = EOF
-		return nil
+		return data.LoadedPoint{}
 	} else if !ok {
-		log.Fatalf("scan error: %v", d.scanner.Err())
+		fatal("scan error: %v", d.scanner.Err())
+		return data.LoadedPoint{}
 	}
-	return load.NewPoint(d.scanner.Text())
+	return data.NewLoadedPoint(d.scanner.Bytes())
 }
 
-func sendRedisCommand(conn redis.Conn, cmdName string, s redis.Args) (err error) {
-	err = conn.Send(cmdName, s...)
-	if err != nil {
-		log.Fatalf("sendRedisCommand %s failed: %s\n", cmdName, err)
-	}
-	return
+func (d *fileDataSource) Headers() *common.GeneratedDataHeaders { return nil }
+
+type batch struct {
+	buf     *bytes.Buffer
+	rows    uint
+	metrics uint64
 }
 
-func buildCommand(line string, forceUncompressed bool) (cmdname string, s redis.Args) {
-	t := strings.Split(line, " ")
-	cmdname = t[0]
-	if cmdname == "TS.CREATE" && forceUncompressed {
-		t = append(t, "UNCOMPRESSED")
-		s = s.Add(t[1])
-		s = s.Add("UNCOMPRESSED")
-		s = s.AddFlat(t[2:])
-	} else {
-		s = s.AddFlat(t[1:])
-	}
-	return
+func (b *batch) Len() uint {
+	return b.rows
 }
 
-func sendRedisFlush(count uint64, conn redis.Conn) (metrics uint64, err error) {
-	metrics = uint64(0)
-	err = conn.Flush()
-	if err != nil {
+func (b *batch) Append(item data.LoadedPoint) {
+	that := item.Data.([]byte)
+	thatStr := string(that)
+	b.rows++
+	// Each redistimeseries line is format "key timestamp value [tags...]", so we split by space
+	args := strings.Split(thatStr, " ")
+	// at least we should have 3 args
+	if len(args) < 3 {
+		fatal(errNotThreeTuplesFmt, len(args))
 		return
 	}
-	for i := uint64(0); i < count; i++ {
-		_, err := conn.Receive()
-		//fmt.Println(r)
-		if err != nil {
-			log.Fatalf("Flush failed with %v", err)
-		} else {
-			metrics += 10 // ts.madd
-		}
-	}
-	return metrics, err
+	b.metrics++
+	b.buf.Write(that)
+	b.buf.Write(newLine)
 }
-
-type eventsBatch struct {
-	rows []string
-}
-
-func (eb *eventsBatch) Len() int {
-	return len(eb.rows)
-}
-
-func (eb *eventsBatch) Append(item *load.Point) {
-	that := item.Data.(string)
-	eb.rows = append(eb.rows, that)
-}
-
-var ePool = &sync.Pool{New: func() interface{} { return &eventsBatch{rows: []string{}} }}
 
 type factory struct{}
 
-func (f *factory) New() load.Batch {
-	return ePool.Get().(*eventsBatch)
+func (f *factory) New() targets.Batch {
+	return &batch{buf: bufPool.Get().(*bytes.Buffer)}
 }

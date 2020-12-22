@@ -9,9 +9,6 @@ import (
 	"io"
 )
 
-var keysSoFar map[string]bool
-var hashSoFar map[string][]byte
-
 // Serializer writes a Point in a serialized form for RedisTimeSeries
 type Serializer struct{}
 
@@ -19,87 +16,42 @@ type Serializer struct{}
 // from.
 //
 // This function writes output that looks like:
-//cpu_usage_user{md5(hostname=host_0|region=eu-central-1...)} 1451606400 58 LABELS hostname host_0 region eu-central-1 ... measurement cpu fieldname usage_user
+//cpu_usage_user{md5(hostname=host_0|region=eu-central-1...)} 1451606400 58 hostname host_0 region eu-central-1 ... measurement cpu fieldname usage_user
 //
-// Which the loader will decode into a set of TS.ADD commands for each fieldKey. Once labels have been created for a each fieldKey,
-// subsequent rows are ommitted with them and are ingested with TS.MADD for a row's metrics.
+// Which the loader will decode into a set of TS.ADD commands for each fieldKey.
 func (s *Serializer) Serialize(p *data.Point, w io.Writer) (err error) {
-	if keysSoFar == nil {
-		keysSoFar = make(map[string]bool)
-	}
-
-	if hashSoFar == nil {
-		hashSoFar = make(map[string][]byte)
-	}
-
 	var hashBytes []byte
 	//var hashExists bool
-	p.TagValues()
-	hostname := p.TagValues()[0]
-
-	for fieldID := 0; fieldID < len(p.FieldKeys()); fieldID++ {
-		fieldName := p.FieldKeys()[fieldID]
-		keyName := fmt.Sprintf("%s%s", hostname, fieldName)
-		//fmt.Errorf("%s\n",fieldName)
-		//if hashBytes, hashExists = hashSoFar[keyName]; hashExists == false {
-		//do something here
-		labelsHash := md5.Sum([]byte(fmt.Sprintf("%s", hostname)))
-		hashBytes = serialize.FastFormatAppend(int(binary.BigEndian.Uint32(labelsHash[:])), []byte{})
-		//hashSoFar[keyName] = hashBytes
-		//}
-
-		// if this key was already inserted and created, we don't to specify the labels again
-		if keysSoFar[keyName] == false {
-			w.Write([]byte("TS.CREATE "))
-			writeKeyName(w, p, fieldName, hashBytes)
-			w.Write([]byte("LABELS"))
-			for i, v := range p.TagValues() {
-				w.Write([]byte(" "))
-				w.Write(p.TagKeys()[i])
-				w.Write([]byte(" "))
-				w.Write(serialize.FastFormatAppend(v, []byte{}))
-			}
-			w.Write([]byte(" measurement "))
-			// add measurement name as additional label to be used in queries
-			w.Write(p.MeasurementName())
-
-			// additional label of fieldname
-			w.Write([]byte(" fieldname "))
-			w.Write(fieldName)
-			w.Write([]byte("\n"))
-			keysSoFar[keyName] = true
-		}
+	tags := p.TagValues()
+	var hostname interface{}
+	if len(tags) > 0 {
+		hostname = tags[0]
 	}
-	w.Write([]byte("TS.MADD "))
 
 	for fieldID := 0; fieldID < len(p.FieldKeys()); fieldID++ {
 		fieldName := p.FieldKeys()[fieldID]
-
-		//keyName := fmt.Sprintf("%s%s", hostname, fieldName)
-		//fmt.Fprint(os.Stderr, fmt.Sprintf("%s\n", keyName))
-
 		labelsHash := md5.Sum([]byte(fmt.Sprintf("%s", hostname)))
 		hashBytes = serialize.FastFormatAppend(int(binary.BigEndian.Uint32(labelsHash[:])), []byte{})
-
 		fieldValue := p.FieldValues()[fieldID]
 		writeKeyName(w, p, fieldName, hashBytes)
 		writeTS_and_Value(w, p, fieldValue)
-		if fieldID < len(p.FieldKeys())-1 {
+		for i, v := range p.TagValues() {
 			w.Write([]byte(" "))
+			w.Write(p.TagKeys()[i])
+			w.Write([]byte(" "))
+			w.Write(serialize.FastFormatAppend(v, []byte{}))
 		}
+		w.Write([]byte(" measurement "))
+		// add measurement name as additional label to be used in queries
+		w.Write(p.MeasurementName())
+
+		// additional label of fieldname
+		w.Write([]byte(" fieldname "))
+		w.Write(fieldName)
+		w.Write([]byte("\n"))
 	}
-	w.Write([]byte("\n"))
 
 	return err
-}
-
-func appendTS_and_Value(lbuf []byte, p *data.Point, fieldValue interface{}) []byte {
-	// write timestamp in ms
-	lbuf = serialize.FastFormatAppend(p.Timestamp().UTC().Unix()*1000, lbuf)
-	lbuf = append(lbuf, ' ')
-	// write value
-	lbuf = serialize.FastFormatAppend(fieldValue, lbuf)
-	return lbuf
 }
 
 func writeTS_and_Value(w io.Writer, p *data.Point, fieldValue interface{}) (err error) {
@@ -109,17 +61,6 @@ func writeTS_and_Value(w io.Writer, p *data.Point, fieldValue interface{}) (err 
 	// write value
 	_, err = w.Write(serialize.FastFormatAppend(fieldValue, []byte{}))
 	return
-}
-
-func appendKeyName(lbuf []byte, p *data.Point, fieldName []byte, hashBytes []byte) []byte {
-	lbuf = append(lbuf, p.MeasurementName()...)
-	lbuf = append(lbuf, '_')
-	lbuf = append(lbuf, fieldName...)
-
-	lbuf = append(lbuf, '{')
-	lbuf = append(lbuf, hashBytes...)
-	lbuf = append(lbuf, '}', ' ')
-	return lbuf
 }
 
 func writeKeyName(w io.Writer, p *data.Point, fieldName []byte, hashBytes []byte) (err error) {
