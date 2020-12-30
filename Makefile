@@ -25,6 +25,7 @@ loaders: tsbs_load \
 		 tsbs_load_influx \
  		 tsbs_load_mongo \
  		 tsbs_load_prometheus \
+ 		 tsbs_load_redistimeseries \
  		 tsbs_load_siridb \
  		 tsbs_load_timescaledb \
  		 tsbs_load_victoriametrics
