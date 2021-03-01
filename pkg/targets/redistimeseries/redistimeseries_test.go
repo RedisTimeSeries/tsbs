@@ -1,4 +1,4 @@
-package serialize
+package redistimeseries
 
 import (
 	"testing"
@@ -23,7 +23,7 @@ func TestRedisTimeSeriesSerializer(t *testing.T) {
 		//},
 	}
 
-	testSerializer(t, cases, &RedisTimeSeriesSerializer{})
+	testSerializer(t, cases, &Serializer{})
 }
 
 func TestRedisTimeSeriesSerializerErr(t *testing.T) {

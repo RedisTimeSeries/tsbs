@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 # showcases the ftsb 3 phases for timescaledb
 # - 1) data and query generation
 # - 2) data loading/insertion
@@ -31,8 +32,8 @@ QUERY_TYPES_ALL="\
 QUERY_TYPES=${QUERY_TYPES:-$QUERY_TYPES_ALL}
 
 mkdir -p /tmp/bulk_data
-rm /tmp/bulk_data/${FORMAT}_*
-rm docs/responses/${FORMAT}_*
+rm -f /tmp/bulk_data/${FORMAT}_*
+rm -f docs/responses/${FORMAT}_*
 
 redis-cli flushall
 
