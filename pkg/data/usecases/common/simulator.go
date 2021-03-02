@@ -78,6 +78,7 @@ type Simulator interface {
 	TagKeys() []string
 	TagTypes() []string
 	Headers() *GeneratedDataHeaders
+	MaxPoints()  uint64
 }
 
 // BaseSimulator generates data similar to truck readings.

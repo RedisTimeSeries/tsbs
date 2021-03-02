@@ -1,17 +1,20 @@
 #!/bin/bash
 set -e
+set -x
 # showcases the ftsb 3 phases for timescaledb
 # - 1) data and query generation
 # - 2) data loading/insertion
 # - 3) query execution
 
-SCALE=${SCALE:-"10"}
+SCALE=${SCALE:-"100"}
 SEED=${SEED:-"123"}
 PASSWORD=${PASSWORD:-"password"}
 FORMAT="redistimeseries"
 REDIS_HOST=${REDIS_HOST:-"localhost"}
 REDIS_PORT=${REDIS_PORT:-"6379"}
 REDIS=${REDIS_HOST}":"${REDIS_PORT}
+
+mkdir -p docs/responses
 
 # All available query types (sorted alphabetically)
 QUERY_TYPES_ALL="\
@@ -41,17 +44,17 @@ rm -f docs/responses/${FORMAT}_*
 redis-cli -h ${REDIS_HOST} -p ${REDIS_PORT} flushall
 
 # generate data
-$GOPATH/bin/tsbs_generate_data --format ${FORMAT} --use-case cpu-only --scale=${SCALE} --seed=${SEED} --file /tmp/bulk_data/${FORMAT}_data
+./bin/tsbs_generate_data --format ${FORMAT} --use-case cpu-only --scale=${SCALE} --seed=${SEED} --file /tmp/bulk_data/${FORMAT}_data
 
 for queryName in $QUERY_TYPES; do
-  $GOPATH/bin/tsbs_generate_queries --format ${FORMAT} --use-case cpu-only --scale=${SCALE} --seed=${SEED} \
+  ./bin/tsbs_generate_queries --format ${FORMAT} --use-case cpu-only --scale=${SCALE} --seed=${SEED} \
     --queries=1 \
     --query-type $queryName \
     --file /tmp/bulk_data/${FORMAT}_query_$queryName
 done
 
 # insert benchmark
-$GOPATH/bin/tsbs_load_${FORMAT} \
+./bin/tsbs_load_${FORMAT} \
   --workers=1 \
   --host=${REDIS} \
   --file=/tmp/bulk_data/${FORMAT}_data
@@ -59,7 +62,7 @@ $GOPATH/bin/tsbs_load_${FORMAT} \
 # queries benchmark
 for queryName in $QUERY_TYPES; do
   echo "running query: $queryName"
-  $GOPATH/bin/tsbs_run_queries_${FORMAT} --print-responses \
+  ./bin/tsbs_run_queries_${FORMAT} --print-responses \
     --workers=1 \
     --debug=3 \
     --host=${REDIS} \

@@ -142,7 +142,7 @@ func prettyPrintResponseRange(responses []interface{}, q *query.RedisTimeSeries)
 				rows = append(rows, row)
 			}
 			resp["results"] = rows
-		case redistimeseries.Rangqe:
+		case redistimeseries.Range:
 			resp["client_side_work"] = q.ApplyFunctor
 			resp["results"] = res.(redistimeseries.Range)
 		case []query.MultiRange:
