@@ -9,17 +9,18 @@ import (
 	"database/sql"
 	"encoding/json"
 	"fmt"
-	redistimeseries "github.com/RedisTimeSeries/redistimeseries-go"
-	_ "github.com/lib/pq"
-	"github.com/pkg/errors"
-	"github.com/spf13/pflag"
-	"github.com/spf13/viper"
-	"github.com/timescale/tsbs/internal/utils"
-	"github.com/timescale/tsbs/pkg/query"
 	"log"
 	"sort"
 	"strings"
 	"time"
+
+	redistimeseries "github.com/RedisTimeSeries/redistimeseries-go"
+	"github.com/blagojts/viper"
+	_ "github.com/lib/pq"
+	"github.com/pkg/errors"
+	"github.com/spf13/pflag"
+	"github.com/timescale/tsbs/internal/utils"
+	"github.com/timescale/tsbs/pkg/query"
 )
 
 // Program option vars:
@@ -141,7 +142,7 @@ func prettyPrintResponseRange(responses []interface{}, q *query.RedisTimeSeries)
 				rows = append(rows, row)
 			}
 			resp["results"] = rows
-		case redistimeseries.Range:
+		case redistimeseries.Rangqe:
 			resp["client_side_work"] = q.ApplyFunctor
 			resp["results"] = res.(redistimeseries.Range)
 		case []query.MultiRange:

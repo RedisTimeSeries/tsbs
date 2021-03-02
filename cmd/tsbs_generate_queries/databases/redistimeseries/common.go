@@ -1,10 +1,11 @@
 package redistimeseries
 
 import (
+	"time"
+
 	"github.com/timescale/tsbs/cmd/tsbs_generate_queries/uses/devops"
 	"github.com/timescale/tsbs/cmd/tsbs_generate_queries/utils"
-	"github.com/timescale/tsbs/query"
-	"time"
+	"github.com/timescale/tsbs/pkg/query"
 )
 
 // BaseGenerator contains settings specific for RedisTimeSeries database.

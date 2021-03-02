@@ -9,6 +9,9 @@ SCALE=${SCALE:-"10"}
 SEED=${SEED:-"123"}
 PASSWORD=${PASSWORD:-"password"}
 FORMAT="redistimeseries"
+REDIS_HOST=${REDIS_HOST:-"localhost"}
+REDIS_PORT=${REDIS_PORT:-"6379"}
+REDIS=${REDIS_HOST}":"${REDIS_PORT}
 
 # All available query types (sorted alphabetically)
 QUERY_TYPES_ALL="\
@@ -35,7 +38,7 @@ mkdir -p /tmp/bulk_data
 rm -f /tmp/bulk_data/${FORMAT}_*
 rm -f docs/responses/${FORMAT}_*
 
-redis-cli flushall
+redis-cli -h ${REDIS_HOST} -p ${REDIS_PORT} flushall
 
 # generate data
 $GOPATH/bin/tsbs_generate_data --format ${FORMAT} --use-case cpu-only --scale=${SCALE} --seed=${SEED} --file /tmp/bulk_data/${FORMAT}_data
@@ -50,6 +53,7 @@ done
 # insert benchmark
 $GOPATH/bin/tsbs_load_${FORMAT} \
   --workers=1 \
+  --host=${REDIS} \
   --file=/tmp/bulk_data/${FORMAT}_data
 
 # queries benchmark
@@ -58,5 +62,6 @@ for queryName in $QUERY_TYPES; do
   $GOPATH/bin/tsbs_run_queries_${FORMAT} --print-responses \
     --workers=1 \
     --debug=3 \
+    --host=${REDIS} \
     --file /tmp/bulk_data/${FORMAT}_query_$queryName >docs/responses/${FORMAT}_$queryName.json
 done

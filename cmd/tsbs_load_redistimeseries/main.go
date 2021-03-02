@@ -1,22 +1,27 @@
 package main
 
 import (
+	"bufio"
 	"crypto/md5"
 	"encoding/binary"
 	"fmt"
-	"github.com/spf13/pflag"
-	"github.com/spf13/viper"
-	"github.com/timescale/tsbs/internal/utils"
 	"io"
 	"log"
 	"strconv"
 	"strings"
 	"sync"
 
+	"github.com/blagojts/viper"
+	"github.com/spf13/pflag"
+	"github.com/timescale/tsbs/internal/utils"
+	"github.com/timescale/tsbs/pkg/data/usecases/common"
+	"github.com/timescale/tsbs/pkg/targets/constants"
+	"github.com/timescale/tsbs/pkg/targets/initializers"
+
 	"github.com/gomodule/redigo/redis"
 	"github.com/timescale/tsbs/load"
-	"github.com/timescale/tsbs/pkg/targets"
 	"github.com/timescale/tsbs/pkg/data"
+	"github.com/timescale/tsbs/pkg/targets"
 )
 
 // Program option vars:
@@ -33,6 +38,8 @@ var (
 // Global vars
 var (
 	loader load.BenchmarkRunner
+	config load.BenchmarkRunnerConfig
+	target targets.ImplementedTarget
 	//bufPool sync.Pool
 )
 
@@ -42,16 +49,16 @@ var md5h = md5.New()
 
 // Parse args:
 func init() {
-	var config load.BenchmarkRunnerConfig
+	target = initializers.GetTarget(constants.FormatRedisTimeSeries)
+	config = load.BenchmarkRunnerConfig{}
 	config.AddToFlagSet(pflag.CommandLine)
+	target.TargetSpecificFlags("", pflag.CommandLine)
 
-	pflag.StringVar(&host, "host", "localhost:6379", "The host:port for Redis connection")
-	pflag.Uint64Var(&connections, "connections", 10, "The number of connections per worker")
-	pflag.Uint64Var(&pipeline, "pipeline", 50, "The pipeline's size")
-	pflag.BoolVar(&singleQueue, "single-queue", true, "Whether to use a single queue")
-	pflag.BoolVar(&compressionEnabled, "compression-enabled", true, "Whether to use compressed time series")
-	pflag.Uint64Var(&checkChunks, "check-chunks", 0, "Whether to perform post ingestion chunck count")
-	pflag.StringVar(&dataModel, "data-model", "redistimeseries", "Data model (redistimeseries, rediszsetdevice, rediszsetmetric, redisstream)")
+	//pflag.Uint64Var(&pipeline, "pipeline", 50, "The pipeline's size")
+	//pflag.BoolVar(&singleQueue, "single-queue", true, "Whether to use a single queue")
+	//pflag.BoolVar(&compressionEnabled, "compression-enabled", true, "Whether to use compressed time series")
+	//pflag.Uint64Var(&checkChunks, "check-chunks", 0, "Whether to perform post ingestion chunck count")
+	//pflag.StringVar(&dataModel, "data-model", "redistimeseries", "Data model (redistimeseries, rediszsetdevice, rediszsetmetric, redisstream)")
 	pflag.Parse()
 
 	err := utils.SetupConfigFile()
@@ -63,6 +70,12 @@ func init() {
 	if err := viper.Unmarshal(&config); err != nil {
 		panic(fmt.Errorf("unable to decode config: %s", err))
 	}
+	host = viper.GetString("host")
+	connections = viper.GetUint64("connections")
+	pipeline = viper.GetUint64("pipeline")
+	dataModel = "redistimeseries"
+	compressionEnabled = true
+
 	loader = load.GetBenchmarkRunner(config)
 
 }
@@ -72,7 +85,8 @@ type benchmark struct {
 }
 
 func (b *benchmark) GetDataSource() targets.DataSource {
-	panic("implement me")
+	log.Printf("creating DS from %s", config.FileName);
+	return &fileDataSource{scanner: bufio.NewScanner(load.GetBufferedReader(config.FileName))}
 }
 
 type RedisIndexer struct {
@@ -93,6 +107,22 @@ func (i *RedisIndexer) GetIndex(p data.LoadedPoint) uint {
 //func (b *benchmark) GetPointDecoder(br *bufio.Reader) load.PointDecoder {
 //	return &decoder{scanner: bufio.NewScanner(br)}
 //}
+type fileDataSource struct {
+	scanner *bufio.Scanner
+}
+
+func (d *fileDataSource) NextItem() data.LoadedPoint {
+	ok := d.scanner.Scan()
+	if !ok && d.scanner.Err() == nil { // nothing scanned & no error = EOF
+		return data.LoadedPoint{}
+	} else if !ok {
+		fatal("scan error: %v", d.scanner.Err())
+		return data.LoadedPoint{}
+	}
+	return data.NewLoadedPoint(d.scanner.Text())
+}
+
+func (d *fileDataSource) Headers() *common.GeneratedDataHeaders { return nil }
 
 func (b *benchmark) GetBatchFactory() targets.BatchFactory {
 	return &factory{}
@@ -236,7 +266,10 @@ func main() {
 	//if singleQueue {
 	//	workQueues = load.SingleQueue
 	//}
+	log.Println("Starting benchmark")
+	config.NoFlowControl = true;
 	loader.RunBenchmark(&benchmark{dbc: &dbCreator{}})
+	log.Println("finished benchmark")
 	if checkChunks > 0 {
 		runCheckData()
 	}
