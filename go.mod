@@ -23,6 +23,7 @@ require (
 	github.com/jmoiron/sqlx v1.2.0
 	github.com/kshvakov/clickhouse v1.3.11
 	github.com/lib/pq v1.3.0
+	github.com/mediocregopher/radix/v3 v3.7.0
 	github.com/pkg/errors v0.9.1
 	github.com/prometheus/common v0.13.0
 	github.com/shirou/gopsutil v2.18.12+incompatible

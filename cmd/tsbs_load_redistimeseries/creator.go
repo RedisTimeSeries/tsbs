@@ -1,15 +1,9 @@
 package main
 
-import (
-	redistimeseries "github.com/RedisTimeSeries/redistimeseries-go"
-)
-
 type dbCreator struct {
-	client *redistimeseries.Client
 }
 
 func (d *dbCreator) Init() {
-	d.client = redistimeseries.NewClient(host, "test_client", nil)
 }
 
 func (d *dbCreator) DBExists(dbName string) bool {
@@ -25,6 +19,5 @@ func (d *dbCreator) CreateDB(dbName string) error {
 }
 
 func (d *dbCreator) Close() {
-	conn := d.client.Pool.Get()
-	conn.Close()
+
 }

@@ -106,7 +106,6 @@ func (g *DataGenerator) runSimulator(sim common.Simulator, serializer serialize.
 	defer g.bufOut.Flush()
 
 	currGroupID := uint(0)
-	fmt.Println(int(g.config.Limit))
 	bar := pb.StartNew(int(sim.MaxPoints()))
 	point := data.NewPoint()
 	for !sim.Finished() {

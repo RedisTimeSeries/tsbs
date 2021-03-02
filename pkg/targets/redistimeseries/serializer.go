@@ -40,13 +40,9 @@ func (s *Serializer) Serialize(p *data.Point, w io.Writer) (err error) {
 	for fieldID := 0; fieldID < len(p.FieldKeys()); fieldID++ {
 		fieldName := p.FieldKeys()[fieldID]
 		keyName := fmt.Sprintf("%s%s", hostname, fieldName)
-		//fmt.Errorf("%s\n",fieldName)
-		//if hashBytes, hashExists = hashSoFar[keyName]; hashExists == false {
 		//do something here
 		labelsHash := md5.Sum([]byte(fmt.Sprintf("%s", hostname)))
 		hashBytes = serialize.FastFormatAppend(int(binary.BigEndian.Uint32(labelsHash[:])), []byte{})
-		//hashSoFar[keyName] = hashBytes
-		//}
 
 		// if this key was already inserted and created, we don't to specify the labels again
 		if keysSoFar[keyName] == false {
@@ -75,9 +71,6 @@ func (s *Serializer) Serialize(p *data.Point, w io.Writer) (err error) {
 	for fieldID := 0; fieldID < len(p.FieldKeys()); fieldID++ {
 		fieldName := p.FieldKeys()[fieldID]
 
-		//keyName := fmt.Sprintf("%s%s", hostname, fieldName)
-		//fmt.Fprint(os.Stderr, fmt.Sprintf("%s\n", keyName))
-
 		labelsHash := md5.Sum([]byte(fmt.Sprintf("%s", hostname)))
 		hashBytes = serialize.FastFormatAppend(int(binary.BigEndian.Uint32(labelsHash[:])), []byte{})
 
@@ -93,15 +86,6 @@ func (s *Serializer) Serialize(p *data.Point, w io.Writer) (err error) {
 	return err
 }
 
-func appendTS_and_Value(lbuf []byte, p *data.Point, fieldValue interface{}) []byte {
-	// write timestamp in ms
-	lbuf = serialize.FastFormatAppend(p.Timestamp().UTC().Unix()*1000, lbuf)
-	lbuf = append(lbuf, ' ')
-	// write value
-	lbuf = serialize.FastFormatAppend(fieldValue, lbuf)
-	return lbuf
-}
-
 func writeTS_and_Value(w io.Writer, p *data.Point, fieldValue interface{}) (err error) {
 	// write timestamp in ms
 	w.Write(serialize.FastFormatAppend(p.Timestamp().UTC().Unix()*1000, []byte{}))
@@ -109,17 +93,6 @@ func writeTS_and_Value(w io.Writer, p *data.Point, fieldValue interface{}) (err 
 	// write value
 	_, err = w.Write(serialize.FastFormatAppend(fieldValue, []byte{}))
 	return
-}
-
-func appendKeyName(lbuf []byte, p *data.Point, fieldName []byte, hashBytes []byte) []byte {
-	lbuf = append(lbuf, p.MeasurementName()...)
-	lbuf = append(lbuf, '_')
-	lbuf = append(lbuf, fieldName...)
-
-	lbuf = append(lbuf, '{')
-	lbuf = append(lbuf, hashBytes...)
-	lbuf = append(lbuf, '}', ' ')
-	return lbuf
 }
 
 func writeKeyName(w io.Writer, p *data.Point, fieldName []byte, hashBytes []byte) (err error) {

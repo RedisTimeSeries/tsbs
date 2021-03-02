@@ -5,6 +5,7 @@ import (
 	"crypto/md5"
 	"encoding/binary"
 	"fmt"
+	"github.com/mediocregopher/radix/v3"
 	"io"
 	"log"
 	"strconv"
@@ -18,7 +19,6 @@ import (
 	"github.com/timescale/tsbs/pkg/targets/constants"
 	"github.com/timescale/tsbs/pkg/targets/initializers"
 
-	"github.com/gomodule/redigo/redis"
 	"github.com/timescale/tsbs/load"
 	"github.com/timescale/tsbs/pkg/data"
 	"github.com/timescale/tsbs/pkg/targets"
@@ -33,6 +33,7 @@ var (
 	singleQueue        bool
 	dataModel          string
 	compressionEnabled bool
+	clusterMode        bool
 )
 
 // Global vars
@@ -53,12 +54,6 @@ func init() {
 	config = load.BenchmarkRunnerConfig{}
 	config.AddToFlagSet(pflag.CommandLine)
 	target.TargetSpecificFlags("", pflag.CommandLine)
-
-	//pflag.Uint64Var(&pipeline, "pipeline", 50, "The pipeline's size")
-	//pflag.BoolVar(&singleQueue, "single-queue", true, "Whether to use a single queue")
-	//pflag.BoolVar(&compressionEnabled, "compression-enabled", true, "Whether to use compressed time series")
-	//pflag.Uint64Var(&checkChunks, "check-chunks", 0, "Whether to perform post ingestion chunck count")
-	//pflag.StringVar(&dataModel, "data-model", "redistimeseries", "Data model (redistimeseries, rediszsetdevice, rediszsetmetric, redisstream)")
 	pflag.Parse()
 
 	err := utils.SetupConfigFile()
@@ -75,6 +70,7 @@ func init() {
 	pipeline = viper.GetUint64("pipeline")
 	dataModel = "redistimeseries"
 	compressionEnabled = true
+	clusterMode = viper.GetBool("cluster")
 
 	loader = load.GetBenchmarkRunner(config)
 
@@ -85,7 +81,7 @@ type benchmark struct {
 }
 
 func (b *benchmark) GetDataSource() targets.DataSource {
-	log.Printf("creating DS from %s", config.FileName);
+	log.Printf("creating DS from %s", config.FileName)
 	return &fileDataSource{scanner: bufio.NewScanner(load.GetBufferedReader(config.FileName))}
 }
 
@@ -103,10 +99,7 @@ func (i *RedisIndexer) GetIndex(p data.LoadedPoint) uint {
 	md5h.Reset()
 	return uint(hash) % i.partitions
 }
-//
-//func (b *benchmark) GetPointDecoder(br *bufio.Reader) load.PointDecoder {
-//	return &decoder{scanner: bufio.NewScanner(br)}
-//}
+
 type fileDataSource struct {
 	scanner *bufio.Scanner
 }
@@ -147,38 +140,42 @@ type processor struct {
 	wg      *sync.WaitGroup
 }
 
-func connectionProcessor(wg *sync.WaitGroup, rows chan string, metrics chan uint64, conn redis.Conn, id uint64) {
+func connectionProcessor(wg *sync.WaitGroup, rows chan string, metrics chan uint64, conn radix.Client) {
 	curPipe := uint64(0)
-	//fmt.Println(fmt.Sprintf("wg started for id %d\n",id))
+	cmds := make([]radix.CmdAction, 0, 0)
 
 	for row := range rows {
-		cmdname, s := buildCommand(row, compressionEnabled == false)
-		var err error
-
-		if curPipe == pipeline {
-			cnt, err := sendRedisFlush(curPipe, conn)
+		cmd, tscreate := buildCommand(row, compressionEnabled == false)
+		if tscreate {
+			err := conn.Do(cmd)
 			if err != nil {
 				log.Fatalf("Flush failed with %v", err)
 			}
-			metrics <- cnt
-			curPipe = 0
-		}
-		err = sendRedisCommand(conn, cmdname, s)
-		if err != nil {
-			log.Fatalf("sendRedisCommand failed with %v", err)
-		}
-		curPipe++
+		} else {
+			cmds = append(cmds, cmd)
+			curPipe++
 
+			if curPipe == pipeline {
+				err := conn.Do(radix.Pipeline(cmds...))
+				if err != nil {
+					log.Fatalf("Flush failed with %v", err)
+				}
+				metrics <- curPipe
+				cmds = make([]radix.CmdAction, 0, 0)
+				curPipe = 0
+			}
+		}
 	}
 	if curPipe > 0 {
-		cnt, err := sendRedisFlush(curPipe, conn)
+		err := conn.Do(radix.Pipeline(cmds...))
 		if err != nil {
 			log.Fatalf("Flush failed with %v", err)
 		}
-		metrics <- cnt
+		metrics <- curPipe
+		cmds = make([]radix.CmdAction, 0, 0)
+		curPipe = 0
 	}
 	wg.Done()
-	//fmt.Println(fmt.Sprintf("wg done for id %d\n",id))
 }
 
 func (p *processor) Init(_ int, _ bool, _ bool) {}
@@ -188,18 +185,29 @@ func (p *processor) ProcessBatch(b targets.Batch, doLoad bool) (uint64, uint64) 
 	events := b.(*eventsBatch)
 	rowCnt := uint64(len(events.rows))
 	metricCnt := uint64(0)
-	// indexer := &RedisIndexer{partitions: uint(connections)}
+	opts := make([]radix.DialOpt, 0)
+
 	if doLoad {
 		buflen := rowCnt + 1
 		p.rows = make([]chan string, connections)
 		p.metrics = make(chan uint64, buflen)
 		p.wg = &sync.WaitGroup{}
+		var cluster *radix.Cluster
+		var standalone *radix.Pool
+		if clusterMode {
+			cluster = getOSSClusterConn(host, opts, connections)
+		} else {
+			standalone = getStandaloneConn(host, opts, connections)
+		}
+
 		for i := uint64(0); i < connections; i++ {
-			conn := p.dbc.client.Pool.Get()
-			defer conn.Close()
 			p.rows[i] = make(chan string, buflen)
 			p.wg.Add(1)
-			go connectionProcessor(p.wg, p.rows[i], p.metrics, conn, i)
+			if clusterMode {
+				go connectionProcessor(p.wg, p.rows[i], p.metrics, cluster)
+			} else {
+				go connectionProcessor(p.wg, p.rows[i], p.metrics, standalone)
+			}
 		}
 		for _, row := range events.rows {
 			key := strings.Split(row, " ")[1]
@@ -215,8 +223,6 @@ func (p *processor) ProcessBatch(b targets.Batch, doLoad bool) (uint64, uint64) 
 		}
 		p.wg.Wait()
 		close(p.metrics)
-		//fmt.Println("out\n")
-
 		for val := range p.metrics {
 			metricCnt += val
 		}
@@ -229,48 +235,11 @@ func (p *processor) ProcessBatch(b targets.Batch, doLoad bool) (uint64, uint64) 
 func (p *processor) Close(_ bool) {
 }
 
-func runCheckData() {
-	log.Println("Running post ingestion data check")
-	conn, err := redis.DialURL(fmt.Sprintf("redis://%s", host))
-	if err != nil {
-		log.Fatalf("Error while dialing %v", err)
-	}
-	_, err = conn.Do("PING")
-	if err != nil {
-		log.Fatalf("Error while PING %v", err)
-	}
-
-	cursor := 0
-	total := 0
-	for {
-		rep, _ := redis.Values(conn.Do("SCAN", cursor))
-		cursor, _ = redis.Int(rep[0], nil)
-		keys, _ := redis.Strings(rep[1], nil)
-		for _, key := range keys {
-			total++
-			info, _ := redis.Values(conn.Do("TS.INFO", key))
-			chunks, _ := redis.Int(info[5], nil)
-			if chunks != int(checkChunks) {
-				log.Printf("Verification error: key %v has %v chunks", key, chunks)
-			}
-		}
-		if cursor == 0 {
-			break
-		}
-	}
-	log.Printf("Verified %v keys", total)
-}
-
 func main() {
-	//workQueues := uint(load.WorkerPerQueue)
-	//if singleQueue {
-	//	workQueues = load.SingleQueue
-	//}
 	log.Println("Starting benchmark")
-	config.NoFlowControl = true;
+	config.NoFlowControl = true
+	config.HashWorkers = true
+
 	loader.RunBenchmark(&benchmark{dbc: &dbCreator{}})
 	log.Println("finished benchmark")
-	if checkChunks > 0 {
-		runCheckData()
-	}
 }
