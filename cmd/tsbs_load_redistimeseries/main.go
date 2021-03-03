@@ -41,7 +41,6 @@ var (
 	loader load.BenchmarkRunner
 	config load.BenchmarkRunnerConfig
 	target targets.ImplementedTarget
-	//bufPool sync.Pool
 )
 
 // allows for testing

@@ -1,5 +1,5 @@
 # Go parameters
-GOCMD=go
+GOCMD=GO111MODULE=on go
 GOBUILD=$(GOCMD) build
 GOINSTALL=$(GOCMD) install
 GOCLEAN=$(GOCMD) clean
@@ -26,8 +26,11 @@ loaders: tsbs_load_redistimeseries tsbs_load_cassandra tsbs_load_clickhouse tsbs
 
 runners: tsbs_run_queries_redistimeseries tsbs_run_queries_cassandra tsbs_run_queries_clickhouse tsbs_run_queries_influx tsbs_run_queries_mongo tsbs_run_queries_siridb tsbs_run_queries_timescaledb
 
+test-rts:
+	$(GOTEST) -count=1 ./pkg/targets/redistimeseries/.
+
 test:
-	GO111MODULE=on $(GOTEST) -v -race -coverprofile=coverage.txt -covermode=atomic ./...
+	$(GOTEST) -v -race -coverprofile=coverage.txt -covermode=atomic ./...
 
 tsbs_%: $(wildcard ./cmd/$@/*.go)
 	$(GOGET) ./cmd/$@
