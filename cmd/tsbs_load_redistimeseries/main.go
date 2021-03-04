@@ -142,13 +142,15 @@ type processor struct {
 func connectionProcessor(wg *sync.WaitGroup, rows chan string, metrics chan uint64, conn radix.Client) {
 	curPipe := uint64(0)
 	cmds := make([]radix.CmdAction, 0, 0)
+	currMetricCount := 0
 
 	for row := range rows {
-		cmd, tscreate := buildCommand(row, compressionEnabled == false)
+		cmd, tscreate,metricCount := buildCommand(row, compressionEnabled == false)
+		currMetricCount += metricCount
 		if tscreate {
 			err := conn.Do(cmd)
 			if err != nil {
-				log.Fatalf("Flush failed with %v", err)
+				log.Fatalf("TS.CREATE failed with %v", err)
 			}
 		} else {
 			cmds = append(cmds, cmd)
@@ -159,7 +161,8 @@ func connectionProcessor(wg *sync.WaitGroup, rows chan string, metrics chan uint
 				if err != nil {
 					log.Fatalf("Flush failed with %v", err)
 				}
-				metrics <- curPipe
+				metrics <- uint64(currMetricCount)
+				currMetricCount = 0
 				cmds = make([]radix.CmdAction, 0, 0)
 				curPipe = 0
 			}
@@ -170,9 +173,10 @@ func connectionProcessor(wg *sync.WaitGroup, rows chan string, metrics chan uint
 		if err != nil {
 			log.Fatalf("Flush failed with %v", err)
 		}
-		metrics <- curPipe
+		metrics <- uint64(currMetricCount)
 		cmds = make([]radix.CmdAction, 0, 0)
 		curPipe = 0
+		currMetricCount = 0
 	}
 	wg.Done()
 }
@@ -195,8 +199,10 @@ func (p *processor) ProcessBatch(b targets.Batch, doLoad bool) (uint64, uint64) 
 		var standalone *radix.Pool
 		if clusterMode {
 			cluster = getOSSClusterConn(host, opts, connections)
+			defer cluster.Close()
 		} else {
 			standalone = getStandaloneConn(host, opts, connections)
+			defer standalone.Close()
 		}
 
 		for i := uint64(0); i < connections; i++ {
@@ -237,8 +243,11 @@ func (p *processor) Close(_ bool) {
 func main() {
 	log.Println("Starting benchmark")
 	config.NoFlowControl = true
-	config.HashWorkers = true
-
-	loader.RunBenchmark(&benchmark{dbc: &dbCreator{}})
+	config.HashWorkers = false
+	b := benchmark{dbc: &dbCreator{}}
+	if config.Workers > 1 {
+		panic(fmt.Errorf("You should only use 1 worker and multiple connections per worker (set via --connections)"))
+	}
+	loader.RunBenchmark(&b)
 	log.Println("finished benchmark")
 }

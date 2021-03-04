@@ -10,12 +10,17 @@ import (
 	"github.com/timescale/tsbs/pkg/targets"
 )
 
-func buildCommand(line string, forceUncompressed bool) (cmdA radix.CmdAction, tscreate bool) {
+func buildCommand(line string, forceUncompressed bool) (cmdA radix.CmdAction, tscreate bool, metricCount int) {
 	t := strings.Split(line, " ")
+	metricCount = 1
 	tscreate = false
 	cmdname := t[0]
 	if cmdname == "TS.CREATE" {
 		tscreate = true
+		metricCount = 0
+	}
+	if cmdname == "TS.MADD" {
+		metricCount = (len(t)-1)/3
 	}
 	key := t[1]
 	cmdA = radix.FlatCmd(nil, cmdname, key, t[2:])
