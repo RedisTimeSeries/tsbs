@@ -1,9 +1,8 @@
 package redistimeseries
 
 import (
-	"crypto/md5"
-	"encoding/binary"
 	"fmt"
+	"github.com/mediocregopher/radix/v3"
 	"github.com/timescale/tsbs/pkg/data"
 	"github.com/timescale/tsbs/pkg/data/serialize"
 	"io"
@@ -19,10 +18,10 @@ type Serializer struct{}
 // from.
 //
 // This function writes output that looks like:
-//cpu_usage_user{md5(hostname=host_0|region=eu-central-1...)} 1451606400 58 LABELS hostname host_0 region eu-central-1 ... measurement cpu fieldname usage_user
+// [CLUSTER SLOT of {host_0}] cpu_{host_0}_usage_user 1451606400 58 LABELS hostname host_0 region eu-central-1 ... measurement cpu fieldname usage_user
 //
-// Which the loader will decode into a set of TS.ADD commands for each fieldKey. Once labels have been created for a each fieldKey,
-// subsequent rows are ommitted with them and are ingested with TS.MADD for a row's metrics.
+// Which the loader will decode into a set of TS.CREATE commands for each fieldKey. Once labels have been created for a each fieldKey,
+// subsequent rows are omitted with them and are ingested with TS.MADD for a row's metrics.
 func (s *Serializer) Serialize(p *data.Point, w io.Writer) (err error) {
 	if keysSoFar == nil {
 		keysSoFar = make(map[string]bool)
@@ -35,19 +34,19 @@ func (s *Serializer) Serialize(p *data.Point, w io.Writer) (err error) {
 	var hashBytes []byte
 	//var hashExists bool
 	p.TagValues()
-	hostname := p.TagValues()[0]
+	hostname := []byte(fmt.Sprintf("%s",  p.TagValues()[0]))
+	labelsHash := int(radix.ClusterSlot(hostname))
+	hashBytes = serialize.FastFormatAppend( labelsHash, []byte{})
 
 	for fieldID := 0; fieldID < len(p.FieldKeys()); fieldID++ {
 		fieldName := p.FieldKeys()[fieldID]
 		keyName := fmt.Sprintf("%s%s", hostname, fieldName)
-		//do something here
-		labelsHash := md5.Sum([]byte(fmt.Sprintf("%s", hostname)))
-		hashBytes = serialize.FastFormatAppend(int(binary.BigEndian.Uint32(labelsHash[:])), []byte{})
 
 		// if this key was already inserted and created, we don't to specify the labels again
 		if keysSoFar[keyName] == false {
-			w.Write([]byte("TS.CREATE "))
-			writeKeyName(w, p, fieldName, hashBytes)
+			w.Write(hashBytes)
+			w.Write([]byte(" TS.CREATE "))
+			writeKeyName(w, p, hostname, fieldName)
 			w.Write([]byte("LABELS"))
 			for i, v := range p.TagValues() {
 				w.Write([]byte(" "))
@@ -66,16 +65,13 @@ func (s *Serializer) Serialize(p *data.Point, w io.Writer) (err error) {
 			keysSoFar[keyName] = true
 		}
 	}
-	w.Write([]byte("TS.MADD "))
+	w.Write(hashBytes)
+	w.Write([]byte(" TS.MADD "))
 
 	for fieldID := 0; fieldID < len(p.FieldKeys()); fieldID++ {
 		fieldName := p.FieldKeys()[fieldID]
-
-		labelsHash := md5.Sum([]byte(fmt.Sprintf("%s", hostname)))
-		hashBytes = serialize.FastFormatAppend(int(binary.BigEndian.Uint32(labelsHash[:])), []byte{})
-
 		fieldValue := p.FieldValues()[fieldID]
-		writeKeyName(w, p, fieldName, hashBytes)
+		writeKeyName(w, p, hostname, fieldName)
 		writeTS_and_Value(w, p, fieldValue)
 		if fieldID < len(p.FieldKeys())-1 {
 			w.Write([]byte(" "))
@@ -95,12 +91,12 @@ func writeTS_and_Value(w io.Writer, p *data.Point, fieldValue interface{}) (err 
 	return
 }
 
-func writeKeyName(w io.Writer, p *data.Point, fieldName []byte, hashBytes []byte) (err error) {
+func writeKeyName(w io.Writer, p *data.Point, hostname []byte,  fieldName []byte) (err error) {
 	w.Write(p.MeasurementName())
-	w.Write([]byte("_"))
+	w.Write([]byte("_{"))
+	w.Write(hostname)
+	w.Write([]byte("}_"))
 	w.Write(fieldName)
-	w.Write([]byte("{"))
-	w.Write(hashBytes)
-	_, err = w.Write([]byte("} "))
+	w.Write([]byte(" "))
 	return
 }

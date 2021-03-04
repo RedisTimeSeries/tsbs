@@ -3,10 +3,8 @@ package main
 import (
 	"bufio"
 	"crypto/md5"
-	"encoding/binary"
 	"fmt"
 	"github.com/mediocregopher/radix/v3"
-	"io"
 	"log"
 	"strconv"
 	"strings"
@@ -38,9 +36,14 @@ var (
 
 // Global vars
 var (
-	loader load.BenchmarkRunner
-	config load.BenchmarkRunnerConfig
-	target targets.ImplementedTarget
+	loader     load.BenchmarkRunner
+	config     load.BenchmarkRunnerConfig
+	target     targets.ImplementedTarget
+	cluster    *radix.Cluster
+	standalone *radix.Pool
+	addresses  []string
+	slots      [][][2]uint16
+	conns      []radix.Client
 )
 
 // allows for testing
@@ -73,6 +76,26 @@ func init() {
 
 	loader = load.GetBenchmarkRunner(config)
 
+	opts := make([]radix.DialOpt, 0)
+	if clusterMode {
+		cluster = getOSSClusterConn(host, opts, connections)
+		cluster.Sync()
+		topology := cluster.Topo().Primaries().Map()
+		addresses = make([]string, 0)
+		slots = make([][][2]uint16, 0)
+		conns = make([]radix.Client, 0)
+		for nodeAddress, node := range topology {
+			addresses = append(addresses, nodeAddress)
+			slots = append(slots, node.Slots)
+			conn, _ := cluster.Client(nodeAddress)
+			conns = append(conns, conn)
+		}
+		fmt.Println(addresses)
+		fmt.Println(slots)
+		fmt.Println(conns)
+	} else {
+		standalone = getStandaloneConn(host, opts, connections)
+	}
 }
 
 type benchmark struct {
@@ -90,13 +113,9 @@ type RedisIndexer struct {
 
 func (i *RedisIndexer) GetIndex(p data.LoadedPoint) uint {
 	row := p.Data.(string)
-	key := strings.Split(row, " ")[1]
-	start := strings.Index(key, "{")
-	end := strings.Index(key, "}")
-	_, _ = io.WriteString(md5h, key[start+1:end])
-	hash := binary.LittleEndian.Uint32(md5h.Sum(nil))
-	md5h.Reset()
-	return uint(hash) % i.partitions
+	slotS := strings.Split(row, " ")[0]
+	clusterSlot, _ := strconv.ParseInt(slotS, 10, 0)
+	return uint(clusterSlot) % i.partitions
 }
 
 type fileDataSource struct {
@@ -139,44 +158,93 @@ type processor struct {
 	wg      *sync.WaitGroup
 }
 
-func connectionProcessor(wg *sync.WaitGroup, rows chan string, metrics chan uint64, conn radix.Client) {
-	curPipe := uint64(0)
-	cmds := make([]radix.CmdAction, 0, 0)
-	currMetricCount := 0
-
-	for row := range rows {
-		cmd, tscreate,metricCount := buildCommand(row, compressionEnabled == false)
-		currMetricCount += metricCount
-		if tscreate {
-			err := conn.Do(cmd)
-			if err != nil {
-				log.Fatalf("TS.CREATE failed with %v", err)
-			}
-		} else {
-			cmds = append(cmds, cmd)
-			curPipe++
-
-			if curPipe == pipeline {
-				err := conn.Do(radix.Pipeline(cmds...))
-				if err != nil {
-					log.Fatalf("Flush failed with %v", err)
-				}
-				metrics <- uint64(currMetricCount)
-				currMetricCount = 0
-				cmds = make([]radix.CmdAction, 0, 0)
-				curPipe = 0
+func nodeThatContainsSlot(slots [][][2]uint16, slot uint16) (result int) {
+	result = -1
+	for nodePos, slotGroup := range slots {
+		for _, i2 := range slotGroup {
+			if slot >= i2[0] && slot <= i2[1] {
+				result = nodePos
+				return
 			}
 		}
 	}
-	if curPipe > 0 {
-		err := conn.Do(radix.Pipeline(cmds...))
-		if err != nil {
-			log.Fatalf("Flush failed with %v", err)
+	return
+}
+
+func connectionProcessorCluster(wg *sync.WaitGroup, rows chan string, metrics chan uint64, cluster *radix.Cluster, clusterNodes int, addresses []string, slots [][][2]uint16, conns []radix.Client) {
+	cmds := make([][]radix.CmdAction, clusterNodes, clusterNodes)
+	curPipe := make([]uint64, clusterNodes, clusterNodes)
+	currMetricCount := make([]int, clusterNodes, clusterNodes)
+	for i := 0; i < clusterNodes; i++ {
+		cmds[i] = make([]radix.CmdAction, 0, 0)
+		curPipe[i] = 0
+		currMetricCount[i] = 0
+	}
+
+	for row := range rows {
+		slot, cmd, _, metricCount := buildCommand(row, compressionEnabled == false)
+		comdPos := nodeThatContainsSlot(slots, slot)
+		currMetricCount[comdPos] += metricCount
+		cmds[comdPos] = append(cmds[comdPos], cmd)
+		curPipe[comdPos]++
+
+		if curPipe[comdPos] == pipeline {
+			err := conns[comdPos].Do(radix.Pipeline(cmds[comdPos]...))
+			if err != nil {
+				log.Fatalf("Flush failed with %v", err)
+			}
+			metrics <- uint64(currMetricCount[comdPos])
+			currMetricCount[comdPos] = 0
+			cmds[comdPos] = make([]radix.CmdAction, 0, 0)
+			curPipe[comdPos] = 0
 		}
-		metrics <- uint64(currMetricCount)
-		cmds = make([]radix.CmdAction, 0, 0)
-		curPipe = 0
-		currMetricCount = 0
+
+	}
+	for comdPos, u := range curPipe {
+		if u > 0 {
+			err := conns[comdPos].Do(radix.Pipeline(cmds[comdPos]...))
+			if err != nil {
+				log.Fatalf("Flush failed with %v", err)
+			}
+			metrics <- uint64(currMetricCount[comdPos])
+		}
+	}
+	wg.Done()
+}
+
+func connectionProcessor(wg *sync.WaitGroup, rows chan string, metrics chan uint64, conn radix.Client) {
+	cmds := make([][]radix.CmdAction, 1, 1)
+	cmds[0] = make([]radix.CmdAction, 0, 0)
+	curPipe := make([]uint64, 1, 1)
+	curPipe[0] = 0
+	currMetricCount := 0
+	comdPos := 0
+
+	for row := range rows {
+		_, cmd, _, metricCount := buildCommand(row, compressionEnabled == false)
+		currMetricCount += metricCount
+		cmds[comdPos] = append(cmds[comdPos], cmd)
+		curPipe[comdPos]++
+
+		if curPipe[comdPos] == pipeline {
+			err := conn.Do(radix.Pipeline(cmds[comdPos]...))
+			if err != nil {
+				log.Fatalf("Flush failed with %v", err)
+			}
+			metrics <- uint64(currMetricCount)
+			currMetricCount = 0
+			cmds[comdPos] = make([]radix.CmdAction, 0, 0)
+			curPipe[comdPos] = 0
+		}
+	}
+	for comdPos, u := range curPipe {
+		if u > 0 {
+			err := conn.Do(radix.Pipeline(cmds[comdPos]...))
+			if err != nil {
+				log.Fatalf("Flush failed with %v", err)
+			}
+			metrics <- uint64(currMetricCount)
+		}
 	}
 	wg.Done()
 }
@@ -188,38 +256,26 @@ func (p *processor) ProcessBatch(b targets.Batch, doLoad bool) (uint64, uint64) 
 	events := b.(*eventsBatch)
 	rowCnt := uint64(len(events.rows))
 	metricCnt := uint64(0)
-	opts := make([]radix.DialOpt, 0)
 
 	if doLoad {
 		buflen := rowCnt + 1
 		p.rows = make([]chan string, connections)
 		p.metrics = make(chan uint64, buflen)
 		p.wg = &sync.WaitGroup{}
-		var cluster *radix.Cluster
-		var standalone *radix.Pool
-		if clusterMode {
-			cluster = getOSSClusterConn(host, opts, connections)
-			defer cluster.Close()
-		} else {
-			standalone = getStandaloneConn(host, opts, connections)
-			defer standalone.Close()
-		}
 
 		for i := uint64(0); i < connections; i++ {
 			p.rows[i] = make(chan string, buflen)
 			p.wg.Add(1)
 			if clusterMode {
-				go connectionProcessor(p.wg, p.rows[i], p.metrics, cluster)
+				go connectionProcessorCluster(p.wg, p.rows[i], p.metrics, cluster, len(addresses), addresses, slots, conns)
 			} else {
 				go connectionProcessor(p.wg, p.rows[i], p.metrics, standalone)
 			}
 		}
 		for _, row := range events.rows {
-			key := strings.Split(row, " ")[1]
-			start := strings.Index(key, "{")
-			end := strings.Index(key, "}")
-			tag, _ := strconv.ParseUint(key[start+1:end], 10, 64)
-			i := tag % connections
+			slotS := strings.Split(row, " ")[0]
+			clusterSlot, _ := strconv.ParseInt(slotS, 10, 0)
+			i := uint64(clusterSlot) % connections
 			p.rows[i] <- row
 		}
 
@@ -248,6 +304,7 @@ func main() {
 	if config.Workers > 1 {
 		panic(fmt.Errorf("You should only use 1 worker and multiple connections per worker (set via --connections)"))
 	}
+
 	loader.RunBenchmark(&b)
 	log.Println("finished benchmark")
 }

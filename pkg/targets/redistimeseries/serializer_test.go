@@ -10,7 +10,7 @@ func TestInfluxSerializerSerialize(t *testing.T) {
 		{
 			Desc:       "a regular Point",
 			InputPoint: serialize.TestPointDefault(),
-			Output:     "TS.CREATE cpu_usage_guest_nice{1998426147} LABELS hostname host_0 region eu-west-1 datacenter eu-west-1b measurement cpu fieldname usage_guest_nice\nTS.MADD cpu_usage_guest_nice{1998426147} 1451606400000 38.24311829\n",
+			Output:     "7116 TS.CREATE cpu_{host_0}_usage_guest_nice LABELS hostname host_0 region eu-west-1 datacenter eu-west-1b measurement cpu fieldname usage_guest_nice\n7116 TS.MADD cpu_{host_0}_usage_guest_nice 1451606400000 38.24311829\n",
 		},
 		//{
 		//	Desc:       "a regular Point using int as value",

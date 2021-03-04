@@ -37,13 +37,21 @@ FORMATS=${FORMATS:-"redistimeseries"}
 #single-groupby-5-1-12 \
 #single-groupby-5-8-1"
 
-# All available for generation query types (sorted alphabetically)
+#  redistimeseries supported query types (sorted alphabetically)
 QUERY_TYPES_ALL="\
 cpu-max-all-1 \
+cpu-max-all-8 \
+double-groupby-1 \
+double-groupby-5 \
+double-groupby-all \
+groupby-orderby-limit \
+lastpoint \
 single-groupby-1-1-1 \
 single-groupby-1-1-12 \
+single-groupby-1-8-1 \
 single-groupby-5-1-1 \
-single-groupby-5-1-12"
+single-groupby-5-1-12 \
+single-groupby-5-8-1"
 
 # What query types to generate
 QUERY_TYPES=${QUERY_TYPES:-$QUERY_TYPES_ALL}
@@ -52,7 +60,7 @@ QUERY_TYPES=${QUERY_TYPES:-$QUERY_TYPES_ALL}
 SCALE=${SCALE:-"100"}
 
 # Number of queries to generate
-QUERIES=${QUERIES:-"1000000"}
+QUERIES=${QUERIES:-"10000"}
 
 # Rand seed
 SEED=${SEED:-"123"}
@@ -77,7 +85,7 @@ set -eo pipefail
 # Loop over all requested queries types and generate data
 for QUERY_TYPE in ${QUERY_TYPES}; do
     for FORMAT in ${FORMATS}; do
-        DATA_FILE_NAME="queries_${FORMAT}_${QUERY_TYPE}_${EXE_FILE_VERSION}_${QUERIES}_${SCALE}_${SEED}_${TS_START}_${TS_END}_${USE_CASE}.dat.gz"
+        DATA_FILE_NAME="queries_${FORMAT}_${QUERY_TYPE}_${EXE_FILE_VERSION}_${QUERIES}_${SCALE}_${SEED}_${TS_START}_${TS_END}_${USE_CASE}.dat"
         if [ -f "${DATA_FILE_NAME}" ] && [ "${SKIP_IF_EXISTS}" == "TRUE" ]; then
             echo "WARNING: file ${DATA_FILE_NAME} already exists, skip generating new data"
         else
@@ -100,8 +108,7 @@ for QUERY_TYPE in ${QUERY_TYPES}; do
                 --timescale-use-json=${USE_JSON} \
                 --timescale-use-tags=${USE_TAGS} \
                 --timescale-use-time-bucket=${USE_TIME_BUCKET} \
-                --clickhouse-use-tags=${USE_TAGS} \
-            | gzip  > ${DATA_FILE_NAME}
+                --clickhouse-use-tags=${USE_TAGS} > ${DATA_FILE_NAME}
 
             trap - EXIT
             # Make short symlink for convenience

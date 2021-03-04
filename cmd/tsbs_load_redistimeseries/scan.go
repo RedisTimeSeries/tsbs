@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/mediocregopher/radix/v3"
+	"strconv"
 
 	"strings"
 	"sync"
@@ -10,20 +11,22 @@ import (
 	"github.com/timescale/tsbs/pkg/targets"
 )
 
-func buildCommand(line string, forceUncompressed bool) (cmdA radix.CmdAction, tscreate bool, metricCount int) {
+func buildCommand(line string, forceUncompressed bool) (clusterSlot uint16, cmdA radix.CmdAction, tscreate bool, metricCount int) {
 	t := strings.Split(line, " ")
 	metricCount = 1
 	tscreate = false
-	cmdname := t[0]
+	v, _ := strconv.ParseInt(t[0], 10, 0)
+	clusterSlot = uint16(v)
+	cmdname := t[1]
 	if cmdname == "TS.CREATE" {
 		tscreate = true
 		metricCount = 0
 	}
 	if cmdname == "TS.MADD" {
-		metricCount = (len(t)-1)/3
+		metricCount = (len(t) - 2) / 3
 	}
-	key := t[1]
-	cmdA = radix.FlatCmd(nil, cmdname, key, t[2:])
+	key := t[2]
+	cmdA = radix.FlatCmd(nil, cmdname, key, t[3:])
 	return
 }
 

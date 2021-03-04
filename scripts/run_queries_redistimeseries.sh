@@ -16,7 +16,7 @@ source ${EXE_DIR}/query_common.sh
 DATABASE_PORT=${DATABASE_PORT:-6379}
 
 # Print timing stats to stderr after this many queries (0 to disable)
-QUERIES_PRINT_INTERVAL=${QUERIES_PRINT_INTERVAL:-"0"}
+QUERIES_PRINT_INTERVAL=${QUERIES_PRINT_INTERVAL:-"1000"}
 
 # How many queries would be run
 MAX_QUERIES=${MAX_QUERIES:-"0"}
@@ -24,7 +24,7 @@ REPETITIONS=${REPETITIONS:-3}
 PREFIX=${PREFIX:-""}
 
 # How many queries would be run
-SLEEP_BETWEEN_RUNS=${SLEEP_BETWEEN_RUNS:-"60"}
+SLEEP_BETWEEN_RUNS=${SLEEP_BETWEEN_RUNS:-"0"}
 
 # Ensure DATA DIR available
 mkdir -p ${RESULTS_DIR}
@@ -59,9 +59,8 @@ for run in $(seq ${REPETITIONS}); do
     echo "Saving output to ${OUT_FULL_FILE_NAME}"
     echo "Saving HDR Latencies to ${HDR_FULL_FILE_NAME}"
 
-    cat $FULL_DATA_FILE_NAME |
-      $GUNZIP |
       $EXE_FILE_NAME \
+        --file $FULL_DATA_FILE_NAME \
         --max-queries=${MAX_QUERIES} \
         --workers=${NUM_WORKERS} \
         --print-interval=${QUERIES_PRINT_INTERVAL} \

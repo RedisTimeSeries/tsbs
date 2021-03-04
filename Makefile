@@ -26,6 +26,9 @@ loaders: tsbs_load_redistimeseries tsbs_load_cassandra tsbs_load_clickhouse tsbs
 
 runners: tsbs_run_queries_redistimeseries tsbs_run_queries_cassandra tsbs_run_queries_clickhouse tsbs_run_queries_influx tsbs_run_queries_mongo tsbs_run_queries_siridb tsbs_run_queries_timescaledb
 
+datagen-rts:
+	./scripts/generate_queries.sh
+
 test-rts:
 	$(GOTEST) -count=1 ./pkg/targets/redistimeseries/.
 
