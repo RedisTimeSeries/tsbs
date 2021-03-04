@@ -87,22 +87,19 @@ func (d *Devops) GroupByTime(qi query.Query, nHosts, numMetrics int, timeRange t
 	}
 	redisQuery = append(redisQuery, []byte(redisArg))
 
+	if nHosts > 1 && numMetrics == 1 {
+		redisQuery = append(redisQuery,[]byte("GROUPBY"), []byte("hostname"), []byte("REDUCE"), []byte("max") )
+	}
+	if numMetrics > 1 {
+		redisQuery = append(redisQuery,[]byte("GROUPBY"), []byte("fieldname"), []byte("REDUCE"), []byte("max") )
+	}
+
 	humanLabel := devops.GetSingleGroupByLabel("RedisTimeSeries", numMetrics, nHosts, string(timeRange))
 	humanDesc := fmt.Sprintf("%s: %s", humanLabel, interval.StartString())
 	d.fillInQueryStrings(qi, humanLabel, humanDesc)
 	d.AddQuery(qi, redisQuery, []byte("TS.MRANGE"))
-	if numMetrics > 1 && nHosts == 1 {
-		functorName := query.GetFunctionName(query.SingleGroupByTime)
-		d.SetApplyFunctor(qi, true, functorName)
-	}
-	if nHosts > 1 && numMetrics == 1 {
-		functorName := query.GetFunctionName(query.GroupByTimeAndMax)
-		d.SetApplyFunctor(qi, true, functorName)
-	}
-	if nHosts > 1 && numMetrics > 1 {
-		functorName := query.GetFunctionName(query.GroupByTimeAndTagMax)
-		d.SetApplyFunctor(qi, true, functorName)
-	}
+
+
 }
 
 // GroupByTimeAndPrimaryTag selects the AVG of numMetrics metrics under 'cpu' per device per hour for a day
@@ -139,6 +136,9 @@ func (d *Devops) GroupByTimeAndPrimaryTag(qi query.Query, numMetrics int) {
 			redisArg += ")"
 		}
 		redisQuery = append(redisQuery, []byte(redisArg))
+	}
+	if numMetrics > 1 {
+		redisQuery = append(redisQuery,[]byte("GROUPBY"), []byte("hostname"), []byte("REDUCE"), []byte("max") )
 	}
 
 	humanLabel := devops.GetDoubleGroupByLabel("RedisTimeSeries", numMetrics)
@@ -181,18 +181,14 @@ func (d *Devops) MaxAllCPU(qi query.Query, nHosts int) {
 		redisArg += ")"
 	}
 	redisQuery = append(redisQuery, []byte(redisArg))
-
+	if nHosts > 1 {
+		redisQuery = append(redisQuery,[]byte("GROUPBY"), []byte("fieldname"), []byte("REDUCE"), []byte("max") )
+	}
 	humanLabel := devops.GetMaxAllLabel("RedisTimeSeries", nHosts)
 	humanDesc := fmt.Sprintf("%s: %s", humanLabel, interval.StartString())
 	d.fillInQueryStrings(qi, humanLabel, humanDesc)
+
 	d.AddQuery(qi, redisQuery, []byte("TS.MRANGE"))
-	if nHosts == 1 {
-		functorName := query.GetFunctionName(query.SingleGroupByTime)
-		d.SetApplyFunctor(qi, true, functorName)
-	} else {
-		functorName := query.GetFunctionName(query.GroupByTimeAndTagMax)
-		d.SetApplyFunctor(qi, true, functorName)
-	}
 }
 
 // LastPointPerHost finds the last row for every host in the dataset
@@ -213,9 +209,6 @@ func (d *Devops) LastPointPerHost(qi query.Query) {
 	humanDesc := fmt.Sprintf("%s", humanLabel)
 	d.fillInQueryStrings(qi, humanLabel, humanDesc)
 	d.AddQuery(qi, redisQuery, []byte("TS.MREVRANGE"))
-	functorName := query.GetFunctionName(query.GroupByTimeAndTagHostname)
-	d.SetApplyFunctor(qi, true, functorName)
-
 }
 
 func (d *Devops) HighCPUForHosts(qi query.Query, nHosts int) {
