@@ -13,3 +13,5 @@ bin
 coverage.txt
 
 bin/
+
+results/
