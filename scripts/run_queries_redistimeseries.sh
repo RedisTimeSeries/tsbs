@@ -28,7 +28,7 @@ for FULL_DATA_FILE_NAME in ${BULK_DATA_DIR}/queries_${USE_CASE}_${FORMAT}_${SCAL
       --print-interval=${QUERIES_PRINT_INTERVAL} \
       --debug=${DEBUG} \
       --hdr-latencies=${HDR_FULL_FILE_NAME} \
-      --host=${DATABASE_HOST}:${DATABASE_PORT} |
+      --host=${DATABASE_HOST}:${DATABASE_PORT} ${CLUSTER_FLAG} |
       tee $OUT_FULL_FILE_NAME
 
     echo "Sleeping for ${SLEEP_BETWEEN_RUNS} seconds"
