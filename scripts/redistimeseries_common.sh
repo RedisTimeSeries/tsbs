@@ -20,6 +20,7 @@ DEBUG=${DEBUG:-0}
 FORMAT="redistimeseries"
 
 SCALE=${SCALE:-"100"}
+CLUSTER_FLAG=${CLUSTER_FLAG:-""}
 
 # How many concurrent worker would load data - match num of cores, or default to 8
 NUM_WORKERS=${NUM_WORKERS:-$(grep -c ^processor /proc/cpuinfo 2>/dev/null || echo 8)}

@@ -21,6 +21,6 @@ $EXE_FILE_NAME \
   --workers=1 \
   --batch-size=${BATCH_SIZE} \
   --reporting-period=${REPORTING_PERIOD} \
-  --host=${DATABASE_HOST}:${DATABASE_PORT} \
+  --host=${DATABASE_HOST}:${DATABASE_PORT} ${CLUSTER_FLAG} \
   --connections=${CONNECTIONS} --pipeline=${PIPELINE} |
   tee ${OUT_FULL_FILE_NAME}
