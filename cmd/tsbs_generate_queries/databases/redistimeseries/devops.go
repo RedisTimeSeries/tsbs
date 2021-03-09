@@ -194,11 +194,6 @@ func (d *Devops) MaxAllCPU(qi query.Query, nHosts int) {
 // LastPointPerHost finds the last row for every host in the dataset
 func (d *Devops) LastPointPerHost(qi query.Query) {
 	redisQuery := [][]byte{
-		//[]byte("TS.MREVRANGE"), Just to help understanding
-		[]byte("-"),
-		[]byte("+"),
-		[]byte("COUNT"),
-		[]byte("1"),
 		[]byte("WITHLABELS"),
 		[]byte("FILTER"),
 		[]byte("measurement=cpu"),
@@ -208,7 +203,7 @@ func (d *Devops) LastPointPerHost(qi query.Query) {
 	humanLabel := "RedisTimeSeries last row per host"
 	humanDesc := fmt.Sprintf("%s", humanLabel)
 	d.fillInQueryStrings(qi, humanLabel, humanDesc)
-	d.AddQuery(qi, redisQuery, []byte("TS.MREVRANGE"))
+	d.AddQuery(qi, redisQuery, []byte("TS.MGET"))
 }
 
 func (d *Devops) HighCPUForHosts(qi query.Query, nHosts int) {
