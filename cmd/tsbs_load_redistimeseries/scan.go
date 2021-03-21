@@ -11,12 +11,12 @@ import (
 	"github.com/timescale/tsbs/pkg/targets"
 )
 
-func buildCommand(line string, forceUncompressed bool) (clusterSlot uint16, cmdA radix.CmdAction, tscreate bool, metricCount int) {
+func buildCommand(line string, forceUncompressed bool) (clusterSlot int, cmdA radix.CmdAction, tscreate bool, metricCount int) {
 	t := strings.Split(line, " ")
 	metricCount = 1
 	tscreate = false
 	v, _ := strconv.ParseInt(t[0], 10, 0)
-	clusterSlot = uint16(v)
+	clusterSlot = int(v)
 	cmdname := t[1]
 	if cmdname == "TS.CREATE" {
 		tscreate = true

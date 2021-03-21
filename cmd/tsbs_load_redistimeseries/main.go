@@ -158,11 +158,11 @@ type processor struct {
 	wg      *sync.WaitGroup
 }
 
-func nodeThatContainsSlot(slots [][][2]uint16, slot uint16) (result int) {
+func nodeThatContainsSlot(slots [][][2]uint16, slot int) (result int) {
 	result = -1
 	for nodePos, slotGroup := range slots {
 		for _, i2 := range slotGroup {
-			if slot >= i2[0] && slot <= i2[1] {
+			if slot >= int(i2[0]) && slot <= int(i2[1]) {
 				result = nodePos
 				return
 			}
