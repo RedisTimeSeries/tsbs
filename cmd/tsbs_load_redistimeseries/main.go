@@ -190,11 +190,7 @@ func connectionProcessorCluster(wg *sync.WaitGroup, rows chan string, metrics ch
 
 		if curPipe[comdPos] == pipeline {
 			var err error = nil
-			if len(cmds[comdPos])==1{
-				err = conns[comdPos].Do(cmds[comdPos][0])
-			} else {
-				err = conns[comdPos].Do(radix.Pipeline(cmds[comdPos]...))
-			}
+			err = conns[comdPos].Do(radix.Pipeline(cmds[comdPos]...))
 			if err != nil {
 				log.Fatalf("Flush failed with %v", err)
 			}
@@ -208,11 +204,6 @@ func connectionProcessorCluster(wg *sync.WaitGroup, rows chan string, metrics ch
 	for comdPos, u := range curPipe {
 		if u > 0 {
 			var err error = nil
-			if len(cmds[comdPos])==1{
-				err = conns[comdPos].Do(cmds[comdPos][0])
-			} else {
-				err = conns[comdPos].Do(radix.Pipeline(cmds[comdPos]...))
-			}
 			err = conns[comdPos].Do(radix.Pipeline(cmds[comdPos]...))
 			if err != nil {
 				log.Fatalf("Flush failed with %v", err)
