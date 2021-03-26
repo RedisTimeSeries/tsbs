@@ -81,9 +81,12 @@ func init() {
 			conn, _ := cluster.Client(nodeAddress)
 			conns = append(conns, conn)
 		}
-		fmt.Println(addresses)
-		fmt.Println(slots)
-		fmt.Println(conns)
+		//if p.opts.debug {
+		//	fmt.Println(addresses)
+		//	fmt.Println(slots)
+		//	fmt.Println(conns)
+		//}
+
 	} else {
 		standalone = getStandaloneConn(host, opts, uint64(config.Workers))
 	}
