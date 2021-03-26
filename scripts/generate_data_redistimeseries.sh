@@ -9,8 +9,6 @@ EXE_DIR=${EXE_DIR:-$(dirname $0)}
 source ${EXE_DIR}/query_common.sh
 source ${EXE_DIR}/redistimeseries_common.sh
 
-INTERLEAVED_GENERATION_GROUPS=${INTERLEAVED_GENERATION_GROUPS:-"1"}
-
 # Ensure DATA DIR available
 mkdir -p ${BULK_DATA_DIR}
 

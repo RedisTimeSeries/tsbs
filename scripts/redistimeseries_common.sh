@@ -6,18 +6,13 @@ DATABASE_PORT=${DATABASE_PORT:-6379}
 PIPELINE=${PIPELINE:-100}
 CONNECTIONS=${CONNECTIONS:-50}
 
-# Data folder
-BULK_DATA_DIR=${BULK_DATA_DIR:-"/tmp/bulk_data_redistimeseries"}
-
-# Data folder
+# Results folder
 RESULTS_DIR=${RESULTS_DIR:-"./results"}
 
 # Load parameters
 BATCH_SIZE=${BATCH_SIZE:-10000}
 # Debug
 DEBUG=${DEBUG:-0}
-
-FORMAT="redistimeseries"
 
 SCALE=${SCALE:-"100"}
 CLUSTER_FLAG=${CLUSTER_FLAG:-""}
@@ -26,12 +21,7 @@ CLUSTER_FLAG=${CLUSTER_FLAG:-""}
 NUM_WORKERS=${NUM_WORKERS:-$(grep -c ^processor /proc/cpuinfo 2>/dev/null || echo 8)}
 REPORTING_PERIOD=${REPORTING_PERIOD:-1s}
 
-DATA_FILE_NAME=${DATA_FILE_NAME:-${FORMAT}-data.gz}
 REPETITIONS=${REPETITIONS:-3}
-
-# Start and stop time for generated timeseries
-TS_START=${TS_START:-"2021-01-01T00:00:00Z"}
-TS_END=${TS_END:-"2021-01-05T00:00:01Z"}
 
 # Rand seed
 SEED=${SEED:-"123"}
@@ -50,11 +40,22 @@ SLEEP_BETWEEN_RUNS=${SLEEP_BETWEEN_RUNS:-"0"}
 # What set of data to generate: devops (multiple data), cpu-only (cpu-usage data)
 USE_CASE=${USE_CASE:-"cpu-only"}
 
-# Step to generate data
+##########################
+# Data generation related
+# For benchmarking read latency, we used the following setup for each database (the machine configuration is the same as the one used in the Insert comparison):
+#    Dataset: 100–4,000 simulated devices generated 1–10 CPU metrics every 10 seconds for 4 full days (100M+ reading intervals, 1B+ metrics)
+#    10,000 batch size should be used
+
+# Start and stop time for generated timeseries
+TS_START=${TS_START:-"2016-01-01T00:00:00Z"}
+TS_END=${TS_END:-"2016-01-04T00:00:00Z"}
+
 LOG_INTERVAL=${LOG_INTERVAL:-"10s"}
 
 # Max number of points to generate data. 0 means "use TS_START TS_END with LOG_INTERVAL"
 MAX_DATA_POINTS=${MAX_DATA_POINTS:-"0"}
 
-FORMAT=redistimeseries
+FORMAT=${FORMAT:-"redistimeseries"}
+INTERLEAVED_GENERATION_GROUPS=${INTERLEAVED_GENERATION_GROUPS:-"1"}
+BULK_DATA_DIR=${BULK_DATA_DIR:-"/tmp/bulk_data_${BULK_DATA_DIR}"}
 DATA_FILE_NAME="${BULK_DATA_DIR}/data_${FORMAT}_${USE_CASE}_${SCALE}_${TS_START}_${TS_END}_${LOG_INTERVAL}_${SEED}.dat"

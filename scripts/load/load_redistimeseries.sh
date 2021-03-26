@@ -3,6 +3,7 @@
 EXE_FILE_NAME=./bin/tsbs_load_redistimeseries
 
 set -x
+set -e
 
 EXE_DIR=${EXE_DIR:-$(dirname $0)}
 source ${EXE_DIR}/query_common.sh
