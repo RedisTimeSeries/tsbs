@@ -13,7 +13,6 @@ import (
 
 // BaseGenerator contains settings specific for Influx database.
 type BaseGenerator struct {
-	DBName string
 }
 
 // GenerateEmptyQuery returns an empty query.HTTP.
@@ -30,7 +29,7 @@ func (g *BaseGenerator) fillInQuery(qi query.Query, humanLabel, humanDesc, influ
 	q.RawQuery = []byte(influxql)
 	q.HumanDescription = []byte(humanDesc)
 	q.Method = []byte("POST")
-	q.Path = []byte(fmt.Sprintf("/query?db=%s&%s", g.DBName, v.Encode()))
+	q.Path = []byte(fmt.Sprintf("/query?%s", v.Encode()))
 	q.Body = nil
 }
 

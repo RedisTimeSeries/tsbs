@@ -10,7 +10,7 @@ fi
 DATABASE_PORT=${DATABASE_PORT:-8086}
 
 EXE_DIR=${EXE_DIR:-$(dirname $0)}
-source ${EXE_DIR}/load_common.sh
+source ${EXE_DIR}/../load/load_common.sh
 
 # Results folder
 RESULTS_DIR=${RESULTS_DIR:-"./results"}
