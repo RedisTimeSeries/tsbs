@@ -8,7 +8,7 @@ DATABASE_NAME=${DATABASE_NAME:-"benchmark"}
 BULK_DATA_DIR=${BULK_DATA_DIR:-"/tmp/bulk_queries"}
 
 # Data folder
-RESULTS_DIR=${RESULTS_DIR:-"/tmp/results_queries"}
+RESULTS_DIR=${RESULTS_DIR:-"./results"}
 
 # Load parameters
 BATCH_SIZE=${BATCH_SIZE:-10000}

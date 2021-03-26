@@ -6,8 +6,8 @@ set -x
 set -e
 
 EXE_DIR=${EXE_DIR:-$(dirname $0)}
-source ${EXE_DIR}/query_common.sh
-source ${EXE_DIR}/redistimeseries_common.sh
+source ${EXE_DIR}/../query_common.sh
+source ${EXE_DIR}/../redistimeseries_common.sh
 
 # Ensure RESULTS DIR available
 mkdir -p ${RESULTS_DIR}
