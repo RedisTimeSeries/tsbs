@@ -5,7 +5,7 @@ set -e
 
 EXE_FILE_NAME=./bin/tsbs_run_queries_redistimeseries
 
-set -x
+#set -x
 
 EXE_DIR=${EXE_DIR:-$(dirname $0)}
 source ${EXE_DIR}/query_common.sh
