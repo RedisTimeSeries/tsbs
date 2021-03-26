@@ -24,14 +24,13 @@ func (g *BaseGenerator) GenerateEmptyQuery() query.Query {
 // fillInQuery fills the query struct with data.
 func (g *BaseGenerator) fillInQuery(qi query.Query, humanLabel, humanDesc, influxql string) {
 	v := url.Values{}
-	v.Set("db", g.DBName)
 	v.Set("q", influxql)
 	q := qi.(*query.HTTP)
 	q.HumanLabel = []byte(humanLabel)
 	q.RawQuery = []byte(influxql)
 	q.HumanDescription = []byte(humanDesc)
 	q.Method = []byte("POST")
-	q.Path = []byte(fmt.Sprintf("/query?%s", v.Encode()))
+	q.Path = []byte(fmt.Sprintf("/query?db=%s&%s", g.DBName, v.Encode()))
 	q.Body = nil
 }
 
