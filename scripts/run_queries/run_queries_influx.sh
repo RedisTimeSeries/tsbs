@@ -14,9 +14,17 @@ source ${EXE_DIR}/load_common.sh
 
 # Default queries folder
 BULK_DATA_DIR=${BULK_DATA_DIR:-"/tmp/bulk_queries"}
+
+# How many queries would be run
 MAX_QUERIES=${MAX_QUERIES:-"0"}
+
 # How many concurrent worker would run queries - match num of cores, or default to 4
-NUM_WORKERS=${NUM_WORKERS:-$(grep -c ^processor /proc/cpuinfo 2> /dev/null || echo 4)}
+NUM_WORKERS=${NUM_WORKERS:-$(grep -c ^processor /proc/cpuinfo 2>/dev/null || echo 4)}
+
+# Print timing stats to stderr after this many queries (0 to disable)
+QUERIES_PRINT_INTERVAL=${QUERIES_PRINT_INTERVAL:-"0"}
+
+REPETITIONS=${REPETITIONS:-3}
 
 until curl http://${DATABASE_HOST}:${DATABASE_PORT}/ping 2>/dev/null; do
     echo "Waiting for InfluxDB"
@@ -26,8 +34,7 @@ done
 #
 # Run test for one file
 #
-function run_file()
-{
+function run_file() {
     # $FULL_DATA_FILE_NAME:  /full/path/to/file_with.ext
     # $DATA_FILE_NAME:       file_with.ext
     # $DIR:                  /full/path/to
@@ -39,26 +46,34 @@ function run_file()
     EXTENSION="${DATA_FILE_NAME##*.}"
     NO_EXT_DATA_FILE_NAME="${DATA_FILE_NAME%.*}"
 
-    # Several options on how to name results file
-    #OUT_FULL_FILE_NAME="${DIR}/result_${DATA_FILE_NAME}"
-    OUT_FULL_FILE_NAME="${DIR}/result_${NO_EXT_DATA_FILE_NAME}.out"
-    #OUT_FULL_FILE_NAME="${DIR}/${NO_EXT_DATA_FILE_NAME}.out"
-
     if [ "${EXTENSION}" == "gz" ]; then
         GUNZIP="gunzip"
     else
         GUNZIP="cat"
     fi
 
-    echo "Running ${DATA_FILE_NAME}"
-    cat $FULL_DATA_FILE_NAME \
-        | $GUNZIP \
-        | $EXE_FILE_NAME \
-            --max-queries=${MAX_QUERIES} \
-            --db-name=${DATABASE_NAME} \
-            --workers=${NUM_WORKERS} \
-            --urls=http://${DATABASE_HOST}:${DATABASE_PORT} \
-        | tee $OUT_FULL_FILE_NAME
+    for run in $(seq ${REPETITIONS}); do
+        # Several options on how to name results file
+        #OUT_FULL_FILE_NAME="${DIR}/result_${DATA_FILE_NAME}"
+        OUT_FULL_FILE_NAME="${DIR}/result_${NO_EXT_DATA_FILE_NAME}_${run}.out"
+        #OUT_FULL_FILE_NAME="${DIR}/${NO_EXT_DATA_FILE_NAME}.out"
+        HDR_FULL_FILE_NAME="${DIR}/HDR_TXT_result_${NO_EXT_DATA_FILE_NAME}_${run}.out"
+
+        echo "Running ${DATA_FILE_NAME}"
+        echo "    Saving results to ${OUT_FULL_FILE_NAME}"
+        echo "    Saving HDR results to ${HDR_FULL_FILE_NAME}"
+
+        cat $FULL_DATA_FILE_NAME |
+            $GUNZIP |
+            $EXE_FILE_NAME \
+                --max-queries=${MAX_QUERIES} \
+                --db-name=${DATABASE_NAME} \
+                --workers=${NUM_WORKERS} \
+                --print-interval=${QUERIES_PRINT_INTERVAL} \
+                --hdr-latencies=${HDR_FULL_FILE_NAME} \
+                --urls=http://${DATABASE_HOST}:${DATABASE_PORT} |
+            tee $OUT_FULL_FILE_NAME
+    done
 }
 
 if [ "$#" -gt 0 ]; then
