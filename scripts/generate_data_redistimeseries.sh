@@ -6,7 +6,6 @@ EXE_FILE_NAME=./bin/tsbs_generate_data
 set -x
 
 EXE_DIR=${EXE_DIR:-$(dirname $0)}
-source ${EXE_DIR}/query_common.sh
 source ${EXE_DIR}/redistimeseries_common.sh
 
 # Ensure DATA DIR available
