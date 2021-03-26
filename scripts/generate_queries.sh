@@ -19,7 +19,7 @@ USE_TIME_BUCKET=${USE_TIME_BUCKET:-true}
 # Space-separated list of target DB formats to generate
 FORMATS=${FORMATS:-"redistimeseries"}
 
- All available for generation query types (sorted alphabetically)
+# All available for generation query types (sorted alphabetically)
 QUERY_TYPES_ALL="\
 cpu-max-all-1 \
 cpu-max-all-8 \
