@@ -19,25 +19,7 @@ USE_TIME_BUCKET=${USE_TIME_BUCKET:-true}
 # Space-separated list of target DB formats to generate
 FORMATS=${FORMATS:-"redistimeseries"}
 
-# All available for generation query types (sorted alphabetically)
-#QUERY_TYPES_ALL="\
-#cpu-max-all-1 \
-#cpu-max-all-8 \
-#double-groupby-1 \
-#double-groupby-5 \
-#double-groupby-all \
-#groupby-orderby-limit \
-#high-cpu-1 \
-#high-cpu-all \
-#lastpoint \
-#single-groupby-1-1-1 \
-#single-groupby-1-1-12 \
-#single-groupby-1-8-1 \
-#single-groupby-5-1-1 \
-#single-groupby-5-1-12 \
-#single-groupby-5-8-1"
-
-#  redistimeseries supported query types (sorted alphabetically)
+ All available for generation query types (sorted alphabetically)
 QUERY_TYPES_ALL="\
 cpu-max-all-1 \
 cpu-max-all-8 \
@@ -45,6 +27,8 @@ double-groupby-1 \
 double-groupby-5 \
 double-groupby-all \
 groupby-orderby-limit \
+high-cpu-1 \
+high-cpu-all \
 lastpoint \
 single-groupby-1-1-1 \
 single-groupby-1-1-12 \
@@ -52,6 +36,22 @@ single-groupby-1-8-1 \
 single-groupby-5-1-1 \
 single-groupby-5-1-12 \
 single-groupby-5-8-1"
+#
+##  redistimeseries supported query types (sorted alphabetically)
+#QUERY_TYPES_ALL="\
+#cpu-max-all-1 \
+#cpu-max-all-8 \
+#double-groupby-1 \
+#double-groupby-5 \
+#double-groupby-all \
+#groupby-orderby-limit \
+#lastpoint \
+#single-groupby-1-1-1 \
+#single-groupby-1-1-12 \
+#single-groupby-1-8-1 \
+#single-groupby-5-1-1 \
+#single-groupby-5-1-12 \
+#single-groupby-5-8-1"
 
 # What query types to generate
 QUERY_TYPES=${QUERY_TYPES:-$QUERY_TYPES_ALL}
@@ -67,7 +67,7 @@ SEED=${SEED:-"123"}
 
 # Start and stop time for generated timeseries
 TS_START=${TS_START:-"2016-01-01T00:00:00Z"}
-TS_END=${TS_END:-"2016-01-31T00:00:01Z"}
+TS_END=${TS_END:-"2016-01-04T00:00:00Z"}
 
 # What set of data to generate: devops (multiple data), cpu-only (cpu-usage data)
 USE_CASE=${USE_CASE:-"cpu-only"}
