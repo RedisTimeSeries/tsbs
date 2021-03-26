@@ -12,6 +12,12 @@ DATABASE_PORT=${DATABASE_PORT:-8086}
 EXE_DIR=${EXE_DIR:-$(dirname $0)}
 source ${EXE_DIR}/load_common.sh
 
+# Results folder
+RESULTS_DIR=${RESULTS_DIR:-"./results"}
+
+# Debug
+DEBUG=${DEBUG:-0}
+
 # Default queries folder
 BULK_DATA_DIR=${BULK_DATA_DIR:-"/tmp/bulk_queries"}
 
@@ -30,6 +36,9 @@ until curl http://${DATABASE_HOST}:${DATABASE_PORT}/ping 2>/dev/null; do
     echo "Waiting for InfluxDB"
     sleep 1
 done
+
+# Ensure RESULTS DIR available
+mkdir -p ${RESULTS_DIR}
 
 #
 # Run test for one file
@@ -55,9 +64,9 @@ function run_file() {
     for run in $(seq ${REPETITIONS}); do
         # Several options on how to name results file
         #OUT_FULL_FILE_NAME="${DIR}/result_${DATA_FILE_NAME}"
-        OUT_FULL_FILE_NAME="${DIR}/result_${NO_EXT_DATA_FILE_NAME}_${run}.out"
+        OUT_FULL_FILE_NAME="${RESULTS_DIR}/result_${NO_EXT_DATA_FILE_NAME}_${run}.out"
         #OUT_FULL_FILE_NAME="${DIR}/${NO_EXT_DATA_FILE_NAME}.out"
-        HDR_FULL_FILE_NAME="${DIR}/HDR_TXT_result_${NO_EXT_DATA_FILE_NAME}_${run}.out"
+        HDR_FULL_FILE_NAME="${RESULTS_DIR}/HDR_TXT_result_${NO_EXT_DATA_FILE_NAME}_${run}.out"
 
         echo "Running ${DATA_FILE_NAME}"
         echo "    Saving results to ${OUT_FULL_FILE_NAME}"
@@ -71,6 +80,7 @@ function run_file() {
                 --workers=${NUM_WORKERS} \
                 --print-interval=${QUERIES_PRINT_INTERVAL} \
                 --hdr-latencies=${HDR_FULL_FILE_NAME} \
+                --debug=${DEBUG} \
                 --urls=http://${DATABASE_HOST}:${DATABASE_PORT} |
             tee $OUT_FULL_FILE_NAME
     done
