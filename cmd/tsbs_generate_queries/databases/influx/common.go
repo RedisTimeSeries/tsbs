@@ -13,6 +13,7 @@ import (
 
 // BaseGenerator contains settings specific for Influx database.
 type BaseGenerator struct {
+	DBName string
 }
 
 // GenerateEmptyQuery returns an empty query.HTTP.
@@ -23,6 +24,7 @@ func (g *BaseGenerator) GenerateEmptyQuery() query.Query {
 // fillInQuery fills the query struct with data.
 func (g *BaseGenerator) fillInQuery(qi query.Query, humanLabel, humanDesc, influxql string) {
 	v := url.Values{}
+	v.Set("db", g.DBName)
 	v.Set("q", influxql)
 	q := qi.(*query.HTTP)
 	q.HumanLabel = []byte(humanLabel)

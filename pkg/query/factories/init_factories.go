@@ -23,7 +23,9 @@ func InitQueryFactories(config *config.QueryGeneratorConfig) map[string]interfac
 		UseTags: config.ClickhouseUseTags,
 	}
 	factories[constants.FormatCrateDB] = &cratedb.BaseGenerator{}
-	factories[constants.FormatInflux] = &influx.BaseGenerator{}
+	factories[constants.FormatInflux] = &influx.BaseGenerator{
+		DBName: config.DbName,
+	}
 	factories[constants.FormatTimescaleDB] = &timescaledb.BaseGenerator{
 		UseJSON:       config.TimescaleUseJSON,
 		UseTags:       config.TimescaleUseTags,

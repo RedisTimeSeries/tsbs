@@ -20,6 +20,8 @@ all: generators loaders runners
 
 generators: tsbs_generate_data tsbs_generate_queries
 
+influx: tsbs_generate_data tsbs_generate_queries tsbs_load_influx tsbs_run_queries_influx
+
 redistimeseries: tsbs_generate_data tsbs_generate_queries tsbs_load_redistimeseries tsbs_run_queries_redistimeseries
 
 loaders: tsbs_load_redistimeseries tsbs_load_cassandra tsbs_load_clickhouse tsbs_load_influx tsbs_load_mongo tsbs_load_siridb tsbs_load_timescaledb
