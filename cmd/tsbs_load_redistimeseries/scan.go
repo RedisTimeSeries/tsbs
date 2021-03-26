@@ -25,8 +25,8 @@ func buildCommand(line string, forceUncompressed bool) (clusterSlot int, cmdA ra
 	if cmdname == "TS.MADD" {
 		metricCount = (len(t) - 2) / 3
 	}
-	key := t[2]
-	cmdA = radix.FlatCmd(nil, cmdname, key, t[3:])
+	//key := t[2]
+	cmdA = radix.Cmd(nil, cmdname, t[2:]...)
 	return
 }
 

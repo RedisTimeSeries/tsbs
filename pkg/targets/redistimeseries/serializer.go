@@ -92,10 +92,11 @@ func writeTS_and_Value(w io.Writer, p *data.Point, fieldValue interface{}) (err 
 }
 
 func writeKeyName(w io.Writer, p *data.Point, hostname []byte,  fieldName []byte) (err error) {
-	w.Write(p.MeasurementName())
-	w.Write([]byte("_{"))
+	w.Write([]byte("{"))
 	w.Write(hostname)
 	w.Write([]byte("}_"))
+	w.Write(p.MeasurementName())
+	w.Write([]byte("_"))
 	w.Write(fieldName)
 	w.Write([]byte(" "))
 	return
