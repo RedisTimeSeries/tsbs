@@ -47,7 +47,6 @@ function run_file()
             --max-queries=${MAX_QUERIES} \
             --db-name=${DATABASE_NAME} \
             --workers=${NUM_WORKERS} \
-            --batch-size=${BATCH_SIZE} \
             --urls=http://${DATABASE_HOST}:${DATABASE_PORT} \
         | tee $OUT_FULL_FILE_NAME
 }
