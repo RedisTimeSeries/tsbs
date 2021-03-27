@@ -12,8 +12,6 @@ fi
 
 EXE_DIR=${EXE_DIR:-$(dirname $0)}
 
-DATABASE_PORT=${DATABASE_PORT:-5432}
-
 source ${EXE_DIR}/run_common.sh
 
 # Ensure RESULTS DIR available
@@ -53,7 +51,7 @@ for FULL_DATA_FILE_NAME in ${BULK_DATA_DIR}/queries_timescaledb*; do
                 --print-interval=${QUERIES_PRINT_INTERVAL} \
                 --hdr-latencies=${HDR_FULL_FILE_NAME} \
                 --debug=${DEBUG} \
-                --hosts=${DATABASE_HOST}:${DATABASE_PORT} \
+                --hosts=${DATABASE_HOST} \
                 --user=postgres |
             tee $OUT_FULL_FILE_NAME
     done
