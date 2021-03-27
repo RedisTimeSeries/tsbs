@@ -12,7 +12,7 @@ fi
 
 EXE_DIR=${EXE_DIR:-$(dirname $0)}
 
-DATABASE_PORT=${DATABASE_PORT:-5433}
+DATABASE_PORT=${DATABASE_PORT:-5432}
 
 source ${EXE_DIR}/run_common.sh
 
