@@ -301,7 +301,7 @@ func (p *processor) Close(_ bool) {
 func main() {
 	log.Println("Starting benchmark")
 	config.NoFlowControl = true
-	config.HashWorkers = false
+	//config.HashWorkers = false
 	b := benchmark{dbc: &dbCreator{}}
 	//if config.Workers > 1 {
 	//	panic(fmt.Errorf("You should only use 1 worker and multiple connections per worker (set via --connections)"))
