@@ -303,9 +303,9 @@ func main() {
 	config.NoFlowControl = true
 	config.HashWorkers = false
 	b := benchmark{dbc: &dbCreator{}}
-	if config.Workers > 1 {
-		panic(fmt.Errorf("You should only use 1 worker and multiple connections per worker (set via --connections)"))
-	}
+	//if config.Workers > 1 {
+	//	panic(fmt.Errorf("You should only use 1 worker and multiple connections per worker (set via --connections)"))
+	//}
 
 	loader.RunBenchmark(&b)
 	log.Println("finished benchmark")

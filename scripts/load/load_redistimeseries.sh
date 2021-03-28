@@ -18,7 +18,8 @@ echo "Saving results to ${OUT_FULL_FILE_NAME}"
 # Load new data
 $EXE_FILE_NAME \
   --file ${DATA_FILE_NAME} \
-  --workers=1 \
+  --workers=${NUM_WORKERS} \
+  --hash-workers=true \
   --batch-size=${BATCH_SIZE} \
   --reporting-period=${REPORTING_PERIOD} \
   --host=${DATABASE_HOST}:${DATABASE_PORT} ${CLUSTER_FLAG} \
