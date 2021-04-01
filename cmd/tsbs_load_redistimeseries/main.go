@@ -184,21 +184,21 @@ func connectionProcessorCluster(wg *sync.WaitGroup, rows chan string, metrics ch
 	}
 
 	for row := range rows {
-		slot, cmd, tscreate, metricCount := buildCommand(row, compressionEnabled == false)
+		slot, cmd, _, metricCount := buildCommand(row, compressionEnabled == false)
 		comdPos := nodeThatContainsSlot(slots, slot)
 		var err error = nil
 
-		if tscreate {
-			err = conns[comdPos].Do(cmd)
-			if err != nil {
-				if strings.Compare(err.Error(), "ERR TSDB: key already exists") == 0 {
-					log.Println("Ignoring TS.CREATE given key already existed. Error message %v", err)
-				} else {
-					log.Fatalf("Flush failed with %v", err)
-				}
-			}
-			continue
-		}
+		//if tscreate {
+		//	err = conns[comdPos].Do(cmd)
+		//	if err != nil {
+		//		if strings.Compare(err.Error(), "ERR TSDB: key already exists") == 0 {
+		//			log.Println("Ignoring TS.CREATE given key already existed. Error message %v", err)
+		//		} else {
+		//			log.Fatalf("Flush failed with %v", err)
+		//		}
+		//	}
+		//	continue
+		//}
 		currMetricCount[comdPos] += metricCount
 		cmds[comdPos] = append(cmds[comdPos], cmd)
 		curPipe[comdPos]++
