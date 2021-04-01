@@ -5,6 +5,7 @@ import (
 	"crypto/md5"
 	"fmt"
 	"github.com/mediocregopher/radix/v3"
+	"github.com/pkg/errors"
 	"log"
 	"strconv"
 	"strings"
@@ -49,6 +50,7 @@ var (
 // allows for testing
 var fatal = log.Fatal
 var md5h = md5.New()
+var errorTsCreate = errors.New("ERR TSDB: key already exists")
 
 // Parse args:
 func init() {
@@ -182,14 +184,26 @@ func connectionProcessorCluster(wg *sync.WaitGroup, rows chan string, metrics ch
 	}
 
 	for row := range rows {
-		slot, cmd, _, metricCount := buildCommand(row, compressionEnabled == false)
+		slot, cmd, tscreate, metricCount := buildCommand(row, compressionEnabled == false)
 		comdPos := nodeThatContainsSlot(slots, slot)
+		var err error = nil
+
+		if tscreate {
+			err = conns[comdPos].Do(cmd)
+			if err != nil {
+				if strings.Compare(err.Error(), "ERR TSDB: key already exists") == 0 {
+					log.Println("Ignoring TS.CREATE given key already existed. Error message %v", err)
+				} else {
+					log.Fatalf("Flush failed with %v", err)
+				}
+			}
+			continue
+		}
 		currMetricCount[comdPos] += metricCount
 		cmds[comdPos] = append(cmds[comdPos], cmd)
 		curPipe[comdPos]++
 
 		if curPipe[comdPos] == pipeline {
-			var err error = nil
 			err = conns[comdPos].Do(radix.Pipeline(cmds[comdPos]...))
 			if err != nil {
 				log.Fatalf("Flush failed with %v", err)
