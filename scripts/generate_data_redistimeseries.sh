@@ -21,5 +21,6 @@ ${EXE_FILE_NAME} \
     --debug=${DEBUG} \
     --seed=${SEED} \
     --log-interval=${LOG_INTERVAL} \
-    --interleaved-generation-groups=${INTERLEAVED_GENERATION_GROUPS} \
+    --interleaved-generation-groups=${IG_GROUPS} \
+    --interleaved-generation-group-id=${IG_GROUPS_ID} \
     --max-data-points=${MAX_DATA_POINTS} >${DATA_FILE_NAME}
