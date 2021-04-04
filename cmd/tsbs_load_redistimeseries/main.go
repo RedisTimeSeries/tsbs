@@ -68,7 +68,8 @@ func init() {
 	dataModel = "redistimeseries"
 	compressionEnabled = true
 	clusterMode = viper.GetBool("cluster")
-
+	config.NoFlowControl = true
+	config.HashWorkers = true
 	loader = load.GetBenchmarkRunner(config)
 
 	opts := make([]radix.DialOpt, 0)
@@ -92,12 +93,11 @@ func init() {
 
 func main() {
 	log.Println("Starting benchmark")
-	config.NoFlowControl = true
-	config.HashWorkers = false
+
 	b := benchmark{dbc: &dbCreator{}}
-	if config.Workers > 1 {
-		panic(fmt.Errorf("You should only use 1 worker and multiple connections per worker (set via --connections)"))
-	}
+	//if config.Workers > 1 {
+	//	panic(fmt.Errorf("You should only use 1 worker and multiple connections per worker (set via --connections)"))
+	//}
 
 	loader.RunBenchmark(&b)
 	log.Println("finished benchmark")
