@@ -18,6 +18,10 @@ DOCKER_LATEST:="${DOCKER_REPO}:latest"
 .PHONY: all generators loaders runners
 all: generators loaders runners
 
+fmt:
+	$(GOFMT) ./cmd/tsbs_load_redistimeseries/*.go
+	$(GOFMT) ./cmd/tsbs_run_queries_redistimeseries/*.go
+
 generators: tsbs_generate_data tsbs_generate_queries
 
 influx: tsbs_generate_data tsbs_generate_queries tsbs_load_influx tsbs_run_queries_influx
