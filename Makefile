@@ -77,3 +77,9 @@ docker-tag: docker-tag-latest
 docker-tag-latest:
 	@echo 'create tag latest'
 	docker tag $(DOCKER_APP_NAME) $(DOCKER_LATEST)
+
+release-redistimeseries:
+	$(GOGET) github.com/mitchellh/gox
+	$(GOGET) github.com/tcnksm/ghr
+	GO111MODULE=on gox  -osarch "linux/amd64 darwin/amd64" -output "dist/tsbs_run_queries_redistimeseries_{{.OS}}_{{.Arch}}" ./cmd/tsbs_run_queries_redistimeseries
+	GO111MODULE=on gox  -osarch "linux/amd64 darwin/amd64" -output "dist/tsbs_load_redistimeseries_{{.OS}}_{{.Arch}}" ./cmd/tsbs_load_redistimeseries
