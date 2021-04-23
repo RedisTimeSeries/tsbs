@@ -39,7 +39,7 @@ for QUERY_TYPE in ${QUERY_TYPES}; do
   $GOPATH/bin/tsbs_generate_queries --queries=${MAX_QUERIES} --format timescaledb --use-case cpu-only --scale 10 --seed 123 --query-type ${QUERY_TYPE} --file /tmp/bulk_data/timescaledb_query_${QUERY_TYPE}
 done
 # insert benchmark
-$GOPATH/bin/tsbs_load_timescaledb --pass=${PASSWORD} --postgres="sslmode=disable port=5433" --db-name=benchmark --host=127.0.0.1 --user=postgres --workers=1 --file=/tmp/bulk_data/timescaledb_data
+$GOPATH/bin/tsbs_load_timescaledb --pass=${PASSWORD} --postgres="sslmode=disable port=5433" --results-file="timescaledb_load_results.json" --db-name=benchmark --host=127.0.0.1 --user=postgres --workers=1 --file=/tmp/bulk_data/timescaledb_data
 
 # Loop over all requested queries types and generate data
 for QUERY_TYPE in ${QUERY_TYPES}; do
