@@ -7,6 +7,7 @@ GOTEST=$(GOCMD) test
 GOGET=$(GOCMD) get
 GOMOD=$(GOCMD) mod
 GOFMT=$(GOCMD) fmt
+DISTDIR = ./dist
 
 # DOCKER
 DOCKER_APP_NAME=tsbs
@@ -81,5 +82,12 @@ docker-tag-latest:
 release-redistimeseries:
 	$(GOGET) github.com/mitchellh/gox
 	$(GOGET) github.com/tcnksm/ghr
-	GO111MODULE=on gox  -osarch "linux/amd64 darwin/amd64" -output "dist/tsbs_run_queries_redistimeseries_{{.OS}}_{{.Arch}}" ./cmd/tsbs_run_queries_redistimeseries
-	GO111MODULE=on gox  -osarch "linux/amd64 darwin/amd64" -output "dist/tsbs_load_redistimeseries_{{.OS}}_{{.Arch}}" ./cmd/tsbs_load_redistimeseries
+	GO111MODULE=on gox  -osarch "linux/amd64 darwin/amd64" -output "${DISTDIR}/tsbs_run_queries_redistimeseries_{{.OS}}_{{.Arch}}" ./cmd/tsbs_run_queries_redistimeseries
+	GO111MODULE=on gox  -osarch "linux/amd64 darwin/amd64" -output "${DISTDIR}/tsbs_load_redistimeseries_{{.OS}}_{{.Arch}}" ./cmd/tsbs_load_redistimeseries
+
+publish-redistimeseries: release-redistimeseries
+	@for f in $(shell ls ${DISTDIR}); \
+	do \
+	echo "copying ${DISTDIR}/$${f}"; \
+	aws s3 cp ${DISTDIR}/$${f} s3://benchmarks.redislabs/redistimeseries/tools/tsbs/$${f} --acl public-read; \
+	done
