@@ -91,3 +91,10 @@ publish-redistimeseries: release-redistimeseries
 	echo "copying ${DISTDIR}/$${f}"; \
 	aws s3 cp ${DISTDIR}/$${f} s3://benchmarks.redislabs/redistimeseries/tools/tsbs/$${f} --acl public-read; \
 	done
+
+publish-redistimeseries-queries:
+	@for f in $(shell ls /tmp/bulk_queries); \
+	do \
+	echo "copying $${f}"; \
+	aws s3 cp /tmp/bulk_queries/$${f} s3://benchmarks.redislabs/redistimeseries/tsbs/queries/devops/scale100/devops-scale100-4days/$${f} --acl public-read; \
+	done
