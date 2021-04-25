@@ -44,5 +44,7 @@ $GOPATH/bin/tsbs_load_timescaledb --pass=${PASSWORD} --postgres="sslmode=disable
 # Loop over all requested queries types and generate data
 for QUERY_TYPE in ${QUERY_TYPES}; do
   # queries benchmark
-  $GOPATH/bin/tsbs_run_queries_timescaledb --max-rps=${MAX_RPS} --hdr-latencies="${MAX_RPS}rps_timescaledb_query_${QUERY_TYPE}.hdr" --pass=${PASSWORD} --postgres="sslmode=disable port=5433" --db-name=benchmark --hosts=127.0.0.1 --user=postgres --workers=1 --max-queries=${MAX_QUERIES} --file=/tmp/bulk_data/timescaledb_query_${QUERY_TYPE}
+  $GOPATH/bin/tsbs_run_queries_timescaledb \
+    --results-file="timescaledb_query_${QUERY_TYPE}_results.json" \
+    --max-rps=${MAX_RPS} --hdr-latencies="${MAX_RPS}rps_timescaledb_query_${QUERY_TYPE}.hdr" --pass=${PASSWORD} --postgres="sslmode=disable port=5433" --db-name=benchmark --hosts=127.0.0.1 --user=postgres --workers=1 --max-queries=${MAX_QUERIES} --file=/tmp/bulk_data/timescaledb_query_${QUERY_TYPE}
 done
