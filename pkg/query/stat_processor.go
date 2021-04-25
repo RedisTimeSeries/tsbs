@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"bytes"
 	"fmt"
+	"github.com/HdrHistogram/hdrhistogram-go"
 	"io/ioutil"
 	"log"
 	"os"
@@ -192,6 +193,39 @@ func (sp *defaultStatProcessor) process(workers uint) {
 	sp.wg.Done()
 }
 
+func generateQuantileMap(hist *hdrhistogram.Histogram) (int64, map[string]float64) {
+	ops := hist.TotalCount()
+	q0 := 0.0
+	q50 := 0.0
+	q95 := 0.0
+	q99 := 0.0
+	q999 := 0.0
+	q100 := 0.0
+	if ops > 0 {
+		q0 = float64(hist.ValueAtQuantile(0.0)) / 10e2
+		q50 = float64(hist.ValueAtQuantile(50.0)) / 10e2
+		q95 = float64(hist.ValueAtQuantile(95.0)) / 10e2
+		q99 = float64(hist.ValueAtQuantile(99.0)) / 10e2
+		q999 = float64(hist.ValueAtQuantile(99.90)) / 10e2
+		q100 = float64(hist.ValueAtQuantile(100.0)) / 10e2
+	}
+
+	mp := map[string]float64{"q0": q0, "q50": q50, "q95": q95, "q99": q99, "q999": q999, "q100": q100}
+	return ops, mp
+}
+
+func (b *BenchmarkRunner) GetOverallQuantiles(label string,histogram *hdrhistogram.Histogram) map[string]interface{} {
+	configs := map[string]interface{}{}
+	_, all := generateQuantileMap(histogram)
+	configs[label] = all
+	configs["EncodedHistogram"] = nil
+	encodedHist, err := histogram.Encode(hdrhistogram.V2CompressedEncodingCookieBase)
+	if err == nil {
+		configs["EncodedHistogram"] = encodedHist
+	}
+	return configs
+}
+
 func (sp *defaultStatProcessor) GetTotalsMap() map[string]interface{}{
 	totals := make(map[string]interface{})
 	// PrewarmQueries tells the StatProcessor whether we're running each query twice to prewarm the cache
@@ -201,12 +235,20 @@ func (sp *defaultStatProcessor) GetTotalsMap() map[string]interface{}{
 	// burnIn is the number of statistics to ignore before analyzing
 	totals["burnIn"] = sp.args.burnIn
 	sinceStart := time.Now().Sub(sp.startTime)
-	overallQueryRate := float64(sp.opsCount) / float64(sinceStart.Seconds())
-	totals["overallQueryRate"] = overallQueryRate
-	//quantiles := make(map[string]interface{})
-	//for i, i := range sp. {
-	//
-	//}
+	// calculate overall query rates
+	queryRates := make(map[string]interface{})
+	for label, statGroup := range sp.statMapping {
+		overallQueryRate := float64(statGroup.count) / float64(sinceStart.Seconds())
+		queryRates[label] = overallQueryRate
+	}
+	totals["overallQueryRates"] = queryRates
+	// calculate overall quantiles
+	quantiles := make(map[string]interface{})
+	for label, statGroup := range sp.statMapping {
+		_, all := generateQuantileMap(statGroup.latencyHDRHistogram)
+		quantiles[label] = all
+	}
+	totals["overallQuantiles"] = quantiles
 	return totals
 }
 
