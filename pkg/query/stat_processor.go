@@ -19,6 +19,7 @@ type statProcessor interface {
 	sendWarm(stats []*Stat)
 	process(workers uint)
 	CloseAndWait()
+	GetTotalsMap() map[string]interface{}
 }
 
 type statProcessorArgs struct {
@@ -36,6 +37,9 @@ type defaultStatProcessor struct {
 	wg       sync.WaitGroup
 	c        chan *Stat // c is the channel for Stats to be sent for processing
 	opsCount uint64
+	startTime time.Time
+	endTime time.Time
+	statMapping map[string]*statGroup
 }
 
 func newStatProcessor(args *statProcessorArgs) statProcessor {
@@ -76,18 +80,18 @@ func (sp *defaultStatProcessor) process(workers uint) {
 	sp.c = make(chan *Stat, workers)
 	sp.wg.Add(1)
 	const allQueriesLabel = labelAllQueries
-	statMapping := map[string]*statGroup{
+	sp.statMapping = map[string]*statGroup{
 		allQueriesLabel: newStatGroup(*sp.args.limit),
 	}
 	// Only needed when differentiating between cold & warm
 	if sp.args.prewarmQueries {
-		statMapping[labelColdQueries] = newStatGroup(*sp.args.limit)
-		statMapping[labelWarmQueries] = newStatGroup(*sp.args.limit)
+		sp.statMapping[labelColdQueries] = newStatGroup(*sp.args.limit)
+		sp.statMapping[labelWarmQueries] = newStatGroup(*sp.args.limit)
 	}
 
 	i := uint64(0)
-	start := time.Now()
-	prevTime := start
+	sp.startTime = time.Now()
+	prevTime := sp.startTime
 	prevRequestCount := uint64(0)
 
 	for stat := range sp.c {
@@ -102,21 +106,21 @@ func (sp *defaultStatProcessor) process(workers uint) {
 				log.Fatal(err)
 			}
 		}
-		if _, ok := statMapping[string(stat.label)]; !ok {
-			statMapping[string(stat.label)] = newStatGroup(*sp.args.limit)
+		if _, ok := sp.statMapping[string(stat.label)]; !ok {
+			sp.statMapping[string(stat.label)] = newStatGroup(*sp.args.limit)
 		}
 
-		statMapping[string(stat.label)].push(stat.value)
+		sp.statMapping[string(stat.label)].push(stat.value)
 
 		if !stat.isPartial {
-			statMapping[allQueriesLabel].push(stat.value)
+			sp.statMapping[allQueriesLabel].push(stat.value)
 
 			// Only needed when differentiating between cold & warm
 			if sp.args.prewarmQueries {
 				if stat.isWarm {
-					statMapping[labelWarmQueries].push(stat.value)
+					sp.statMapping[labelWarmQueries].push(stat.value)
 				} else {
-					statMapping[labelColdQueries].push(stat.value)
+					sp.statMapping[labelColdQueries].push(stat.value)
 				}
 			}
 
@@ -133,7 +137,7 @@ func (sp *defaultStatProcessor) process(workers uint) {
 		// print stats to stderr (if printInterval is greater than zero):
 		if sp.args.printInterval > 0 && i > 0 && i%sp.args.printInterval == 0 && (i < *sp.args.limit || *sp.args.limit == 0) {
 			now := time.Now()
-			sinceStart := now.Sub(start)
+			sinceStart := now.Sub(sp.startTime)
 			took := now.Sub(prevTime)
 			intervalQueryRate := float64(sp.opsCount-prevRequestCount) / float64(took.Seconds())
 			overallQueryRate := float64(sp.opsCount) / float64(sinceStart.Seconds())
@@ -146,7 +150,7 @@ func (sp *defaultStatProcessor) process(workers uint) {
 			if err != nil {
 				log.Fatal(err)
 			}
-			err = writeStatGroupMap(os.Stderr, statMapping)
+			err = writeStatGroupMap(os.Stderr, sp.statMapping)
 			if err != nil {
 				log.Fatal(err)
 			}
@@ -158,14 +162,14 @@ func (sp *defaultStatProcessor) process(workers uint) {
 			prevTime = now
 		}
 	}
-	sinceStart := time.Now().Sub(start)
+	sinceStart := time.Now().Sub(sp.startTime)
 	overallQueryRate := float64(sp.opsCount) / float64(sinceStart.Seconds())
 	// the final stats output goes to stdout:
 	_, err := fmt.Printf("Run complete after %d queries with %d workers (Overall query rate %0.2f queries/sec):\n", i-sp.args.burnIn, workers, overallQueryRate)
 	if err != nil {
 		log.Fatal(err)
 	}
-	err = writeStatGroupMap(os.Stdout, statMapping)
+	err = writeStatGroupMap(os.Stdout, sp.statMapping)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -174,7 +178,7 @@ func (sp *defaultStatProcessor) process(workers uint) {
 		_, _ = fmt.Printf("Saving High Dynamic Range (HDR) Histogram of Response Latencies to %s\n", sp.args.hdrLatenciesFile)
 		var b bytes.Buffer
 		bw := bufio.NewWriter(&b)
-		_, err = statMapping[allQueriesLabel].latencyHDRHistogram.PercentilesPrint(bw, 10, 1000.0)
+		_, err = sp.statMapping[labelAllQueries].latencyHDRHistogram.PercentilesPrint(bw, 10, 1000.0)
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -186,6 +190,24 @@ func (sp *defaultStatProcessor) process(workers uint) {
 	}
 
 	sp.wg.Done()
+}
+
+func (sp *defaultStatProcessor) GetTotalsMap() map[string]interface{}{
+	totals := make(map[string]interface{})
+	// PrewarmQueries tells the StatProcessor whether we're running each query twice to prewarm the cache
+	totals["prewarmQueries"] = sp.args.prewarmQueries
+	// limit is the number of statistics to analyze before stopping
+	totals["limit"] = sp.args.limit
+	// burnIn is the number of statistics to ignore before analyzing
+	totals["burnIn"] = sp.args.burnIn
+	sinceStart := time.Now().Sub(sp.startTime)
+	overallQueryRate := float64(sp.opsCount) / float64(sinceStart.Seconds())
+	totals["overallQueryRate"] = overallQueryRate
+	//quantiles := make(map[string]interface{})
+	//for i, i := range sp. {
+	//
+	//}
+	return totals
 }
 
 // CloseAndWait closes the stats channel and blocks until the StatProcessor has finished all the stats on its channel.
