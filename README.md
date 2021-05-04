@@ -12,6 +12,7 @@ Current databases supported:
 + CrateDB [(supplemental docs)](docs/cratedb.md)
 + InfluxDB [(supplemental docs)](docs/influx.md)
 + MongoDB [(supplemental docs)](docs/mongo.md)
++ RedisTimeSeries [(supplemental docs)](docs/redistimeseries.md)
 + SiriDB [(supplemental docs)](docs/siridb.md)
 + TimescaleDB [(supplemental docs)](docs/timescaledb.md)
 + Timestream [(supplemental docs)](docs/timestream.md)
@@ -75,13 +76,17 @@ cases are implemented for each database:
 |CrateDB|X||
 |InfluxDB|X|X|
 |MongoDB|X|
+|RedisTimeSeries|X³|
 |SiriDB|X|
 |TimescaleDB|X|X|
 |Timestream|X||
 |VictoriaMetrics|X²||
 
 ¹ Does not support the `groupby-orderby-limit` query
+
 ² Does not support the `groupby-orderby-limit`, `lastpoint`, `high-cpu-1`, `high-cpu-all` queries
+
+³ Does not support the `high-cpu-1`, `high-cpu-all` queries
 
 ## What the TSBS tests
 
@@ -102,25 +107,12 @@ with identical data and queried using identical queries.
 
 TSBS is a collection of Go programs (with some auxiliary bash and Python
 scripts). The easiest way to get and install the Go programs is to use
-`go get` and then `go install`:
+`go get` and then `make all` to instal all binaries:
 ```bash
 # Fetch TSBS and its dependencies
 $ go get github.com/timescale/tsbs
-$ cd $GOPATH/src/github.com/timescale/tsbs/cmd
-$ go get ./...
-
-# Install desired binaries. At a minimum this includes tsbs_generate_data,
-# tsbs_generate_queries, one tsbs_load_* binary, and one tsbs_run_queries_*
-# binary:
-$ cd $GOPATH/src/github.com/timescale/tsbs/cmd
-$ cd tsbs_generate_data && go install
-$ cd ../tsbs_generate_queries && go install
-$ cd ../tsbs_load_timescaledb && go install
-$ cd ../tsbs_run_queries_timescaledb && go install
-
-# Optionally, install all binaries:
-$ cd $GOPATH/src/github.com/timescale/tsbs/cmd
-$ go install ./...
+$ cd $GOPATH/src/github.com/timescale/tsbs
+$ make
 ```
 
 ## How to use TSBS
