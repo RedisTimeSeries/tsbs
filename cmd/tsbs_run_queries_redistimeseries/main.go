@@ -68,6 +68,7 @@ func init() {
 	r = rand.New(s) // initialize local pseudorandom generator
 
 	opts := make([]radix.DialOpt, 0)
+	opts = append(opts, radix.DialReadTimeout(120*time.Second))
 	if clusterMode {
 		cluster = getOSSClusterConn(host, opts, uint64(config.Workers))
 		cluster.Sync()
