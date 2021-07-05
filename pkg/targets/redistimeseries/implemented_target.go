@@ -20,9 +20,8 @@ func (t *redistimeseriesTarget) TargetSpecificFlags(flagPrefix string, flagSet *
 	flagSet.String(flagPrefix+"host", "localhost:6379", "The host:port for Redis connection")
 	flagSet.Uint64(flagPrefix+"pipeline", 10, "The pipeline's size")
 	flagSet.Uint64(flagPrefix+"connections", 1, "The number of connections per worker")
-	flagSet.Bool(flagPrefix+ "compression-enabled", true, "Whether to use compressed time series")
+	flagSet.String(flagPrefix+ "compression", "compressed:turbo_gorilla", "Type of compression used for each serie ( one of: 'compressed','compressed:turbo_gorilla','uncompressed' )")
 	flagSet.Bool(flagPrefix+ "cluster", false, "Whether to use OSS cluster API")
-
 }
 
 func (t *redistimeseriesTarget) TargetName() string {

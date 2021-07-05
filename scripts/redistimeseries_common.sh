@@ -18,6 +18,8 @@ CLUSTER_FLAG=${CLUSTER_FLAG:-""}
 NUM_WORKERS=${NUM_WORKERS:-$(grep -c ^processor /proc/cpuinfo 2>/dev/null || echo 8)}
 REPORTING_PERIOD=${REPORTING_PERIOD:-1s}
 
+COMPRESSION_TYPE=${COMPRESSION_TYPE:-"compressed:turbo_gorilla"}
+
 REPETITIONS=${REPETITIONS:-3}
 
 # Rand seed

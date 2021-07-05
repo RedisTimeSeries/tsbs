@@ -49,7 +49,7 @@ func nodeThatContainsSlot(slots [][][2]uint16, slot int) (result int) {
 	return
 }
 
-func connectionProcessorCluster(wg *sync.WaitGroup, rows chan string, metrics chan uint64, cluster *radix.Cluster, clusterNodes int, addresses []string, slots [][][2]uint16, conns []radix.Client) {
+func connectionProcessorCluster(wg *sync.WaitGroup, compressionType string, rows chan string, metrics chan uint64, cluster *radix.Cluster, clusterNodes int, addresses []string, slots [][][2]uint16, conns []radix.Client) {
 	cmds := make([][]radix.CmdAction, clusterNodes, clusterNodes)
 	curPipe := make([]uint64, clusterNodes, clusterNodes)
 	currMetricCount := make([]int, clusterNodes, clusterNodes)
@@ -60,7 +60,7 @@ func connectionProcessorCluster(wg *sync.WaitGroup, rows chan string, metrics ch
 	}
 
 	for row := range rows {
-		slot, cmd, _, metricCount := buildCommand(row, compressionEnabled == false)
+		slot, cmd, _, metricCount := buildCommand(row, compressionType)
 		comdPos := nodeThatContainsSlot(slots, slot)
 		var err error = nil
 

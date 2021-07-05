@@ -22,7 +22,7 @@ func getStandaloneConn(addr string, opts []radix.DialOpt, clients uint64) *radix
 	return pool
 }
 
-func connectionProcessor(wg *sync.WaitGroup, rows chan string, metrics chan uint64, conn radix.Client) {
+func connectionProcessor(wg *sync.WaitGroup, compressionType string, rows chan string, metrics chan uint64, conn radix.Client) {
 	cmds := make([][]radix.CmdAction, 1, 1)
 	cmds[0] = make([]radix.CmdAction, 0, 0)
 	curPipe := make([]uint64, 1, 1)
@@ -31,7 +31,7 @@ func connectionProcessor(wg *sync.WaitGroup, rows chan string, metrics chan uint
 	comdPos := 0
 
 	for row := range rows {
-		_, cmd, _, metricCount := buildCommand(row, compressionEnabled == false)
+		_, cmd, _, metricCount := buildCommand(row, compressionType)
 		currMetricCount += metricCount
 		cmds[comdPos] = append(cmds[comdPos], cmd)
 		curPipe[comdPos]++

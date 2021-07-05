@@ -19,6 +19,7 @@ echo "Saving results to ${OUT_FULL_FILE_NAME}"
 $EXE_FILE_NAME \
   --file ${DATA_FILE_NAME} \
   --workers=${NUM_WORKERS} \
+  --compression=${COMPRESSION_TYPE} \
   --batch-size=${BATCH_SIZE} \
   --reporting-period=${REPORTING_PERIOD} \
   --host=${DATABASE_HOST}:${DATABASE_PORT} ${CLUSTER_FLAG} \

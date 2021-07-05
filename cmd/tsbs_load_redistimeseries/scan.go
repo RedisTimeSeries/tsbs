@@ -11,7 +11,7 @@ import (
 	"github.com/timescale/tsbs/pkg/targets"
 )
 
-func buildCommand(line string, forceUncompressed bool) (clusterSlot int, cmdA radix.CmdAction, tscreate bool, metricCount int) {
+func buildCommand(line string, compression_type string) (clusterSlot int, cmdA radix.CmdAction, tscreate bool, metricCount int) {
 	t := strings.Split(line, " ")
 	metricCount = 1
 	tscreate = false
@@ -21,11 +21,11 @@ func buildCommand(line string, forceUncompressed bool) (clusterSlot int, cmdA ra
 	if cmdname == "TS.CREATE" {
 		tscreate = true
 		metricCount = 0
+		t = append([]string{t[0], t[1], t[2], compression_type}, t[3:]...)
 	}
 	if cmdname == "TS.MADD" {
 		metricCount = (len(t) - 2) / 3
 	}
-	//key := t[2]
 	cmdA = radix.Cmd(nil, cmdname, t[2:]...)
 	return
 }

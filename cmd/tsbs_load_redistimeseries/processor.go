@@ -32,9 +32,9 @@ func (p *processor) ProcessBatch(b targets.Batch, doLoad bool) (uint64, uint64) 
 			p.rows[i] = make(chan string, buflen)
 			p.wg.Add(1)
 			if clusterMode {
-				go connectionProcessorCluster(p.wg, p.rows[i], p.metrics, cluster, len(addresses), addresses, slots, conns)
+				go connectionProcessorCluster(p.wg, compressionType, p.rows[i], p.metrics, cluster, len(addresses), addresses, slots, conns)
 			} else {
-				go connectionProcessor(p.wg, p.rows[i], p.metrics, standalone)
+				go connectionProcessor(p.wg, compressionType, p.rows[i], p.metrics, standalone)
 			}
 		}
 		for _, row := range events.rows {
