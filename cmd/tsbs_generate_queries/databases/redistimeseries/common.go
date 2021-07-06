@@ -12,7 +12,7 @@ import (
 type BaseGenerator struct {
 }
 
-// GenerateEmptyQuery returns an empty query.Cassandra.
+// GenerateEmptyQuery returns an empty query.RedisTimeSeries.
 func (g *BaseGenerator) GenerateEmptyQuery() query.Query {
 	return query.NewRedisTimeSeries()
 }
