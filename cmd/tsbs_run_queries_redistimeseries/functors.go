@@ -19,7 +19,8 @@ func highCpuFilterByTsFunctor(tq *query.RedisTimeSeries, replies [][]interface{}
 			ts := datapoint[0].(int64)
 			new_query = append(new_query, fmt.Sprintf("%d", ts))
 		}
-		for _, arg := range commandArgs[4:8] {
+		new_query = append(new_query, "FILTER")
+		for _, arg := range commandArgs[7 : len(commandArgs)-4] {
 			new_query = append(new_query, arg)
 		}
 		if p.opts.debug {

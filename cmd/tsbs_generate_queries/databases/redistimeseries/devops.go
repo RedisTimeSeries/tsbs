@@ -87,7 +87,7 @@ func (d *Devops) GroupByTime(qi query.Query, nHosts, numMetrics int, timeRange t
 	redisQuery = append(redisQuery, []byte(redisArg))
 
 	if nHosts > 1 && numMetrics == 1 {
-		redisQuery = append(redisQuery,[]byte("GROUPBY"), []byte("fieldname"), []byte("REDUCE"), []byte("max") )
+		redisQuery = append(redisQuery,[]byte("GROUPBY"), []byte("hostname"), []byte("REDUCE"), []byte("max") )
 	}
 	if numMetrics > 1 {
 		redisQuery = append(redisQuery,[]byte("GROUPBY"), []byte("fieldname"), []byte("REDUCE"), []byte("max") )
@@ -271,10 +271,6 @@ func (d *Devops) GroupByOrderByLimit(qi query.Query) {
 		[]byte("FILTER"),
 		[]byte("measurement=cpu"),
 		[]byte("fieldname=usage_user"),
-		[]byte("GROUPBY"),
-		[]byte("fieldname"),
-		[]byte("REDUCE"),
-		[]byte("max"),
 	}
 
 	humanLabel := devops.GetGroupByOrderByLimitLabel("RedisTimeSeries")

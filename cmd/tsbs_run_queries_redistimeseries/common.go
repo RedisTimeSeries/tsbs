@@ -11,7 +11,7 @@ import (
 func inner_cmd_logic(p *processor, tq *query.RedisTimeSeries, idx int, replies [][]interface{}, commandArgs []string) error {
 	var err error = nil
 	if p.opts.debug {
-		fmt.Println(fmt.Sprintf("Issuing command (%s %s)", string(tq.CommandNames[idx]), strings.Join(ByteArrayToStringArray(tq.RedisQueries[idx]), " ")))
+		fmt.Println(fmt.Sprintf("Issuing command (%s %s)", string(tq.CommandNames[idx]), strings.Join(commandArgs, " ")))
 	}
 	if clusterMode {
 		if string(tq.CommandNames[idx]) == "TS.MRANGE" || string(tq.CommandNames[idx]) == "TS.QUERYINDEX" || string(tq.CommandNames[idx]) == "TS.MGET" || string(tq.CommandNames[idx]) == "TS.MREVRANGE" {
