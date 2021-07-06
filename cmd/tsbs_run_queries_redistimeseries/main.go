@@ -126,8 +126,10 @@ func (p *processor) ProcessQuery(q query.Query, isWarm bool) (queryStats []*quer
 	tq := q.(*query.RedisTimeSeries)
 
 	var cmds = make([][]string, 0, 0)
+	var replies = make([][]interface{}, 0, 0)
 	for _, qry := range tq.RedisQueries {
 		cmds = append(cmds, ByteArrayToStringArray(qry))
+		replies = append(replies, []interface{}{})
 	}
 	start := time.Now()
 	for idx, commandArgs := range cmds {
@@ -139,18 +141,50 @@ func (p *processor) ProcessQuery(q query.Query, isWarm bool) (queryStats []*quer
 			if string(tq.CommandNames[idx]) == "TS.MRANGE" || string(tq.CommandNames[idx]) == "TS.QUERYINDEX" || string(tq.CommandNames[idx]) == "TS.MGET" || string(tq.CommandNames[idx]) == "TS.MREVRANGE" {
 				rPos := r.Intn(len(conns))
 				conn := conns[rPos]
-				err = conn.Do(radix.Cmd(nil, string(tq.CommandNames[idx]), commandArgs...))
+				err = conn.Do(radix.Cmd(&replies[idx], string(tq.CommandNames[idx]), commandArgs...))
 			} else {
-				err = cluster.Do(radix.Cmd(nil, string(tq.CommandNames[idx]), commandArgs...))
+				err = cluster.Do(radix.Cmd(&replies[idx], string(tq.CommandNames[idx]), commandArgs...))
 			}
 		} else {
-			err = standalone.Do(radix.Cmd(nil, string(tq.CommandNames[idx]), commandArgs...))
+			err = standalone.Do(radix.Cmd(&replies[idx], string(tq.CommandNames[idx]), commandArgs...))
 		}
 		if err != nil {
 			log.Fatalf("Command (%s %s) failed with error: %v\n", string(tq.CommandNames[idx]), strings.Join(ByteArrayToStringArray(tq.RedisQueries[idx]), " "), err)
 		}
 		if err != nil {
 			return nil, err
+		}
+		if p.opts.debug {
+			fmt.Println(fmt.Sprintf("Command reply. Total series %d", len(replies[idx])))
+			for _, serie := range replies[idx] {
+				converted_serie := serie.([]interface{})
+				serie_name := string(converted_serie[0].([]uint8))
+				fmt.Println(fmt.Sprintf("\tSerie name: %s", serie_name))
+				serie_labels := converted_serie[1].([]interface{})
+				fmt.Println(fmt.Sprintf("\tSerie labels:"))
+				for _, kvpair := range serie_labels {
+					kvpairc := kvpair.([]interface{})
+					k := string(kvpairc[0].([]uint8))
+					v := string(kvpairc[1].([]uint8))
+					fmt.Println(fmt.Sprintf("\t\t%s: %s", k, v))
+				}
+				fmt.Println(fmt.Sprintf("\tSerie datapoints:"))
+				serie_datapoints := converted_serie[2].([]interface{})
+				if string(tq.CommandNames[idx]) == "TS.MGET" {
+					ts := serie_datapoints[0].(int64)
+					v := serie_datapoints[1].(string)
+					fmt.Println(fmt.Sprintf("\t\tts: %d value: %s", ts, v))
+
+				} else {
+					for _, datapointpair := range serie_datapoints {
+						datapoint := datapointpair.([]interface{})
+						ts := datapoint[0].(int64)
+						v := datapoint[1].(string)
+						fmt.Println(fmt.Sprintf("\t\tts: %d value: %s", ts, v))
+					}
+				}
+
+			}
 		}
 	}
 	took := float64(time.Since(start).Nanoseconds()) / 1e6

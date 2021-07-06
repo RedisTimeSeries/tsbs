@@ -39,7 +39,6 @@ func (d *Devops) GroupByTime(qi query.Query, nHosts, numMetrics int, timeRange t
 		//[]byte("TS.MRANGE"), Just to help understanding
 		[]byte(fmt.Sprintf("%d", interval.StartUnixMillis())),
 		[]byte(fmt.Sprintf("%d", interval.EndUnixMillis())),
-		[]byte("WITHLABELS"),
 		[]byte("AGGREGATION"),
 		[]byte("MAX"),
 		[]byte(fmt.Sprintf("%d", oneMinuteMillis)),
@@ -88,7 +87,7 @@ func (d *Devops) GroupByTime(qi query.Query, nHosts, numMetrics int, timeRange t
 	redisQuery = append(redisQuery, []byte(redisArg))
 
 	if nHosts > 1 && numMetrics == 1 {
-		redisQuery = append(redisQuery,[]byte("GROUPBY"), []byte("hostname"), []byte("REDUCE"), []byte("max") )
+		redisQuery = append(redisQuery,[]byte("GROUPBY"), []byte("fieldname"), []byte("REDUCE"), []byte("max") )
 	}
 	if numMetrics > 1 {
 		redisQuery = append(redisQuery,[]byte("GROUPBY"), []byte("fieldname"), []byte("REDUCE"), []byte("max") )
@@ -109,7 +108,6 @@ func (d *Devops) GroupByTimeAndPrimaryTag(qi query.Query, numMetrics int) {
 		//[]byte("TS.MRANGE"), Just to help understanding
 		[]byte(fmt.Sprintf("%d", interval.StartUnixMillis())),
 		[]byte(fmt.Sprintf("%d", interval.EndUnixMillis())),
-		[]byte("WITHLABELS"),
 		[]byte("AGGREGATION"),
 		[]byte("AVG"),
 		[]byte(fmt.Sprintf("%d", oneHourMillis)),
@@ -159,7 +157,6 @@ func (d *Devops) MaxAllCPU(qi query.Query, nHosts int) {
 		//[]byte("TS.MRANGE"), Just to help understanding
 		[]byte(fmt.Sprintf("%d", interval.StartUnixMillis())),
 		[]byte(fmt.Sprintf("%d", interval.EndUnixMillis())),
-		[]byte("WITHLABELS"),
 		[]byte("AGGREGATION"),
 		[]byte("MAX"),
 		[]byte(fmt.Sprintf("%d", oneHourMillis)),
@@ -258,6 +255,10 @@ func (d *Devops) GroupByOrderByLimit(qi query.Query) {
 		[]byte("FILTER"),
 		[]byte("measurement=cpu"),
 		[]byte("fieldname=usage_user"),
+		[]byte("GROUPBY"),
+		[]byte("fieldname"),
+		[]byte("REDUCE"),
+		[]byte("max"),
 	}
 
 	humanLabel := devops.GetGroupByOrderByLimitLabel("RedisTimeSeries")
