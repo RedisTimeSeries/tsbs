@@ -36,22 +36,6 @@ single-groupby-1-8-1 \
 single-groupby-5-1-1 \
 single-groupby-5-1-12 \
 single-groupby-5-8-1"
-#
-##  redistimeseries supported query types (sorted alphabetically)
-#QUERY_TYPES_ALL="\
-#cpu-max-all-1 \
-#cpu-max-all-8 \
-#double-groupby-1 \
-#double-groupby-5 \
-#double-groupby-all \
-#groupby-orderby-limit \
-#lastpoint \
-#single-groupby-1-1-1 \
-#single-groupby-1-1-12 \
-#single-groupby-1-8-1 \
-#single-groupby-5-1-1 \
-#single-groupby-5-1-12 \
-#single-groupby-5-8-1"
 
 # What query types to generate
 QUERY_TYPES=${QUERY_TYPES:-$QUERY_TYPES_ALL}

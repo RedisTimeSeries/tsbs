@@ -7,9 +7,7 @@ package main
 import (
 	"fmt"
 	"github.com/mediocregopher/radix/v3"
-	"log"
 	"math/rand"
-	"strings"
 	"time"
 
 	"github.com/blagojts/viper"
@@ -82,12 +80,6 @@ func init() {
 			conn, _ := cluster.Client(nodeAddress)
 			conns = append(conns, conn)
 		}
-		//if p.opts.debug {
-		//	fmt.Println(addresses)
-		//	fmt.Println(slots)
-		//	fmt.Println(conns)
-		//}
-
 	} else {
 		standalone = getStandaloneConn(host, opts, uint64(config.Workers))
 	}
@@ -131,60 +123,18 @@ func (p *processor) ProcessQuery(q query.Query, isWarm bool) (queryStats []*quer
 		cmds = append(cmds, ByteArrayToStringArray(qry))
 		replies = append(replies, []interface{}{})
 	}
+
 	start := time.Now()
 	for idx, commandArgs := range cmds {
-		var err error = nil
-		if p.opts.debug {
-			fmt.Println(fmt.Sprintf("Issuing command (%s %s)", string(tq.CommandNames[idx]), strings.Join(ByteArrayToStringArray(tq.RedisQueries[idx]), " ")))
-		}
-		if clusterMode {
-			if string(tq.CommandNames[idx]) == "TS.MRANGE" || string(tq.CommandNames[idx]) == "TS.QUERYINDEX" || string(tq.CommandNames[idx]) == "TS.MGET" || string(tq.CommandNames[idx]) == "TS.MREVRANGE" {
-				rPos := r.Intn(len(conns))
-				conn := conns[rPos]
-				err = conn.Do(radix.Cmd(&replies[idx], string(tq.CommandNames[idx]), commandArgs...))
-			} else {
-				err = cluster.Do(radix.Cmd(&replies[idx], string(tq.CommandNames[idx]), commandArgs...))
-			}
-		} else {
-			err = standalone.Do(radix.Cmd(&replies[idx], string(tq.CommandNames[idx]), commandArgs...))
-		}
-		if err != nil {
-			log.Fatalf("Command (%s %s) failed with error: %v\n", string(tq.CommandNames[idx]), strings.Join(ByteArrayToStringArray(tq.RedisQueries[idx]), " "), err)
+		err := inner_cmd_logic(p, tq, idx, replies, commandArgs)
+		if tq.Functor == "FILTER_BY_TS" {
+			err = highCpuFilterByTsFunctor(tq, replies, idx, commandArgs, p, err)
 		}
 		if err != nil {
 			return nil, err
 		}
 		if p.opts.debug {
-			fmt.Println(fmt.Sprintf("Command reply. Total series %d", len(replies[idx])))
-			for _, serie := range replies[idx] {
-				converted_serie := serie.([]interface{})
-				serie_name := string(converted_serie[0].([]uint8))
-				fmt.Println(fmt.Sprintf("\tSerie name: %s", serie_name))
-				serie_labels := converted_serie[1].([]interface{})
-				fmt.Println(fmt.Sprintf("\tSerie labels:"))
-				for _, kvpair := range serie_labels {
-					kvpairc := kvpair.([]interface{})
-					k := string(kvpairc[0].([]uint8))
-					v := string(kvpairc[1].([]uint8))
-					fmt.Println(fmt.Sprintf("\t\t%s: %s", k, v))
-				}
-				fmt.Println(fmt.Sprintf("\tSerie datapoints:"))
-				serie_datapoints := converted_serie[2].([]interface{})
-				if string(tq.CommandNames[idx]) == "TS.MGET" {
-					ts := serie_datapoints[0].(int64)
-					v := serie_datapoints[1].(string)
-					fmt.Println(fmt.Sprintf("\t\tts: %d value: %s", ts, v))
-
-				} else {
-					for _, datapointpair := range serie_datapoints {
-						datapoint := datapointpair.([]interface{})
-						ts := datapoint[0].(int64)
-						v := datapoint[1].(string)
-						fmt.Println(fmt.Sprintf("\t\tts: %d value: %s", ts, v))
-					}
-				}
-
-			}
+			debug_print_redistimeseries_reply(replies, idx, tq)
 		}
 	}
 	took := float64(time.Since(start).Nanoseconds()) / 1e6
@@ -193,20 +143,4 @@ func (p *processor) ProcessQuery(q query.Query, isWarm bool) (queryStats []*quer
 	stat.Init(q.HumanLabelName(), took)
 	queryStats = []*query.Stat{stat}
 	return queryStats, err
-}
-
-func ByteArrayToInterfaceArray(qry [][]byte) []interface{} {
-	commandArgs := make([]interface{}, len(qry))
-	for i := 0; i < len(qry); i++ {
-		commandArgs[i] = qry[i]
-	}
-	return commandArgs
-}
-
-func ByteArrayToStringArray(qry [][]byte) []string {
-	commandArgs := make([]string, len(qry))
-	for i := 0; i < len(qry); i++ {
-		commandArgs[i] = string(qry[i])
-	}
-	return commandArgs
 }

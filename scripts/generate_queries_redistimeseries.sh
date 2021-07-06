@@ -8,6 +8,7 @@ set -x
 EXE_DIR=${EXE_DIR:-$(dirname $0)}
 source ${EXE_DIR}/query_common.sh
 source ${EXE_DIR}/redistimeseries_common.sh
+
 #  redistimeseries supported query types (sorted alphabetically)
 QUERY_TYPES_ALL="\
 cpu-max-all-1 \
@@ -22,9 +23,9 @@ single-groupby-1-1-12 \
 single-groupby-1-8-1 \
 single-groupby-5-1-1 \
 single-groupby-5-1-12 \
-single-groupby-5-8-1"
-#high-cpu-1 \
-#high-cpu-all \
+single-groupby-5-8-1 \
+high-cpu-1 \
+high-cpu-all"
 
 # What query types to generate
 QUERY_TYPES=${QUERY_TYPES:-$QUERY_TYPES_ALL}

@@ -203,6 +203,20 @@ func (d *Devops) LastPointPerHost(qi query.Query) {
 	d.AddQuery(qi, redisQuery, []byte("TS.MGET"))
 }
 
+
+
+// HighCPUForHosts populates a query that gets CPU metrics when the CPU has high
+// usage between a time period for a number of hosts (if 0, it will search all hosts),
+// e.g. in pseudo-SQL:
+//
+// SELECT * FROM cpu
+// WHERE usage_user > 90.0
+// AND time >= '$TIME_START' AND time < '$TIME_END'
+// AND (hostname = '$HOST' OR hostname = '$HOST2'...)
+//
+// Resultsets:
+// high-cpu-1
+// high-cpu-all
 func (d *Devops) HighCPUForHosts(qi query.Query, nHosts int) {
 	hostnames, err := d.GetRandomHosts(nHosts)
 	interval := d.Interval.MustRandWindow(devops.HighCPUDuration)
@@ -210,10 +224,11 @@ func (d *Devops) HighCPUForHosts(qi query.Query, nHosts int) {
 		//[]byte("TS.MRANGE"), Just to help understanding
 		[]byte(fmt.Sprintf("%d", interval.StartUnixMillis())),
 		[]byte(fmt.Sprintf("%d", interval.EndUnixMillis())),
+		[]byte("FILTER_BY_VALUE"), []byte("90.0"),[]byte("1000"),
 		[]byte("FILTER"),
+		[]byte("fieldname=usage_user"),
 		[]byte("measurement=cpu"),
 	}
-
 	if nHosts > 0 {
 		redisArg := "hostname="
 		if nHosts > 1 {
@@ -230,13 +245,14 @@ func (d *Devops) HighCPUForHosts(qi query.Query, nHosts int) {
 		}
 		redisQuery = append(redisQuery, []byte(redisArg))
 	}
+	redisQuery = append(redisQuery,[]byte("GROUPBY"), []byte("fieldname"), []byte("REDUCE"), []byte("max") )
+
 	humanLabel, err := devops.GetHighCPULabel("RedisTimeSeries", nHosts)
 	panicIfErr(err)
 	humanDesc := fmt.Sprintf("%s: %s", humanLabel, interval.StartString())
 	d.fillInQueryStrings(qi, humanLabel, humanDesc)
 	d.AddQuery(qi, redisQuery, []byte("TS.MRANGE"))
-	functorName := query.GetFunctionName(query.HighCpu)
-	d.SetApplyFunctor(qi, true, functorName)
+	d.SetApplyFunctor(qi, true, "FILTER_BY_TS")
 }
 
 // GroupByOrderByLimit populates a query.Query that has a time WHERE clause, that groups by a truncated date, orders by that date, and takes a limit:
