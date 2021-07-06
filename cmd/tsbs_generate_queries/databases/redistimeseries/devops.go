@@ -191,7 +191,9 @@ func (d *Devops) MaxAllCPU(qi query.Query, nHosts int) {
 // LastPointPerHost finds the last row for every host in the dataset
 func (d *Devops) LastPointPerHost(qi query.Query) {
 	redisQuery := [][]byte{
-		[]byte("WITHLABELS"),
+		[]byte("SELECTED_LABELS"),
+		[]byte("hostname"),
+		[]byte("fieldname"),
 		[]byte("FILTER"),
 		[]byte("measurement=cpu"),
 		[]byte("hostname!="),
