@@ -3,6 +3,7 @@
 # Database credentials
 DATABASE_HOST=${DATABASE_HOST:-"localhost"}
 DATABASE_NAME=${DATABASE_NAME:-"benchmark"}
+PORT=${PORT:-5432}
 
 # Data folder
 BULK_DATA_DIR=${BULK_DATA_DIR:-"/tmp/bulk_data"}
@@ -17,6 +18,8 @@ DEBUG=${DEBUG:-0}
 NUM_WORKERS=${NUM_WORKERS:-$(grep -c ^processor /proc/cpuinfo 2> /dev/null || echo 8)}
 BACKOFF_SECS=${BACKOFF_SECS:-1s}
 REPORTING_PERIOD=${REPORTING_PERIOD:-1s}
+
+DO_CREATE_DB=${DO_CREATE_DB:-true}
 
 # Ensure data file is in place
 if [ ! -f ${DATA_FILE} ]; then

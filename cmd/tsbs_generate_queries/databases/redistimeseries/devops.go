@@ -87,17 +87,16 @@ func (d *Devops) GroupByTime(qi query.Query, nHosts, numMetrics int, timeRange t
 	redisQuery = append(redisQuery, []byte(redisArg))
 
 	if nHosts > 1 && numMetrics == 1 {
-		redisQuery = append(redisQuery,[]byte("GROUPBY"), []byte("hostname"), []byte("REDUCE"), []byte("max") )
+		redisQuery = append(redisQuery, []byte("GROUPBY"), []byte("hostname"), []byte("REDUCE"), []byte("max"))
 	}
 	if numMetrics > 1 {
-		redisQuery = append(redisQuery,[]byte("GROUPBY"), []byte("fieldname"), []byte("REDUCE"), []byte("max") )
+		redisQuery = append(redisQuery, []byte("GROUPBY"), []byte("fieldname"), []byte("REDUCE"), []byte("max"))
 	}
 
 	humanLabel := devops.GetSingleGroupByLabel("RedisTimeSeries", numMetrics, nHosts, string(timeRange))
 	humanDesc := fmt.Sprintf("%s: %s", humanLabel, interval.StartString())
 	d.fillInQueryStrings(qi, humanLabel, humanDesc)
 	d.AddQuery(qi, redisQuery, []byte("TS.MRANGE"))
-
 
 }
 
@@ -136,7 +135,7 @@ func (d *Devops) GroupByTimeAndPrimaryTag(qi query.Query, numMetrics int) {
 		redisQuery = append(redisQuery, []byte(redisArg))
 	}
 	if numMetrics > 1 {
-		redisQuery = append(redisQuery,[]byte("GROUPBY"), []byte("hostname"), []byte("REDUCE"), []byte("max") )
+		redisQuery = append(redisQuery, []byte("GROUPBY"), []byte("hostname"), []byte("REDUCE"), []byte("max"))
 	}
 
 	humanLabel := devops.GetDoubleGroupByLabel("RedisTimeSeries", numMetrics)
@@ -179,7 +178,7 @@ func (d *Devops) MaxAllCPU(qi query.Query, nHosts int) {
 	}
 	redisQuery = append(redisQuery, []byte(redisArg))
 	if nHosts > 1 {
-		redisQuery = append(redisQuery,[]byte("GROUPBY"), []byte("fieldname"), []byte("REDUCE"), []byte("max") )
+		redisQuery = append(redisQuery, []byte("GROUPBY"), []byte("fieldname"), []byte("REDUCE"), []byte("max"))
 	}
 	humanLabel := devops.GetMaxAllLabel("RedisTimeSeries", nHosts)
 	humanDesc := fmt.Sprintf("%s: %s", humanLabel, interval.StartString())
@@ -205,8 +204,6 @@ func (d *Devops) LastPointPerHost(qi query.Query) {
 	d.AddQuery(qi, redisQuery, []byte("TS.MGET"))
 }
 
-
-
 // HighCPUForHosts populates a query that gets CPU metrics when the CPU has high
 // usage between a time period for a number of hosts (if 0, it will search all hosts),
 // e.g. in pseudo-SQL:
@@ -226,7 +223,7 @@ func (d *Devops) HighCPUForHosts(qi query.Query, nHosts int) {
 		//[]byte("TS.MRANGE"), Just to help understanding
 		[]byte(fmt.Sprintf("%d", interval.StartUnixMillis())),
 		[]byte(fmt.Sprintf("%d", interval.EndUnixMillis())),
-		[]byte("FILTER_BY_VALUE"), []byte("90.0"),[]byte("1000"),
+		[]byte("FILTER_BY_VALUE"), []byte("90.0"), []byte("1000"),
 		[]byte("FILTER"),
 		[]byte("fieldname=usage_user"),
 		[]byte("measurement=cpu"),
@@ -247,7 +244,7 @@ func (d *Devops) HighCPUForHosts(qi query.Query, nHosts int) {
 		}
 		redisQuery = append(redisQuery, []byte(redisArg))
 	}
-	redisQuery = append(redisQuery,[]byte("GROUPBY"), []byte("fieldname"), []byte("REDUCE"), []byte("max") )
+	redisQuery = append(redisQuery, []byte("GROUPBY"), []byte("fieldname"), []byte("REDUCE"), []byte("max"))
 
 	humanLabel, err := devops.GetHighCPULabel("RedisTimeSeries", nHosts)
 	panicIfErr(err)

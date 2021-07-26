@@ -34,9 +34,9 @@ func (s *Serializer) Serialize(p *data.Point, w io.Writer) (err error) {
 	var hashBytes []byte
 	//var hashExists bool
 	p.TagValues()
-	hostname := []byte(fmt.Sprintf("%s",  p.TagValues()[0]))
+	hostname := []byte(fmt.Sprintf("%s", p.TagValues()[0]))
 	labelsHash := int(radix.ClusterSlot(hostname))
-	hashBytes = serialize.FastFormatAppend( labelsHash, []byte{})
+	hashBytes = serialize.FastFormatAppend(labelsHash, []byte{})
 
 	for fieldID := 0; fieldID < len(p.FieldKeys()); fieldID++ {
 		fieldName := p.FieldKeys()[fieldID]
@@ -91,7 +91,7 @@ func writeTS_and_Value(w io.Writer, p *data.Point, fieldValue interface{}) (err 
 	return
 }
 
-func writeKeyName(w io.Writer, p *data.Point, hostname []byte,  fieldName []byte) (err error) {
+func writeKeyName(w io.Writer, p *data.Point, hostname []byte, fieldName []byte) (err error) {
 	w.Write([]byte("{"))
 	w.Write(hostname)
 	w.Write([]byte("}_"))

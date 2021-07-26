@@ -32,7 +32,7 @@ var (
 // BenchmarkRunnerConfig contains all the configuration information required for running BenchmarkRunner.
 type BenchmarkRunnerConfig struct {
 	DBName          string        `yaml:"db-name" mapstructure:"db-name" json:"db-name"`
-	BatchSize       uint          `yaml:"batch-size" mapstructure:"batch-size" json:"batch-sze"`
+	BatchSize       uint          `yaml:"batch-size" mapstructure:"batch-size" json:"batch-size"`
 	Workers         uint          `yaml:"workers" mapstructure:"workers" json:"workers"`
 	Limit           uint64        `yaml:"limit" mapstructure:"limit" json:"limit"`
 	DoLoad          bool          `yaml:"do-load" mapstructure:"do-load" json:"do-load"`
@@ -144,25 +144,25 @@ func (l *CommonBenchmarkRunner) postRun(wg *sync.WaitGroup, start *time.Time) {
 	end := time.Now()
 	took := end.Sub(*start)
 	l.summary(took)
-	if len(l.BenchmarkRunnerConfig.ResultsFile) > 0 {
-		l.saveTestResult(took, *start, end)
+	if l.BenchmarkRunnerConfig.ResultsFile != "" {
+		metricRate := float64(l.metricCnt) / took.Seconds()
+		rowRate := float64(l.rowCnt) / took.Seconds()
+		l.saveTestResult(took, *start, end, metricRate, rowRate)
 	}
 }
 
-func (l *CommonBenchmarkRunner) saveTestResult(took time.Duration, start time.Time, end time.Time) {
+func (l *CommonBenchmarkRunner) saveTestResult(took time.Duration, start time.Time, end time.Time, metricRate, rowRate float64) {
 	totals := make(map[string]interface{})
-	metricRate := float64(l.metricCnt) / took.Seconds()
 	totals["metricRate"] = metricRate
 	if l.rowCnt > 0 {
-		rowRate := float64(l.rowCnt) / float64(took.Seconds())
 		totals["rowRate"] = rowRate
 	}
 
 	testResult := LoaderTestResult{
 		ResultFormatVersion: LoaderTestResultVersion,
 		RunnerConfig:        l.BenchmarkRunnerConfig,
-		StartTime:           start.Unix(),
-		EndTime:             end.Unix(),
+		StartTime:           start.Unix() * 1000,
+		EndTime:             end.Unix() * 1000,
 		DurationMillis:      took.Milliseconds(),
 		Totals:              totals,
 	}

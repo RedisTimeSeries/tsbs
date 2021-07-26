@@ -8,13 +8,13 @@ import (
 	"os"
 	"sort"
 
+	"github.com/cheggaaa/pb/v3"
 	"github.com/timescale/tsbs/pkg/data"
 	"github.com/timescale/tsbs/pkg/data/serialize"
 	"github.com/timescale/tsbs/pkg/data/usecases"
 	"github.com/timescale/tsbs/pkg/data/usecases/common"
 	"github.com/timescale/tsbs/pkg/targets"
 	"github.com/timescale/tsbs/pkg/targets/constants"
-	"github.com/cheggaaa/pb/v3"
 )
 
 // Error messages when using a DataGenerator

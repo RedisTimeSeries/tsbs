@@ -104,28 +104,12 @@ with identical data and queried using identical queries.
 
 TSBS is a collection of Go programs (with some auxiliary bash and Python
 scripts). The easiest way to get and install the Go programs is to use
-`go get` and then `go install`:
+`go get` and then `make all` to install all binaries:
 ```bash
 # Fetch TSBS and its dependencies
-$ git clone https://github.com/RedisTimeSeries/tsbs.git --branch redistimeseries-v1.4
-$ cd tsbs
+$ go get github.com/timescale/tsbs
+$ cd $GOPATH/src/github.com/timescale/tsbs
 $ make
-$ FORMATS="redistimeseries" SCALE=100 SEED=123 TS_END="2016-01-31T00:00:00Z" ./scripts/generate_data.sh
-# Benchmark part. in PREFIX add a text that will be prefixed on the output results file
-$ NUM_WORKERS=1 BATCH_SIZE=10000 PIPELINE=200 CONNECTIONS=10  PREFIX=1.2.0 ./scripts/load_redistimeseries.sh
-
-# Install desired binaries. At a minimum this includes tsbs_generate_data,
-# tsbs_generate_queries, one tsbs_load_* binary, and one tsbs_run_queries_*
-# binary:
-$ cd $GOPATH/src/github.com/timescale/tsbs/cmd
-$ cd tsbs_generate_data && go install
-$ cd ../tsbs_generate_queries && go install
-$ cd ../tsbs_load_timescaledb && go install
-$ cd ../tsbs_run_queries_timescaledb && go install
-
-# Optionally, install all binaries:
-$ cd $GOPATH/src/github.com/timescale/tsbs/cmd
-$ go install ./...
 ```
 
 ## How to use TSBS
