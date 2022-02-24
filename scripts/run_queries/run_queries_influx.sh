@@ -8,6 +8,7 @@ if [[ -z "$EXE_FILE_NAME" ]]; then
 fi
 
 DATABASE_PORT=${DATABASE_PORT:-8086}
+INFLUX_AUTH_TOKEN=${$INFLUX_AUTH_TOKEN:-""}
 
 EXE_DIR=${EXE_DIR:-$(dirname $0)}
 source ${EXE_DIR}/run_common.sh
@@ -61,6 +62,7 @@ function run_file() {
                 --workers=${NUM_WORKERS} \
                 --print-interval=${QUERIES_PRINT_INTERVAL} \
                 --hdr-latencies=${HDR_FULL_FILE_NAME} \
+                --auth-token $INFLUX_AUTH_TOKEN \
                 --debug=${DEBUG} \
                 --urls=http://${DATABASE_HOST}:${DATABASE_PORT} |
             tee $OUT_FULL_FILE_NAME
