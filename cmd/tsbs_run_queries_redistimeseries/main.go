@@ -32,15 +32,10 @@ var (
 
 // Global vars:
 var (
-	runner                            *query.BenchmarkRunner
-	cmdMrange                         = []byte("TS.MRANGE")
-	cmdMRevRange                      = []byte("TS.MREVRANGE")
-	cmdQueryIndex                     = []byte("TS.QUERYINDEX")
-	reflect_SingleGroupByTime         = query.GetFunctionName(query.SingleGroupByTime)
-	reflect_GroupByTimeAndMax         = query.GetFunctionName(query.GroupByTimeAndMax)
-	reflect_GroupByTimeAndTagMax      = query.GetFunctionName(query.GroupByTimeAndTagMax)
-	reflect_GroupByTimeAndTagHostname = query.GetFunctionName(query.GroupByTimeAndTagHostname)
-	reflect_HighCpu                   = query.GetFunctionName(query.HighCpu)
+	runner        *query.BenchmarkRunner
+	cmdMrange     = []byte("TS.MRANGE")
+	cmdMRevRange  = []byte("TS.MREVRANGE")
+	cmdQueryIndex = []byte("TS.QUERYINDEX")
 )
 
 // Parse args:
