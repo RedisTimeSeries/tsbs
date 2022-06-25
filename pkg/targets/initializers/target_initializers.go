@@ -2,6 +2,8 @@ package initializers
 
 import (
 	"fmt"
+	"strings"
+
 	"github.com/timescale/tsbs/pkg/targets"
 	"github.com/timescale/tsbs/pkg/targets/akumuli"
 	"github.com/timescale/tsbs/pkg/targets/cassandra"
@@ -11,12 +13,12 @@ import (
 	"github.com/timescale/tsbs/pkg/targets/influx"
 	"github.com/timescale/tsbs/pkg/targets/mongo"
 	"github.com/timescale/tsbs/pkg/targets/prometheus"
+	"github.com/timescale/tsbs/pkg/targets/questdb"
 	"github.com/timescale/tsbs/pkg/targets/redistimeseries"
 	"github.com/timescale/tsbs/pkg/targets/siridb"
 	"github.com/timescale/tsbs/pkg/targets/timescaledb"
 	"github.com/timescale/tsbs/pkg/targets/timestream"
 	"github.com/timescale/tsbs/pkg/targets/victoriametrics"
-	"strings"
 )
 
 func GetTarget(format string) targets.ImplementedTarget {
@@ -45,6 +47,8 @@ func GetTarget(format string) targets.ImplementedTarget {
 		return timestream.NewTarget()
 	case constants.FormatRedisTimeSeries:
 		return redistimeseries.NewTarget()
+	case constants.FormatQuestDB:
+		return questdb.NewTarget()
 	}
 
 	supportedFormatsStr := strings.Join(constants.SupportedFormats(), ",")

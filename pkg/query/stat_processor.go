@@ -4,7 +4,6 @@ import (
 	"bufio"
 	"bytes"
 	"fmt"
-	"github.com/HdrHistogram/hdrhistogram-go"
 	"io/ioutil"
 	"log"
 	"os"
@@ -12,6 +11,8 @@ import (
 	"sync"
 	"sync/atomic"
 	"time"
+
+	"github.com/HdrHistogram/hdrhistogram-go"
 )
 
 // statProcessor is used to collect, analyze, and print query execution statistics.
@@ -180,7 +181,7 @@ func (sp *defaultStatProcessor) process(workers uint) {
 		_, _ = fmt.Printf("Saving High Dynamic Range (HDR) Histogram of Response Latencies to %s\n", sp.args.hdrLatenciesFile)
 		var b bytes.Buffer
 		bw := bufio.NewWriter(&b)
-		_, err = sp.statMapping[labelAllQueries].latencyHDRHistogram.PercentilesPrint(bw, 10, 1000.0)
+		_, err = sp.statMapping[allQueriesLabel].latencyHDRHistogram.PercentilesPrint(bw, 10, 1000.0)
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -215,18 +216,6 @@ func generateQuantileMap(hist *hdrhistogram.Histogram) (int64, map[string]float6
 	return ops, mp
 }
 
-func (b *BenchmarkRunner) GetOverallQuantiles(label string, histogram *hdrhistogram.Histogram) map[string]interface{} {
-	configs := map[string]interface{}{}
-	_, all := generateQuantileMap(histogram)
-	configs[label] = all
-	configs["EncodedHistogram"] = nil
-	encodedHist, err := histogram.Encode(hdrhistogram.V2CompressedEncodingCookieBase)
-	if err == nil {
-		configs["EncodedHistogram"] = encodedHist
-	}
-	return configs
-}
-
 func (sp *defaultStatProcessor) GetTotalsMap() map[string]interface{} {
 	totals := make(map[string]interface{})
 	// PrewarmQueries tells the StatProcessor whether we're running each query twice to prewarm the cache
@@ -239,7 +228,7 @@ func (sp *defaultStatProcessor) GetTotalsMap() map[string]interface{} {
 	// calculate overall query rates
 	queryRates := make(map[string]interface{})
 	for label, statGroup := range sp.statMapping {
-		overallQueryRate := float64(statGroup.count) / float64(sinceStart.Seconds())
+		overallQueryRate := float64(statGroup.count) / sinceStart.Seconds()
 		queryRates[stripRegex(label)] = overallQueryRate
 	}
 	totals["overallQueryRates"] = queryRates
