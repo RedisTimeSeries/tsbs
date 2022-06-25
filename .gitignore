@@ -10,3 +10,6 @@
 
 dist
 bin
+
+# JSON results
+*.json

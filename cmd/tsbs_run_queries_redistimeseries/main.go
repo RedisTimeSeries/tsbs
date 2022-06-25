@@ -34,15 +34,10 @@ var (
 
 // Global vars:
 var (
-	runner                            *query.BenchmarkRunner
-	cmdMrange                         = []byte("TS.MRANGE")
-	cmdMRevRange                      = []byte("TS.MREVRANGE")
-	cmdQueryIndex                     = []byte("TS.QUERYINDEX")
-	reflect_SingleGroupByTime         = query.GetFunctionName(query.SingleGroupByTime)
-	reflect_GroupByTimeAndMax         = query.GetFunctionName(query.GroupByTimeAndMax)
-	reflect_GroupByTimeAndTagMax      = query.GetFunctionName(query.GroupByTimeAndTagMax)
-	reflect_GroupByTimeAndTagHostname = query.GetFunctionName(query.GroupByTimeAndTagHostname)
-	reflect_HighCpu                   = query.GetFunctionName(query.HighCpu)
+	runner        *query.BenchmarkRunner
+	cmdMrange     = []byte("TS.MRANGE")
+	cmdMRevRange  = []byte("TS.MREVRANGE")
+	cmdQueryIndex = []byte("TS.QUERYINDEX")
 )
 
 // Parse args:
@@ -81,11 +76,14 @@ func init() {
 			conn, _ := cluster.Client(nodeAddress)
 			conns = append(conns, conn)
 		}
-		//if p.opts.debug {
-		//	fmt.Println(addresses)
-		//	fmt.Println(slots)
-		//	fmt.Println(conns)
-		//}
+		// Print cluster addresses after sync
+		if config.Debug > 0 {
+			fmt.Println("Printing cluster connection details after ")
+			fmt.Println(fmt.Sprintf("Cluster Addresses: %s", addresses))
+			fmt.Println(fmt.Sprintf("Cluster slots: %s", slots))
+			fmt.Println(addresses)
+			fmt.Println(slots)
+		}
 
 	} else {
 		standalone = getStandaloneConn(host, opts, uint64(config.Workers))
@@ -158,14 +156,6 @@ func (p *processor) ProcessQuery(q query.Query, isWarm bool) (queryStats []*quer
 	stat.Init(q.HumanLabelName(), took)
 	queryStats = []*query.Stat{stat}
 	return queryStats, err
-}
-
-func ByteArrayToInterfaceArray(qry [][]byte) []interface{} {
-	commandArgs := make([]interface{}, len(qry))
-	for i := 0; i < len(qry); i++ {
-		commandArgs[i] = qry[i]
-	}
-	return commandArgs
 }
 
 func ByteArrayToStringArray(qry [][]byte) []string {
