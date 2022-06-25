@@ -30,7 +30,9 @@ var (
 	useGzip           bool
 	doAbortOnExist    bool
 	consistency       string
-	authToken         string
+	authToken         string // InfluxDB v2
+	bucketId          string // InfluxDB v2
+	orgId             string // InfluxDB v2
 )
 
 // Global vars
@@ -75,6 +77,7 @@ func init() {
 	replicationFactor = viper.GetInt("replication-factor")
 	consistency = viper.GetString("consistency")
 	authToken = viper.GetString("auth-token")
+	orgId = viper.GetString("org")
 	backoff = viper.GetDuration("backoff")
 	useGzip = viper.GetBool("gzip")
 

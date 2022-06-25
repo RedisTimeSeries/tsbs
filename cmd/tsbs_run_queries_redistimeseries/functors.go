@@ -14,6 +14,12 @@ func highCpuFilterByTsFunctor(tq *query.RedisTimeSeries, replies [][]interface{}
 		new_query := []string{commandArgs[0], commandArgs[1], "FILTER_BY_TS"}
 		first_serie := replies[idx][0]
 		serie_datapoints := first_serie.([]interface{})[2].([]interface{})
+		if len(serie_datapoints) == 0 {
+			if p.opts.debug {
+				fmt.Println(fmt.Sprintf("Applying FILTER_BY_VALUE condition returned zero series"))
+			}
+			return err
+		}
 		for _, datapointpair := range serie_datapoints {
 			datapoint := datapointpair.([]interface{})
 			ts := datapoint[0].(int64)
