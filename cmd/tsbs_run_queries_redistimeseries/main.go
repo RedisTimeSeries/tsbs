@@ -7,9 +7,7 @@ package main
 import (
 	"fmt"
 	"github.com/mediocregopher/radix/v3"
-	"log"
 	"math/rand"
-	"strings"
 	"time"
 
 	"github.com/blagojts/viper"
@@ -34,10 +32,15 @@ var (
 
 // Global vars:
 var (
-	runner        *query.BenchmarkRunner
-	cmdMrange     = []byte("TS.MRANGE")
-	cmdMRevRange  = []byte("TS.MREVRANGE")
-	cmdQueryIndex = []byte("TS.QUERYINDEX")
+	runner                            *query.BenchmarkRunner
+	cmdMrange                         = []byte("TS.MRANGE")
+	cmdMRevRange                      = []byte("TS.MREVRANGE")
+	cmdQueryIndex                     = []byte("TS.QUERYINDEX")
+	reflect_SingleGroupByTime         = query.GetFunctionName(query.SingleGroupByTime)
+	reflect_GroupByTimeAndMax         = query.GetFunctionName(query.GroupByTimeAndMax)
+	reflect_GroupByTimeAndTagMax      = query.GetFunctionName(query.GroupByTimeAndTagMax)
+	reflect_GroupByTimeAndTagHostname = query.GetFunctionName(query.GroupByTimeAndTagHostname)
+	reflect_HighCpu                   = query.GetFunctionName(query.HighCpu)
 )
 
 // Parse args:
@@ -63,6 +66,7 @@ func init() {
 	r = rand.New(s) // initialize local pseudorandom generator
 
 	opts := make([]radix.DialOpt, 0)
+	opts = append(opts, radix.DialReadTimeout(120*time.Second))
 	if clusterMode {
 		cluster = getOSSClusterConn(host, opts, uint64(config.Workers))
 		cluster.Sync()
@@ -81,8 +85,6 @@ func init() {
 			fmt.Println("Printing cluster connection details after ")
 			fmt.Println(fmt.Sprintf("Cluster Addresses: %s", addresses))
 			fmt.Println(fmt.Sprintf("Cluster slots: %s", slots))
-			fmt.Println(addresses)
-			fmt.Println(slots)
 		}
 
 	} else {
@@ -123,31 +125,23 @@ func (p *processor) ProcessQuery(q query.Query, isWarm bool) (queryStats []*quer
 	tq := q.(*query.RedisTimeSeries)
 
 	var cmds = make([][]string, 0, 0)
+	var replies = make([][]interface{}, 0, 0)
 	for _, qry := range tq.RedisQueries {
 		cmds = append(cmds, ByteArrayToStringArray(qry))
+		replies = append(replies, []interface{}{})
 	}
+
 	start := time.Now()
 	for idx, commandArgs := range cmds {
-		var err error = nil
-		if p.opts.debug {
-			fmt.Println(fmt.Sprintf("Issuing command (%s %s)", string(tq.CommandNames[idx]), strings.Join(ByteArrayToStringArray(tq.RedisQueries[idx]), " ")))
-		}
-		if clusterMode {
-			if string(tq.CommandNames[idx]) == "TS.MRANGE" || string(tq.CommandNames[idx]) == "TS.QUERYINDEX" || string(tq.CommandNames[idx]) == "TS.MGET" || string(tq.CommandNames[idx]) == "TS.MREVRANGE" {
-				rPos := r.Intn(len(conns))
-				conn := conns[rPos]
-				err = conn.Do(radix.Cmd(nil, string(tq.CommandNames[idx]), commandArgs...))
-			} else {
-				err = cluster.Do(radix.Cmd(nil, string(tq.CommandNames[idx]), commandArgs...))
-			}
-		} else {
-			err = standalone.Do(radix.Cmd(nil, string(tq.CommandNames[idx]), commandArgs...))
-		}
-		if err != nil {
-			log.Fatalf("Command (%s %s) failed with error: %v\n", string(tq.CommandNames[idx]), strings.Join(ByteArrayToStringArray(tq.RedisQueries[idx]), " "), err)
+		err := inner_cmd_logic(p, tq, idx, replies, commandArgs)
+		if tq.Functor == "FILTER_BY_TS" {
+			err = highCpuFilterByTsFunctor(tq, replies, idx, commandArgs, p, err)
 		}
 		if err != nil {
 			return nil, err
+		}
+		if p.opts.debug {
+			debug_print_redistimeseries_reply(replies, idx, tq)
 		}
 	}
 	took := float64(time.Since(start).Nanoseconds()) / 1e6
@@ -156,12 +150,4 @@ func (p *processor) ProcessQuery(q query.Query, isWarm bool) (queryStats []*quer
 	stat.Init(q.HumanLabelName(), took)
 	queryStats = []*query.Stat{stat}
 	return queryStats, err
-}
-
-func ByteArrayToStringArray(qry [][]byte) []string {
-	commandArgs := make([]string, len(qry))
-	for i := 0; i < len(qry); i++ {
-		commandArgs[i] = string(qry[i])
-	}
-	return commandArgs
 }

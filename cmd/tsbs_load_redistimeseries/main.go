@@ -3,6 +3,8 @@ package main
 import (
 	"crypto/md5"
 	"fmt"
+	"log"
+
 	"github.com/blagojts/viper"
 	"github.com/mediocregopher/radix/v3"
 	"github.com/pkg/errors"
@@ -10,7 +12,6 @@ import (
 	"github.com/timescale/tsbs/internal/utils"
 	"github.com/timescale/tsbs/pkg/targets/constants"
 	"github.com/timescale/tsbs/pkg/targets/initializers"
-	"log"
 
 	"github.com/timescale/tsbs/load"
 	"github.com/timescale/tsbs/pkg/targets"
@@ -18,14 +19,14 @@ import (
 
 // Program option vars:
 var (
-	host               string
-	connections        uint64
-	pipeline           uint64
-	checkChunks        uint64
-	singleQueue        bool
-	dataModel          string
-	compressionEnabled bool
-	clusterMode        bool
+	host            string
+	connections     uint64
+	pipeline        uint64
+	checkChunks     uint64
+	singleQueue     bool
+	dataModel       string
+	compressionType string
+	clusterMode     bool
 )
 
 // Global vars
@@ -66,7 +67,7 @@ func init() {
 	connections = viper.GetUint64("connections")
 	pipeline = viper.GetUint64("pipeline")
 	dataModel = "redistimeseries"
-	compressionEnabled = true
+	compressionType = viper.GetString("compression")
 	clusterMode = viper.GetBool("cluster")
 	config.NoFlowControl = true
 	config.HashWorkers = true
@@ -95,9 +96,7 @@ func main() {
 	log.Println("Starting benchmark")
 
 	b := benchmark{dbc: &dbCreator{}}
-	//if config.Workers > 1 {
-	//	panic(fmt.Errorf("You should only use 1 worker and multiple connections per worker (set via --connections)"))
-	//}
+	log.Println("Using compression: ", compressionType)
 
 	loader.RunBenchmark(&b)
 	log.Println("finished benchmark")
