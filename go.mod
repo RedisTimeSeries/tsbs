@@ -2,6 +2,8 @@ module github.com/timescale/tsbs
 
 go 1.14
 
+replace github.com/mediocregopher/radix/v3 => github.com/filipecosta90/radix/v3 v3.5.1-0.20220627150505-ae9cc9425e77
+
 require (
 	github.com/HdrHistogram/hdrhistogram-go v1.0.0
 	github.com/RedisTimeSeries/redistimeseries-go v1.4.3
@@ -23,11 +25,14 @@ require (
 	github.com/kshvakov/clickhouse v1.3.11
 	github.com/lib/pq v1.3.0
 	github.com/mediocregopher/radix/v3 v3.7.0
+	github.com/mediocregopher/radix/v4 v4.1.0
+	github.com/mitchellh/gox v1.0.1 // indirect
 	github.com/pkg/errors v0.9.1
 	github.com/prometheus/common v0.13.0
 	github.com/shirou/gopsutil v3.21.3+incompatible
 	github.com/spf13/cobra v1.0.0
 	github.com/spf13/pflag v1.0.5
+	github.com/tcnksm/ghr v0.14.0 // indirect
 	github.com/timescale/promscale v0.0.0-20201006153045-6a66a36f5c84
 	github.com/tklauser/go-sysconf v0.3.5 // indirect
 	github.com/transceptor-technology/go-qpack v0.0.0-20190116123619-49a14b216a45
