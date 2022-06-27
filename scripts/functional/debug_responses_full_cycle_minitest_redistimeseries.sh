@@ -10,9 +10,9 @@ SCALE=${SCALE:-"100"}
 SEED=${SEED:-"123"}
 PASSWORD=${PASSWORD:-"password"}
 FORMAT="redistimeseries"
-REDIS_HOST=${REDIS_HOST:-"localhost"}
-REDIS_PORT=${REDIS_PORT:-"6379"}
-REDIS=${REDIS_HOST}":"${REDIS_PORT}
+REDISTIMESERIES_HOST=${REDISTIMESERIES_HOST:-"localhost"}
+REDISTIMESERIES_PORT=${REDISTIMESERIES_PORT:-"6379"}
+REDIS=${REDISTIMESERIES_HOST}":"${REDISTIMESERIES_PORT}
 
 mkdir -p docs/responses
 
@@ -41,7 +41,7 @@ mkdir -p /tmp/bulk_data
 rm -f /tmp/bulk_data/${FORMAT}_*
 rm -f docs/responses/${FORMAT}_*
 
-redis-cli -h ${REDIS_HOST} -p ${REDIS_PORT} flushall
+redis-cli -h ${REDISTIMESERIES_HOST} -p ${REDISTIMESERIES_PORT} flushall
 
 # generate data
 ./bin/tsbs_generate_data --format ${FORMAT} --use-case cpu-only --scale=${SCALE} --seed=${SEED} --file /tmp/bulk_data/${FORMAT}_data

@@ -149,7 +149,7 @@ func (d *Devops) GroupByTimeAndPrimaryTag(qi query.Query, numMetrics int) {
 // MaxAllCPU fetches the aggregate across all CPU metrics per hour over 1 hour for a single host.
 // Currently only one host is supported
 func (d *Devops) MaxAllCPU(qi query.Query, nHosts int, duration time.Duration) {
-	interval := d.Interval.MustRandWindow(devops.MaxAllDuration)
+	interval := d.Interval.MustRandWindow(duration)
 	hostnames, err := d.GetRandomHosts(nHosts)
 	panicIfErr(err)
 	redisQuery := [][]byte{
