@@ -7,6 +7,7 @@ GOTEST=$(GOCMD) test
 GOGET=$(GOCMD) get
 GOMOD=$(GOCMD) mod
 GOFMT=$(GOCMD) fmt
+DISTDIR= ./dist
 
 .PHONY: all generators loaders runners lint fmt checkfmt
 
@@ -66,3 +67,33 @@ lint:
 
 fmt:
 	$(GOFMT) ./...
+
+release-redistimeseries:
+	$(GOGET) github.com/mitchellh/gox
+	$(GOGET) github.com/tcnksm/ghr
+	GO111MODULE=on gox  -osarch "linux/amd64 darwin/amd64" -output "${DISTDIR}/tsbs_run_queries_redistimeseries_{{.OS}}_{{.Arch}}" ./cmd/tsbs_run_queries_redistimeseries
+	GO111MODULE=on gox  -osarch "linux/amd64 darwin/amd64" -output "${DISTDIR}/tsbs_load_redistimeseries_{{.OS}}_{{.Arch}}" ./cmd/tsbs_load_redistimeseries
+
+
+redistimeseries: tsbs_generate_data tsbs_generate_queries tsbs_load_redistimeseries tsbs_run_queries_redistimeseries
+
+publish-redistimeseries: release-redistimeseries
+	@for f in $(shell ls ${DISTDIR}); \
+	do \
+	echo "copying ${DISTDIR}/$${f}"; \
+	aws s3 cp ${DISTDIR}/$${f} s3://benchmarks.redislabs/redistimeseries/tools/tsbs/$${f} --acl public-read; \
+	done
+
+publish-redistimeseries-queries:
+	@for f in $(shell ls /tmp/bulk_queries); \
+	do \
+	echo "copying $${f}"; \
+	aws s3 cp /tmp/bulk_queries/$${f} s3://benchmarks.redislabs/redistimeseries/tsbs/queries/devops/scale100/devops-scale100-4days/$${f} --acl public-read; \
+	done
+
+publish-redistimeseries-data:
+	@for f in $(shell ls /tmp/bulk_data_redistimeseries); \
+	do \
+	echo "copying $${f}"; \
+	aws s3 cp /tmp/bulk_data_redistimeseries/$${f} s3://benchmarks.redislabs/redistimeseries/tsbs/devops/bulk_data_redistimeseries/$${f} --acl public-read; \
+	done

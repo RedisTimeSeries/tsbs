@@ -10,14 +10,12 @@ if [[ -z "$EXE_FILE_NAME" ]]; then
     exit 1
 fi
 
-# Queries folder
-BULK_DATA_DIR=${BULK_DATA_DIR:-"/tmp/bulk_queries"}
+EXE_DIR=${EXE_DIR:-$(dirname $0)}
 
-# How many queries would be run
-MAX_QUERIES=${MAX_QUERIES:-"0"}
+source ${EXE_DIR}/run_common.sh
 
-# How many concurrent worker would run queries - match num of cores, or default to 4
-NUM_WORKERS=${NUM_WORKERS:-$(grep -c ^processor /proc/cpuinfo 2> /dev/null || echo 4)}
+# Ensure RESULTS DIR available
+mkdir -p ${RESULTS_DIR}
 
 for FULL_DATA_FILE_NAME in ${BULK_DATA_DIR}/queries_timescaledb*; do
     # $FULL_DATA_FILE_NAME:  /full/path/to/file_with.ext
@@ -30,23 +28,31 @@ for FULL_DATA_FILE_NAME in ${BULK_DATA_DIR}/queries_timescaledb*; do
     DIR=$(dirname "${FULL_DATA_FILE_NAME}")
     EXTENSION="${DATA_FILE_NAME##*.}"
     NO_EXT_DATA_FILE_NAME="${DATA_FILE_NAME%.*}"
+    for run in $(seq ${REPETITIONS}); do
 
-    # Several options on how to name results file
-    #OUT_FULL_FILE_NAME="${DIR}/result_${DATA_FILE_NAME}"
-    OUT_FULL_FILE_NAME="${DIR}/result_${NO_EXT_DATA_FILE_NAME}.out"
-    #OUT_FULL_FILE_NAME="${DIR}/${NO_EXT_DATA_FILE_NAME}.out"
+        # Several options on how to name results file
+        #OUT_FULL_FILE_NAME="${DIR}/result_${DATA_FILE_NAME}"
+        OUT_FULL_FILE_NAME="${RESULTS_DIR}/result_${NO_EXT_DATA_FILE_NAME}_${run}.out"
+        #OUT_FULL_FILE_NAME="${DIR}/${NO_EXT_DATA_FILE_NAME}.out"
+        HDR_FULL_FILE_NAME="${RESULTS_DIR}/HDR_TXT_result_${NO_EXT_DATA_FILE_NAME}_${run}.out"
 
-    if [ "${EXTENSION}" == "gz" ]; then
-        GUNZIP="gunzip"
-    else
-        GUNZIP="cat"
-    fi
+        if [ "${EXTENSION}" == "gz" ]; then
+            GUNZIP="gunzip"
+        else
+            GUNZIP="cat"
+        fi
 
-    echo "Running ${DATA_FILE_NAME}"
-    cat $FULL_DATA_FILE_NAME \
-        | $GUNZIP \
-        | $EXE_FILE_NAME \
-            --max-queries $MAX_QUERIES \
-            --workers $NUM_WORKERS \
-        | tee $OUT_FULL_FILE_NAME
+        echo "Running ${DATA_FILE_NAME}"
+        cat $FULL_DATA_FILE_NAME |
+            $GUNZIP |
+            $EXE_FILE_NAME \
+                --max-queries=$MAX_QUERIES \
+                --workers=$NUM_WORKERS \
+                --print-interval=${QUERIES_PRINT_INTERVAL} \
+                --hdr-latencies=${HDR_FULL_FILE_NAME} \
+                --debug=${DEBUG} \
+                --hosts=${DATABASE_HOST} \
+                --user=postgres |
+            tee $OUT_FULL_FILE_NAME
+    done
 done
